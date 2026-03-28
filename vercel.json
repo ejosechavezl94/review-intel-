@@ -1,9 +1,5 @@
 {
   "version": 2,
-  "functions": {
-    "search.js": { "runtime": "@vercel/node" },
-    "analyze.js": { "runtime": "@vercel/node" }
-  },
   "routes": [
     { "src": "/api/search", "dest": "/search.js" },
     { "src": "/api/analyze", "dest": "/analyze.js" },
