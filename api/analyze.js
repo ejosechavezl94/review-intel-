@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -6,7 +6,6 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  // Recibiremos un bloque de texto consolidado con reseñas de varios ASINs
   const { reviewsData, product_context } = req.body;
 
   if (!reviewsData || reviewsData.trim().length < 50) {
@@ -45,40 +44,40 @@ Devuelve SOLO un JSON válido con esta estructura exacta, sin markdown ni texto 
   "competitor_scores": [
     {
       "asin": "ASIN del competidor",
-      "main_weakness": "Debilidad principal (ej: Falla mucho en tamaño)",
+      "main_weakness": "Debilidad principal",
       "best_feature": "Lo que mejor hacen",
-      "weakness_score": número 1-10 (10 = debilidad muy grave, alta oportunidad para superarlo)
+      "weakness_score": 7
     }
   ],
   "comparison_table": [
     {
-      "topic": "Nombre exacto de la categoría (ej: Materiales / calidad)",
-      "worst_asin": "ASIN con más quejas o peor desempeño aquí",
-      "best_asin": "ASIN mejor valorado o con menos quejas aquí",
+      "topic": "Nombre exacto de la categoría",
+      "worst_asin": "ASIN con más quejas",
+      "best_asin": "ASIN mejor valorado",
       "insight": "Breve explicación del patrón detectado"
     }
   ],
   "patterns_and_gaps": [
     {
       "theme": "Categoría exacta",
-      "pattern": "Patrón repetido (ej: Todos se rompen a las 2 semanas o tienen instrucciones confusas)",
-      "star_range": "1-2 estrellas | 3-4 estrellas",
-      "opportunity": "Cómo solucionar este gap específicamente en el nuevo producto"
+      "pattern": "Patrón repetido",
+      "star_range": "1-2 estrellas",
+      "opportunity": "Cómo solucionar este gap en el nuevo producto"
     }
   ],
   "actions": [
     {
-      "priority": "Alta | Media",
-      "action": "Acción hiper-específica para el producto o comunicación (ej: Reforzar costura X, añadir diagrama de medidas)",
-      "impact": "Por qué esto dará ventaja competitiva real frente a los ASINs analizados"
+      "priority": "Alta",
+      "action": "Acción hiper-específica para el producto o comunicación",
+      "impact": "Por qué esto dará ventaja competitiva real"
     }
   ]
 }
 
 Reglas:
 - Sé implacable en el análisis de las debilidades.
-- Compara siempre: busca qué falla en casi todos los ASINs (ese es el gap de mercado).
-- Diferencia quejas graves (defectos, 1-2 estrellas) de fricciones (3-4 estrellas).
+- Compara siempre: busca qué falla en casi todos los ASINs.
+- Diferencia quejas graves (1-2 estrellas) de fricciones (3-4 estrellas).
 - La salida debe ser estrictamente JSON parseable. Nada de texto antes ni después.`;
 
   try {
@@ -89,9 +88,9 @@ Reglas:
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4o', 
+        model: 'gpt-4o-mini',
         max_tokens: 3000,
-        temperature: 0.2, // Temperatura baja para que sea analítico y estricto con el JSON
+        temperature: 0.2,
         messages: [
           { role: 'system', content: 'Eres un analista de datos FBA. Devuelves SOLO un JSON válido. Cero formato markdown, cero explicaciones.' },
           { role: 'user', content: prompt },
@@ -109,7 +108,7 @@ Reglas:
     return res.status(200).json({ success: true, analysis: parsed });
 
   } catch (err) {
-    console.error("Error en analyze.js:", err);
+    console.error('Error en analyze.js:', err);
     return res.status(500).json({ error: err.message });
   }
-}
+};
