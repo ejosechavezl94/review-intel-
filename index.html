@@ -6,17 +6,15 @@
 <title>Review Intel Pro — Amazon FBA Insights</title>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* --- SISTEMA DE DISEÑO PREMIUM --- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-
 :root {
   --bg: #09090b;
   --card-bg: #121215;
   --card-border: rgba(255,255,255,0.06);
   --text: #fafafa;
   --text-muted: #a1a1aa;
-  --accent: #f97316; /* Naranja FBA */
+  --accent: #f97316;
   --accent-hover: #ea580c;
   --green: #10b981;
   --red: #ef4444;
@@ -24,150 +22,153 @@ html { scroll-behavior: smooth; }
   --radius: 12px;
   --font-mono: 'Geist Mono', monospace;
 }
-
-body { 
-  background: var(--bg); 
-  color: var(--text); 
-  font-family: 'Geist', system-ui, sans-serif; 
-  font-size: 14px; 
-  line-height: 1.6; 
+body {
+  background: var(--bg); color: var(--text);
+  font-family: 'Geist', system-ui, sans-serif;
+  font-size: 14px; line-height: 1.6;
   background-image: radial-gradient(circle at 50% -20%, #1c1917 0%, #09090b 100%);
   min-height: 100vh;
 }
-
 .container { max-width: 900px; margin: 0 auto; padding: 60px 24px; }
-
-/* Header */
 .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 48px; }
 .brand { display: flex; align-items: center; gap: 16px; }
-.logo-box { 
-  width: 44px; height: 44px; background: var(--accent); border-radius: 12px; 
-  display: flex; align-items: center; justify-content: center; 
-  box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
+.logo-box {
+  width: 44px; height: 44px; background: var(--accent); border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 20px rgba(249,115,22,0.3);
   font-weight: 700; color: white; font-size: 18px;
 }
 .brand h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
 .brand p { font-size: 13px; color: var(--text-muted); }
-
-/* Main Input Card */
-.main-card { 
-  background: var(--card-bg); 
-  border: 1px solid var(--card-border); 
-  border-radius: var(--radius); 
-  padding: 32px;
+.main-card {
+  background: var(--card-bg); border: 1px solid var(--card-border);
+  border-radius: var(--radius); padding: 32px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.4);
 }
-
 .field-group { margin-bottom: 24px; }
-.label { 
-  display: block; font-family: var(--font-mono); font-size: 11px; 
-  text-transform: uppercase; color: var(--accent); 
+.label {
+  display: block; font-family: var(--font-mono); font-size: 11px;
+  text-transform: uppercase; color: var(--accent);
   letter-spacing: 1px; margin-bottom: 10px; font-weight: 600;
 }
-
-textarea { 
-  width: 100%; background: #18181b; border: 1px solid var(--card-border); 
+textarea {
+  width: 100%; background: #18181b; border: 1px solid var(--card-border);
   border-radius: 8px; color: white; padding: 16px; font-family: var(--font-mono);
-  font-size: 14px; outline: none; transition: all 0.2s; min-height: 120px;
+  font-size: 14px; outline: none; transition: all 0.2s; min-height: 120px; resize: vertical;
 }
 textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
-
+textarea::placeholder { color: #52525b; }
 .grid-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
-input, select { 
-  background: #18181b; border: 1px solid var(--card-border); 
+input, select {
+  width: 100%; background: #18181b; border: 1px solid var(--card-border);
   border-radius: 8px; color: white; padding: 12px 16px; font-size: 14px; outline: none;
+  font-family: 'Geist', sans-serif;
 }
 input:focus, select:focus { border-color: var(--accent); }
-
-.btn-primary { 
-  width: 100%; background: var(--accent); color: white; border: none; 
+input::placeholder { color: #52525b; }
+select option { background: #18181b; }
+.btn-primary {
+  width: 100%; background: var(--accent); color: white; border: none;
   padding: 16px; border-radius: 8px; font-weight: 600; cursor: pointer;
-  font-size: 15px; transition: all 0.2s;
+  font-size: 15px; transition: all 0.2s; font-family: 'Geist', sans-serif;
+  margin-top: 24px;
 }
 .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
 .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-/* Loader */
-.loader-box { 
-  display: none; text-align: center; padding: 40px; 
-  background: var(--card-bg); border-radius: var(--radius); border: 1px solid var(--card-border);
+.loader-box {
+  display: none; text-align: center; padding: 48px;
+  background: var(--card-bg); border-radius: var(--radius);
+  border: 1px solid var(--card-border); margin-top: 16px;
 }
 .loader-box.on { display: block; }
-.spinner { 
-  width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.1); 
-  border-top-color: var(--accent); border-radius: 50%; 
+.spinner {
+  width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.1);
+  border-top-color: var(--accent); border-radius: 50%;
   animation: spin 0.8s linear infinite; margin: 0 auto 20px;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
-
-/* Results */
-#results-area { display: none; }
+.progress-item { font-size: 12px; color: var(--text-muted); margin: 6px 0; font-family: var(--font-mono); }
+.progress-item.done { color: var(--green); }
+.progress-item.active { color: var(--accent); }
+#results-area { display: none; margin-top: 24px; }
 .result-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-.summary-box { 
-  background: rgba(249, 115, 22, 0.05); border-left: 4px solid var(--accent);
-  padding: 24px; border-radius: 0 8px 8px 0; margin-bottom: 32px; font-size: 15px; line-height: 1.7;
+.summary-box {
+  background: rgba(249,115,22,0.05); border-left: 4px solid var(--accent);
+  padding: 24px; border-radius: 0 8px 8px 0; margin-bottom: 32px;
+  font-size: 15px; line-height: 1.8;
 }
-
-/* Tabs */
 .tabs { display: flex; gap: 8px; margin-bottom: 24px; border-bottom: 1px solid var(--card-border); padding-bottom: 12px; }
-.tab-btn { 
-  background: none; border: none; color: var(--text-muted); 
+.tab-btn {
+  background: none; border: none; color: var(--text-muted);
   padding: 8px 16px; cursor: pointer; font-weight: 500; transition: 0.2s;
+  font-family: 'Geist', sans-serif; font-size: 14px; position: relative;
 }
-.tab-btn.active { color: var(--accent); position: relative; }
-.tab-btn.active::after { 
-  content: ''; position: absolute; bottom: -13px; left: 0; 
-  width: 100%; height: 2px; background: var(--accent); 
+.tab-btn.active { color: var(--accent); }
+.tab-btn.active::after {
+  content: ''; position: absolute; bottom: -13px; left: 0;
+  width: 100%; height: 2px; background: var(--accent);
 }
-
-/* Table Design */
-.table-container { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; background: var(--card-bg); border-radius: 8px; }
-th { text-align: left; padding: 16px; font-size: 11px; color: var(--text-muted); text-transform: uppercase; border-bottom: 1px solid var(--card-border); }
-td { padding: 16px; border-bottom: 1px solid var(--card-border); font-size: 14px; }
-
-.badge { 
-  padding: 4px 8px; border-radius: 6px; font-family: var(--font-mono); font-size: 11px; font-weight: 600;
-}
-.badge-red { background: rgba(239, 68, 68, 0.1); color: var(--red); }
-.badge-green { background: rgba(16, 185, 129, 0.1); color: var(--green); }
-
-.action-card { 
-  background: #18181b; border: 1px solid var(--card-border); 
+.table-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid var(--card-border); }
+table { width: 100%; border-collapse: collapse; background: var(--card-bg); }
+th { text-align: left; padding: 14px 16px; font-size: 11px; color: var(--text-muted); text-transform: uppercase; border-bottom: 1px solid var(--card-border); font-family: var(--font-mono); }
+td { padding: 14px 16px; border-bottom: 1px solid var(--card-border); font-size: 14px; }
+tr:last-child td { border-bottom: none; }
+.badge { padding: 4px 8px; border-radius: 6px; font-family: var(--font-mono); font-size: 11px; font-weight: 600; }
+.badge-red { background: rgba(239,68,68,0.1); color: var(--red); }
+.badge-green { background: rgba(16,185,129,0.1); color: var(--green); }
+.card {
+  background: #18181b; border: 1px solid var(--card-border);
   padding: 20px; border-radius: 8px; margin-bottom: 12px;
 }
-
-.error-msg { 
-  display: none; color: var(--red); background: rgba(239, 68, 68, 0.1); 
-  padding: 12px; border-radius: 8px; margin-top: 16px; font-size: 13px;
+.score-card {
+  background: #18181b; border: 1px solid var(--card-border);
+  padding: 20px; border-radius: 8px; margin-bottom: 12px;
+  display: flex; align-items: flex-start; gap: 16px;
+}
+.score-num {
+  width: 48px; height: 48px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 20px; flex-shrink: 0;
+}
+.score-h { background: rgba(239,68,68,0.15); color: var(--red); }
+.score-m { background: rgba(245,158,11,0.15); color: var(--amber); }
+.score-l { background: rgba(16,185,129,0.15); color: var(--green); }
+.error-msg {
+  display: none; color: var(--red); background: rgba(239,68,68,0.08);
+  padding: 14px 16px; border-radius: 8px; margin-top: 16px; font-size: 13px;
+  border: 1px solid rgba(239,68,68,0.2); line-height: 1.6;
 }
 .error-msg.on { display: block; }
+@media (max-width: 600px) {
+  .grid-inputs { grid-template-columns: 1fr; }
+  .header { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .tabs { flex-wrap: wrap; }
+}
 </style>
 </head>
 <body>
-
 <div class="container">
+
   <header class="header">
     <div class="brand">
       <div class="logo-box">RI</div>
       <div>
-        <h1>Review Intel <span style="font-weight: 400; color: var(--text-muted);">Pro</span></h1>
+        <h1>Review Intel <span style="font-weight:400;color:var(--text-muted)">Pro</span></h1>
         <p>Market Intelligence for Private Label Sellers</p>
       </div>
     </div>
-    <div style="font-family: var(--font-mono); font-size: 11px; color: var(--green);">● SYSTEM_OPERATIONAL</div>
+    <div style="font-family:var(--font-mono);font-size:11px;color:var(--green)">● LIVE</div>
   </header>
 
   <div class="main-card" id="input-ui">
     <div class="field-group">
-      <label class="label">Competitor ASINs</label>
-      <textarea id="asins-input" placeholder="Pega los ASINs separados por comas (ej: B08XY123, B09TZ456)"></textarea>
+      <label class="label">ASINs de competidores</label>
+      <textarea id="asins-input" placeholder="Pega los ASINs separados por comas o saltos de línea&#10;Ej: B08XY1234Z, B09TZ5678A"></textarea>
     </div>
-
     <div class="grid-inputs">
-      <div class="field-group">
+      <div>
         <label class="label">Marketplace</label>
-        <select id="mk-input" style="width: 100%;">
+        <select id="mk-input">
           <option value="es">Amazon España</option>
           <option value="de">Amazon Alemania</option>
           <option value="uk">Amazon UK</option>
@@ -176,169 +177,202 @@ td { padding: 16px; border-bottom: 1px solid var(--card-border); font-size: 14px
           <option value="us">Amazon USA</option>
         </select>
       </div>
-      <div class="field-group">
-        <label class="label">Producto</label>
-        <input type="text" id="context-input" placeholder="Ej: Alcachofa de ducha" style="width: 100%;">
+      <div>
+        <label class="label">Tu producto</label>
+        <input type="text" id="context-input" placeholder="Ej: Alcachofa de ducha premium">
       </div>
     </div>
-
-    <button class="btn-primary" onclick="runAnalysis()" id="main-btn">Iniciar Deep Research</button>
+    <button class="btn-primary" onclick="runAnalysis()" id="main-btn">Iniciar Deep Research →</button>
     <div id="error-box" class="error-msg"></div>
   </div>
 
   <div id="loader" class="loader-box">
     <div class="spinner"></div>
-    <h3 id="loader-title">Extrayendo datos de Amazon...</h3>
-    <p id="loader-status" style="color: var(--text-muted); font-size: 13px;">Esto puede tardar hasta 30 segundos</p>
+    <h3 id="loader-title" style="margin-bottom:8px">Extrayendo datos de Amazon...</h3>
+    <p style="color:var(--text-muted);font-size:13px;margin-bottom:16px">Puede tardar hasta 60 segundos</p>
+    <div id="loader-progress"></div>
   </div>
 
   <div id="results-area">
     <div class="result-header">
-      <h2 style="font-size: 20px;">Análisis de Oportunidad</h2>
-      <button onclick="location.reload()" style="background: none; border: 1px solid var(--card-border); color: white; padding: 6px 12px; border-radius: 6px; cursor: pointer;">Nueva Consulta</button>
+      <h2 style="font-size:20px;font-weight:700">Análisis de Oportunidad</h2>
+      <button onclick="location.reload()" style="background:none;border:1px solid var(--card-border);color:white;padding:8px 16px;border-radius:8px;cursor:pointer;font-family:'Geist',sans-serif">
+        Nueva Consulta
+      </button>
     </div>
 
     <div id="summary-content" class="summary-box"></div>
 
     <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('tab-comparativa')">Comparativa</button>
-      <button class="tab-btn" onclick="switchTab('tab-patrones')">Patrones & Gaps</button>
-      <button class="tab-btn" onclick="switchTab('tab-acciones')">Plan de Acción</button>
+      <button class="tab-btn active" onclick="switchTab('tab-comp',this)">Comparativa</button>
+      <button class="tab-btn" onclick="switchTab('tab-scores',this)">Scores</button>
+      <button class="tab-btn" onclick="switchTab('tab-patrones',this)">Patrones & Gaps</button>
+      <button class="tab-btn" onclick="switchTab('tab-acciones',this)">Plan de Acción</button>
     </div>
 
-    <div id="tab-comparativa" class="tab-content">
-      <div class="table-container">
-        <table id="comp-table">
-          <thead>
-            <tr>
-              <th>Categoría</th>
-              <th>Peor ASIN (Debilidad)</th>
-              <th>Mejor ASIN (Fortaleza)</th>
-              <th>Análisis</th>
-            </tr>
-          </thead>
-          <tbody id="comp-table-body"></tbody>
+    <div id="tab-comp">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Categoría</th><th>Peor ASIN</th><th>Mejor ASIN</th><th>Análisis</th></tr></thead>
+          <tbody id="comp-tbody"></tbody>
         </table>
       </div>
     </div>
 
-    <div id="tab-patrones" class="tab-content" style="display: none;">
+    <div id="tab-scores" style="display:none">
+      <div id="scores-list"></div>
+    </div>
+
+    <div id="tab-patrones" style="display:none">
       <div id="patterns-list"></div>
     </div>
 
-    <div id="tab-acciones" class="tab-content" style="display: none;">
+    <div id="tab-acciones" style="display:none">
       <div id="actions-list"></div>
     </div>
   </div>
-</div>
 
+</div>
 <script>
-const API_BASE = ''; // Vercel maneja esto automáticamente
+const API_BASE = '';
 const $ = id => document.getElementById(id);
 
+function showError(m) { $('error-box').innerText = '⚠ ' + m; $('error-box').classList.add('on'); }
+function clearError() { $('error-box').classList.remove('on'); }
+
+function addProgress(text, state) {
+  const prog = $('loader-progress');
+  prog.querySelectorAll('.progress-item.active').forEach(el => {
+    el.className = 'progress-item done';
+    el.innerText = '✓ ' + el.innerText.replace('→ ', '');
+  });
+  const el = document.createElement('div');
+  el.className = 'progress-item ' + (state || 'active');
+  el.innerText = (state !== 'done' ? '→ ' : '') + text;
+  prog.appendChild(el);
+}
+
 async function runAnalysis() {
-  const input = $('asins-input').value;
-  const asins = input.split(/[\s,]+/).map(a => a.trim().toUpperCase()).filter(a => a.length >= 8);
-  const context = $('context-input').value;
+  const input = $('asins-input').value.trim();
+  const asins = input.split(/[\s,\n]+/).map(a => a.trim().toUpperCase()).filter(a => /^[A-Z0-9]{10}$/.test(a));
+  const context = $('context-input').value.trim();
   const mk = $('mk-input').value;
 
-  if (asins.length === 0) return showError("Introduce ASINs válidos");
-  
-  // UI Loading
+  clearError();
+  if (asins.length === 0) return showError('Introduce al menos un ASIN válido (10 caracteres alfanuméricos, ej: B08XY1234Z)');
+
   $('input-ui').style.display = 'none';
   $('loader').classList.add('on');
-  $('error-box').classList.remove('on');
+  $('results-area').style.display = 'none';
+  $('loader-progress').innerHTML = '';
 
   try {
-    let allReviewsText = "";
+    let allReviewsText = '';
 
-    // 1. Obtener reseñas de cada ASIN
-    for (let asin of asins) {
-      $('loader-title').innerText = `Analizando ASIN: ${asin}...`;
+    for (let i = 0; i < asins.length; i++) {
+      const asin = asins[i];
+      $('loader-title').innerText = `Extrayendo reseñas (${i+1}/${asins.length})`;
+      addProgress(`ASIN ${asin} — solicitando reseñas...`);
+
       const res = await fetch(`${API_BASE}/api/get-reviews`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ asin, marketplace: mk })
       });
+
       const data = await res.json();
-      
-      if (data.reviews) {
+
+      if (data.success && data.reviews && data.reviews.length > 0) {
         allReviewsText += `\n--- COMPETIDOR ASIN: ${asin} ---\n`;
         allReviewsText += data.reviews.map(r => `[${r.stars} estrellas] ${r.review_text}`).join('\n');
+        addProgress(`${asin} — ${data.reviews.length} reseñas extraídas`, 'done');
+      } else {
+        addProgress(`${asin} — sin reseñas (saltando)`, 'done');
       }
     }
 
-    // 2. Análisis con IA
-    $('loader-title').innerText = `Procesando comparativa final...`;
+    if (!allReviewsText.trim()) {
+      throw new Error('No se encontraron reseñas en ningún ASIN. Verifica que los ASINs existen en el marketplace seleccionado.');
+    }
+
+    $('loader-title').innerText = 'Analizando con IA...';
+    addProgress('Detectando patrones y gaps de mercado...');
+
     const resAi = await fetch(`${API_BASE}/api/analyze`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ reviewsData: allReviewsText, product_context: context })
     });
+
     const aiData = await resAi.json();
+    if (!resAi.ok || !aiData.success) throw new Error(aiData.error || 'Error en el análisis IA');
 
-    if (!resAi.ok) throw new Error(aiData.error);
-
-    renderResults(aiData.analysis);
+    addProgress('Análisis completado', 'done');
+    setTimeout(() => renderResults(aiData.analysis), 400);
 
   } catch (e) {
     console.error(e);
     $('loader').classList.remove('on');
     $('input-ui').style.display = 'block';
-    showError("Error: " + e.message);
+    showError(e.message);
   }
 }
 
 function renderResults(data) {
   $('loader').classList.remove('on');
   $('results-area').style.display = 'block';
-  
-  $('summary-content').innerText = data.summary;
 
-  // Render Tabla
-  $('comp-table-body').innerHTML = data.comparison_table.map(t => `
+  $('summary-content').innerText = data.summary || '';
+
+  $('comp-tbody').innerHTML = (data.comparison_table || []).map(t => `
     <tr>
-      <td style="font-weight: 600;">${t.topic}</td>
+      <td style="font-weight:600;color:var(--text)">${t.topic}</td>
       <td><span class="badge badge-red">${t.worst_asin}</span></td>
       <td><span class="badge badge-green">${t.best_asin}</span></td>
-      <td style="color: var(--text-muted); font-size: 13px;">${t.insight}</td>
-    </tr>
-  `).join('');
+      <td style="color:var(--text-muted);font-size:13px">${t.insight}</td>
+    </tr>`).join('');
 
-  // Render Patrones
-  $('patterns-list').innerHTML = data.patterns_and_gaps.map(p => `
-    <div class="action-card">
-      <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-        <span class="label" style="margin:0;">${p.theme}</span>
-        <span style="font-size:11px; color:var(--amber); font-family:var(--font-mono);">${p.star_range}</span>
+  $('scores-list').innerHTML = (data.competitor_scores || []).map(s => {
+    const cls = s.weakness_score >= 7 ? 'score-h' : s.weakness_score >= 4 ? 'score-m' : 'score-l';
+    return `<div class="score-card">
+      <div class="score-num ${cls}">${s.weakness_score}</div>
+      <div style="flex:1">
+        <div style="font-family:var(--font-mono);font-size:12px;color:var(--text-muted);margin-bottom:6px">${s.asin}</div>
+        <div style="color:var(--red);font-size:13px;margin-bottom:4px">⚠ ${s.main_weakness}</div>
+        <div style="color:var(--green);font-size:13px">✓ ${s.best_feature}</div>
       </div>
-      <p style="font-weight:600; margin-bottom:4px;">${p.pattern}</p>
-      <p style="color:var(--green); font-size:13px;">💡 Oportunidad: ${p.opportunity}</p>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 
-  // Render Acciones
-  $('actions-list').innerHTML = data.actions.map(a => `
-    <div class="action-card" style="border-left: 3px solid var(--accent);">
-      <div class="aitem-pri ${a.priority.toLowerCase()}">${a.priority} PRIORIDAD</div>
-      <div class="aitem-act">${a.action}</div>
-      <div class="aitem-imp">Impacto: ${a.impact}</div>
-    </div>
-  `).join('');
+  $('patterns-list').innerHTML = (data.patterns_and_gaps || []).map(p => `
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:8px">
+        <span class="label" style="margin:0">${p.theme}</span>
+        <span style="font-size:11px;color:var(--amber);font-family:var(--font-mono)">${p.star_range}</span>
+      </div>
+      <p style="font-weight:600;margin-bottom:6px;color:var(--text)">${p.pattern}</p>
+      <p style="color:var(--green);font-size:13px">💡 ${p.opportunity}</p>
+    </div>`).join('');
+
+  $('actions-list').innerHTML = (data.actions || []).map((a, i) => `
+    <div class="card" style="border-left:3px solid ${a.priority === 'Alta' ? 'var(--red)' : 'var(--amber)'}">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <span style="font-size:22px;font-weight:700;color:var(--text-muted);opacity:.25">${String(i+1).padStart(2,'0')}</span>
+        <span style="font-family:var(--font-mono);font-size:10px;color:${a.priority === 'Alta' ? 'var(--red)' : 'var(--amber)'};text-transform:uppercase;letter-spacing:1px">${a.priority} Prioridad</span>
+      </div>
+      <p style="color:var(--text);font-size:14px;line-height:1.6;margin-bottom:6px">${a.action}</p>
+      <p style="color:var(--green);font-size:12px">→ ${a.impact}</p>
+    </div>`).join('');
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function switchTab(id) {
-  document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+function switchTab(id, btn) {
+  document.querySelectorAll('[id^="tab-"]').forEach(c => c.style.display = 'none');
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   $(id).style.display = 'block';
-  event.currentTarget.classList.add('active');
-}
-
-function showError(m) {
-  $('error-box').innerText = m;
-  $('error-box').classList.add('on');
+  btn.classList.add('active');
 }
 </script>
-
 </body>
 </html>
