@@ -1,42 +1,30 @@
 export default async function handler(req, res) {
-  // Configuración de CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   if (req.method === 'OPTIONS') return res.status(200).end();
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Método no permitido' });
 
   try {
     const { asin, marketplace = 'es' } = req.body;
-
-    // 1. Validación y Limpieza de ASIN
-    if (!asin) return res.status(400).json({ error: 'Falta el ASIN' });
-    const cleanAsin = asin.trim().toUpperCase().match(/[A-Z0-9]{10}/)?.[0];
     
-    if (!cleanAsin) {
-      return res.status(400).json({ error: `Formato de ASIN inválido: ${asin}` });
-    }
+    // Limpieza de ASIN profunda
+    const cleanAsin = asin?.match(/[A-Z0-9]{10}/i)?.[0]?.toUpperCase();
+    if (!cleanAsin) return res.status(400).json({ error: "ASIN no detectado correctamente." });
 
-    // 2. Verificación de Credenciales (Diagnóstico)
+    // Diagnóstico de llaves
     const login = process.env.DATAFORSEO_LOGIN;
     const pass = process.env.DATAFORSEO_PASSWORD;
 
     if (!login || !pass) {
       return res.status(500).json({ 
-        error: 'Error de Configuración: Credenciales DATAFORSEO no encontradas en Vercel Settings.' 
+        error: "ERROR DE LLAVES: No encuentro DATAFORSEO_LOGIN o DATAFORSEO_PASSWORD en Vercel. Revisa 'Environment Variables'." 
       });
     }
 
-    const auth = Buffer.from(`${login}:${pass}`).toString('base64');
+    const auth = Buffer.from(`${login.trim()}:${pass.trim()}`).toString('base64');
 
-    // 3. Configuración de Marketplace
-    const mks = {
-      es: 2724, de: 2276, uk: 2826, it: 2380, fr: 2250, us: 2840
-    };
-    const locationCode = mks[marketplace] || 2724;
-
-    // 4. Llamada a DataForSEO
+    // Llamada simplificada pero robusta
     const response = await fetch('https://api.dataforseo.com/v3/merchant/amazon/reviews/live', {
       method: 'POST',
       headers: {
@@ -45,28 +33,24 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify([{
         asin: cleanAsin,
-        location_code: locationCode,
-        depth: 50,
-        sort_by: 'recent'
+        location_code: 2724, // Forzamos España para probar
+        depth: 20
       }]),
     });
 
     const data = await response.json();
 
-    // 5. Manejo de errores de la API
     if (!response.ok || data.status_code !== 20000) {
-      const msg = data.tasks?.[0]?.status_message || data.status_message || 'Error desconocido de API';
-      return res.status(response.status || 500).json({ 
-        error: `DataForSEO Error: ${msg}`,
-        code: data.status_code 
+      return res.status(500).json({ 
+        error: `DataForSEO respondió error: ${data.status_message || 'Desconocido'}`,
+        debug: data.tasks?.[0]?.status_message 
       });
     }
 
-    // 6. Procesar resultados
     const items = data.tasks?.[0]?.result?.[0]?.items || [];
     
     if (items.length === 0) {
-      return res.status(404).json({ error: `No se encontraron reseñas para el ASIN ${cleanAsin} en este marketplace.` });
+      return res.status(404).json({ error: `Amazon no devolvió reseñas para ${cleanAsin}. Revisa si el producto tiene comentarios escritos.` });
     }
 
     const reviews = items
@@ -79,7 +63,6 @@ export default async function handler(req, res) {
     return res.status(200).json({ success: true, reviews });
 
   } catch (err) {
-    console.error("ERROR CRÍTICO:", err);
-    return res.status(500).json({ error: `Error interno: ${err.message}` });
+    return res.status(500).json({ error: `Error interno del servidor: ${err.message}` });
   }
 }
