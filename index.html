@@ -3,417 +3,342 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Review Intel — Amazon FBA</title>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Review Intel Pro — Amazon FBA Insights</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+/* --- SISTEMA DE DISEÑO PREMIUM --- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
 :root {
-  --bg: #fafaf9;
-  --bg2: #f4f4f2;
-  --bg3: #efefec;
-  --border: rgba(0,0,0,0.08);
-  --border2: rgba(0,0,0,0.14);
-  --text: #111110;
-  --text2: #6f6f69;
-  --text3: #a8a8a0;
-  --accent: #ea580c;
-  --accent-light: #fff7ed;
-  --accent-border: #fed7aa;
-  --green: #16a34a;
-  --green-light: #f0fdf4;
-  --green-border: #bbf7d0;
-  --red: #dc2626;
-  --red-light: #fef2f2;
-  --red-border: #fecaca;
-  --amber: #d97706;
-  --amber-light: #fffbeb;
-  --amber-border: #fde68a;
-  --blue: #2563eb;
-  --r: 12px;
-  --rs: 8px;
+  --bg: #09090b;
+  --card-bg: #121215;
+  --card-border: rgba(255,255,255,0.06);
+  --text: #fafafa;
+  --text-muted: #a1a1aa;
+  --accent: #f97316; /* Naranja FBA */
+  --accent-hover: #ea580c;
+  --green: #10b981;
+  --red: #ef4444;
+  --amber: #f59e0b;
+  --radius: 12px;
+  --font-mono: 'Geist Mono', monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #111110;
-    --bg2: #1a1a18;
-    --bg3: #222220;
-    --border: rgba(255,255,255,0.08);
-    --border2: rgba(255,255,255,0.14);
-    --text: #eeeeec;
-    --text2: #8c8c84;
-    --text3: #52524e;
-    --accent-light: #1c0e04;
-    --accent-border: #431407;
-    --green-light: #052e16;
-    --green-border: #14532d;
-    --red-light: #1c0606;
-    --red-border: #450a0a;
-    --amber-light: #1c1007;
-    --amber-border: #451a03;
-  }
+body { 
+  background: var(--bg); 
+  color: var(--text); 
+  font-family: 'Geist', system-ui, sans-serif; 
+  font-size: 14px; 
+  line-height: 1.6; 
+  background-image: radial-gradient(circle at 50% -20%, #1c1917 0%, #09090b 100%);
+  min-height: 100vh;
 }
 
-body { background: var(--bg); color: var(--text); font-family: 'Geist', system-ui, sans-serif; font-size: 14px; line-height: 1.5; min-height: 100vh; }
-.wrap { max-width: 860px; margin: 0 auto; padding: 40px 20px 80px; }
+.container { max-width: 900px; margin: 0 auto; padding: 60px 24px; }
 
-.hdr { display: flex; align-items: center; gap: 14px; margin-bottom: 32px; }
-.logo { width: 40px; height: 40px; background: var(--accent); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 15px; flex-shrink: 0; }
-.hdr-text h1 { font-size: 18px; font-weight: 600; letter-spacing: -.3px; }
-.hdr-text p { font-size: 12px; color: var(--text2); margin-top: 2px; }
-.live { margin-left: auto; display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--green); background: var(--green-light); border: 1px solid var(--green-border); border-radius: 20px; padding: 4px 12px; font-family: 'Geist Mono', monospace; }
-.live-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); animation: blink 2s ease infinite; }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+/* Header */
+.header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 48px; }
+.brand { display: flex; align-items: center; gap: 16px; }
+.logo-box { 
+  width: 44px; height: 44px; background: var(--accent); border-radius: 12px; 
+  display: flex; align-items: center; justify-content: center; 
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
+  font-weight: 700; color: white; font-size: 18px;
+}
+.brand h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+.brand p { font-size: 13px; color: var(--text-muted); }
 
-.scard { background: var(--bg); border: 1px solid var(--border); border-radius: var(--r); padding: 20px; margin-bottom: 16px; }
-.flabel { font-family: 'Geist Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text2); margin-bottom: 10px; display: block; }
-.srow { display: grid; grid-template-columns: 1fr 160px auto; gap: 8px; }
-input[type=text], select { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--rs); color: var(--text); font-family: 'Geist', sans-serif; font-size: 14px; padding: 10px 14px; width: 100%; outline: none; transition: border-color .15s, box-shadow .15s; }
-input[type=text]:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(234,88,12,.1); }
-input::placeholder { color: var(--text3); }
-select { appearance: none; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23999' d='M5 7L0 2h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; }
-select option { background: var(--bg2); }
-.sbtn { background: var(--accent); color: #fff; border: none; border-radius: var(--rs); padding: 10px 20px; font-family: 'Geist', sans-serif; font-weight: 500; font-size: 14px; cursor: pointer; white-space: nowrap; transition: opacity .15s; }
-.sbtn:hover { opacity: .88; }
-.sbtn:disabled { opacity: .45; cursor: not-allowed; }
-.hint { font-size: 12px; color: var(--text3); margin-top: 10px; }
+/* Main Input Card */
+.main-card { 
+  background: var(--card-bg); 
+  border: 1px solid var(--card-border); 
+  border-radius: var(--radius); 
+  padding: 32px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
 
-.err { display: none; background: var(--red-light); border: 1px solid var(--red-border); border-radius: var(--rs); padding: 10px 14px; color: var(--red); font-size: 13px; margin-top: 10px; }
-.err.on { display: block; }
+.field-group { margin-bottom: 24px; }
+.label { 
+  display: block; font-family: var(--font-mono); font-size: 11px; 
+  text-transform: uppercase; color: var(--accent); 
+  letter-spacing: 1px; margin-bottom: 10px; font-weight: 600;
+}
 
-.ldg { display: none; background: var(--bg); border: 1px solid var(--border); border-radius: var(--r); padding: 48px 24px; text-align: center; margin-bottom: 16px; }
-.ldg.on { display: block; }
-.spinner { width: 32px; height: 32px; border: 2px solid var(--border2); border-top-color: var(--accent); border-radius: 50%; animation: spin .6s linear infinite; margin: 0 auto 16px; }
+textarea { 
+  width: 100%; background: #18181b; border: 1px solid var(--card-border); 
+  border-radius: 8px; color: white; padding: 16px; font-family: var(--font-mono);
+  font-size: 14px; outline: none; transition: all 0.2s; min-height: 120px;
+}
+textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+
+.grid-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+input, select { 
+  background: #18181b; border: 1px solid var(--card-border); 
+  border-radius: 8px; color: white; padding: 12px 16px; font-size: 14px; outline: none;
+}
+input:focus, select:focus { border-color: var(--accent); }
+
+.btn-primary { 
+  width: 100%; background: var(--accent); color: white; border: none; 
+  padding: 16px; border-radius: 8px; font-weight: 600; cursor: pointer;
+  font-size: 15px; transition: all 0.2s;
+}
+.btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+/* Loader */
+.loader-box { 
+  display: none; text-align: center; padding: 40px; 
+  background: var(--card-bg); border-radius: var(--radius); border: 1px solid var(--card-border);
+}
+.loader-box.on { display: block; }
+.spinner { 
+  width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.1); 
+  border-top-color: var(--accent); border-radius: 50%; 
+  animation: spin 0.8s linear infinite; margin: 0 auto 20px;
+}
 @keyframes spin { to { transform: rotate(360deg); } }
-.ldg-lbl { font-size: 13px; color: var(--text2); margin-bottom: 16px; }
-.ldg-steps { display: inline-flex; flex-direction: column; gap: 8px; text-align: left; }
-.lstep { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text3); transition: color .2s; }
-.lstep.on { color: var(--accent); }
-.lstep.ok { color: var(--green); }
-.lstep-d { width: 4px; height: 4px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
 
-.rh { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; gap: 12px; flex-wrap: wrap; }
-.rh-title { font-size: 15px; font-weight: 600; }
-.rh-meta { font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--text3); margin-top: 3px; }
-.rbtn { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--rs); padding: 7px 14px; font-size: 12px; color: var(--text2); cursor: pointer; font-family: 'Geist', sans-serif; transition: border-color .15s; }
-.rbtn:hover { border-color: var(--border2); color: var(--text); }
-
-.cgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; margin-bottom: 24px; }
-.ccard { background: var(--bg); border: 1px solid var(--border); border-radius: var(--r); padding: 16px; position: relative; transition: border-color .15s, box-shadow .15s; }
-.ccard:hover { border-color: var(--border2); box-shadow: 0 2px 12px rgba(0,0,0,.06); }
-.ccard.analyzed { border-color: var(--green-border); }
-.ctop-bar { height: 2px; background: var(--border); border-radius: 2px; margin-bottom: 14px; transition: background .2s; }
-.ccard.analyzed .ctop-bar { background: var(--green); }
-.ccard:hover .ctop-bar { background: var(--accent); }
-.cpos { font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--text3); margin-bottom: 8px; }
-.ctitle { font-size: 13px; font-weight: 500; line-height: 1.4; margin-bottom: 5px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.cbrand { font-size: 11px; color: var(--text2); margin-bottom: 10px; }
-.cbadges { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px; }
-.ctag { font-size: 10px; padding: 2px 7px; border-radius: 4px; font-family: 'Geist Mono', monospace; }
-.ctag-ac { background: var(--amber-light); color: var(--amber); border: 1px solid var(--amber-border); }
-.ctag-bs { background: var(--accent-light); color: var(--accent); border: 1px solid var(--accent-border); }
-.cpills { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px; }
-.cpill { font-size: 11px; padding: 2px 8px; border-radius: 20px; background: var(--bg2); border: 1px solid var(--border); color: var(--text2); }
-.cpill.g { background: var(--green-light); color: var(--green); border-color: var(--green-border); }
-.cpill.o { background: var(--accent-light); color: var(--accent); border-color: var(--accent-border); }
-.clink { font-size: 11px; color: var(--blue); text-decoration: none; display: block; margin-bottom: 10px; }
-.clink:hover { text-decoration: underline; }
-.cabtn { width: 100%; padding: 8px; font-size: 12px; font-weight: 500; border-radius: var(--rs); cursor: pointer; font-family: 'Geist', sans-serif; background: var(--bg2); border: 1px solid var(--border); color: var(--text2); transition: all .15s; }
-.cabtn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
-.cabtn.done { background: var(--green-light); border-color: var(--green-border); color: var(--green); cursor: default; }
-
-.apanel { background: var(--bg); border: 1px solid var(--border); border-radius: var(--r); margin-bottom: 12px; overflow: hidden; }
-.ph { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 16px 20px; }
-.ph h3 { font-size: 14px; font-weight: 600; line-height: 1.3; }
-.ph-sub { font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--green); margin-top: 3px; }
-.pb { padding: 20px; }
-
-.ria { display: none; padding: 16px 20px; border-top: 1px solid var(--border); }
-.ria.on { display: block; }
-textarea { width: 100%; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--rs); color: var(--text); font-family: 'Geist Mono', monospace; font-size: 12px; line-height: 1.7; padding: 12px 14px; resize: vertical; min-height: 140px; outline: none; transition: border-color .15s; }
-textarea:focus { border-color: var(--accent); }
-textarea::placeholder { color: var(--text3); }
-.rabtn { margin-top: 10px; background: var(--accent); color: #fff; border: none; border-radius: var(--rs); padding: 10px 22px; font-family: 'Geist', sans-serif; font-weight: 500; font-size: 13px; cursor: pointer; transition: opacity .15s; }
-.rabtn:hover { opacity: .88; }
-.rabtn:disabled { opacity: .45; cursor: not-allowed; }
-
-.esumm { background: var(--accent-light); border: 1px solid var(--accent-border); border-left: 3px solid var(--accent); border-radius: 0 var(--rs) var(--rs) 0; padding: 14px 16px; margin-bottom: 18px; font-size: 13px; line-height: 1.7; }
-
-.stats4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 18px; }
-.sbox { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--rs); padding: 14px; text-align: center; }
-.sval { font-size: 22px; font-weight: 600; line-height: 1; margin-bottom: 4px; letter-spacing: -.5px; }
-.slbl { font-size: 11px; color: var(--text2); }
-
-.tabs { display: flex; gap: 2px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--rs); padding: 3px; margin-bottom: 16px; }
-.tab { flex: 1; padding: 7px 6px; border: none; background: transparent; font-size: 11px; font-weight: 500; cursor: pointer; border-radius: 6px; color: var(--text2); font-family: 'Geist', sans-serif; transition: all .15s; text-align: center; }
-.tab.on { background: var(--bg); color: var(--text); border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,.06); }
-.tc { display: none; }
-.tc.on { display: block; }
-
-.rcards { display: flex; flex-direction: column; gap: 8px; }
-.rcard { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--rs); padding: 14px 16px; }
-.rtop { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-.sbd { color: var(--red); font-size: 12px; letter-spacing: 1.5px; }
-.sgd { color: var(--green); font-size: 12px; letter-spacing: 1.5px; }
-.sevtag { font-size: 9px; padding: 2px 6px; border-radius: 3px; font-family: 'Geist Mono', monospace; text-transform: uppercase; }
-.sev-alta { background: var(--red-light); color: var(--red); border: 1px solid var(--red-border); }
-.sev-media { background: var(--amber-light); color: var(--amber); border: 1px solid var(--amber-border); }
-.rtext { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 8px; }
-.tpills { display: flex; gap: 4px; flex-wrap: wrap; }
-.tpill { font-size: 10px; padding: 2px 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 20px; color: var(--text3); }
-
-.plist { display: flex; flex-direction: column; gap: 8px; }
-.pitem { display: grid; grid-template-columns: 32px 1fr; gap: 12px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--rs); padding: 14px 16px; align-items: start; }
-.picon { width: 32px; height: 32px; border-radius: var(--rs); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
-.picon.bad { background: var(--red-light); }
-.picon.good { background: var(--green-light); }
-.picon.neutral { background: var(--amber-light); }
-.pbody h4 { font-size: 13px; font-weight: 500; margin-bottom: 3px; }
-.pbody p { font-size: 12px; color: var(--text2); line-height: 1.55; margin-bottom: 5px; }
-.popp { font-size: 11px; color: var(--green); }
-.fbar { height: 2px; background: var(--border2); border-radius: 2px; margin-top: 8px; overflow: hidden; }
-.ffill { height: 100%; border-radius: 2px; }
-.ffill.bad { background: var(--red); }
-.ffill.good { background: var(--green); }
-.ffill.neutral { background: var(--amber); }
-.fnum { font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--text3); margin-top: 4px; }
-
-.stbl { width: 100%; border-collapse: collapse; font-size: 13px; }
-.stbl th { padding: 9px 12px; text-align: left; font-family: 'Geist Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text3); border-bottom: 1px solid var(--border); background: var(--bg2); }
-.stbl td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--text2); }
-.stbl tr:last-child td { border-bottom: none; }
-.stbl tr:hover td { background: var(--bg2); }
-.sbadge { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: var(--rs); font-weight: 600; font-size: 12px; }
-.sbh { background: var(--red-light); color: var(--red); border: 1px solid var(--red-border); }
-.sbm { background: var(--amber-light); color: var(--amber); border: 1px solid var(--amber-border); }
-.sbl { background: var(--green-light); color: var(--green); border: 1px solid var(--green-border); }
-
-.alist { display: flex; flex-direction: column; gap: 8px; }
-.aitem { display: grid; grid-template-columns: auto 1fr; gap: 14px; background: var(--bg2); border: 1px solid var(--border); border-left: 3px solid var(--green); border-radius: 0 var(--rs) var(--rs) 0; padding: 14px 16px; align-items: start; }
-.anum { font-size: 20px; font-weight: 600; color: var(--green); opacity: .25; line-height: 1; flex-shrink: 0; }
-.acat { font-family: 'Geist Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-.acat.alta { color: var(--red); }
-.acat.media { color: var(--amber); }
-.atxt { font-size: 13px; color: var(--text); line-height: 1.55; margin-bottom: 4px; }
-.aimp { font-size: 11px; color: var(--green); }
-.empty { text-align: center; padding: 40px 20px; color: var(--text3); font-size: 13px; }
-
-@media (max-width: 600px) {
-  .srow { grid-template-columns: 1fr; }
-  .stats4 { grid-template-columns: 1fr 1fr; }
-  .cgrid { grid-template-columns: 1fr; }
-  .live { display: none; }
+/* Results */
+#results-area { display: none; }
+.result-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+.summary-box { 
+  background: rgba(249, 115, 22, 0.05); border-left: 4px solid var(--accent);
+  padding: 24px; border-radius: 0 8px 8px 0; margin-bottom: 32px; font-size: 15px; line-height: 1.7;
 }
+
+/* Tabs */
+.tabs { display: flex; gap: 8px; margin-bottom: 24px; border-bottom: 1px solid var(--card-border); padding-bottom: 12px; }
+.tab-btn { 
+  background: none; border: none; color: var(--text-muted); 
+  padding: 8px 16px; cursor: pointer; font-weight: 500; transition: 0.2s;
+}
+.tab-btn.active { color: var(--accent); position: relative; }
+.tab-btn.active::after { 
+  content: ''; position: absolute; bottom: -13px; left: 0; 
+  width: 100%; height: 2px; background: var(--accent); 
+}
+
+/* Table Design */
+.table-container { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; background: var(--card-bg); border-radius: 8px; }
+th { text-align: left; padding: 16px; font-size: 11px; color: var(--text-muted); text-transform: uppercase; border-bottom: 1px solid var(--card-border); }
+td { padding: 16px; border-bottom: 1px solid var(--card-border); font-size: 14px; }
+
+.badge { 
+  padding: 4px 8px; border-radius: 6px; font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+}
+.badge-red { background: rgba(239, 68, 68, 0.1); color: var(--red); }
+.badge-green { background: rgba(16, 185, 129, 0.1); color: var(--green); }
+
+.action-card { 
+  background: #18181b; border: 1px solid var(--card-border); 
+  padding: 20px; border-radius: 8px; margin-bottom: 12px;
+}
+
+.error-msg { 
+  display: none; color: var(--red); background: rgba(239, 68, 68, 0.1); 
+  padding: 12px; border-radius: 8px; margin-top: 16px; font-size: 13px;
+}
+.error-msg.on { display: block; }
 </style>
 </head>
 <body>
-<div class="wrap">
 
-<header class="hdr">
-  <div class="logo">RI</div>
-  <div class="hdr-text">
-    <h1>Review Intel</h1>
-    <p>Análisis de competencia Amazon FBA · Private Label</p>
-  </div>
-  <div class="live"><div class="live-dot"></div>live</div>
-</header>
-
-<div class="scard">
-  <label class="flabel">búsqueda de competidores</label>
-  <div class="srow">
-    <input type="text" id="kw" placeholder='ej: "alcachofa de ducha"...' />
-    <select id="mk">
-      <option value="es">Amazon España</option>
-      <option value="de">Amazon Alemania</option>
-      <option value="uk">Amazon UK</option>
-      <option value="it">Amazon Italia</option>
-      <option value="fr">Amazon Francia</option>
-    </select>
-    <button class="sbtn" id="sbtn" onclick="go()">Buscar →</button>
-  </div>
-  <p class="hint">Escribe el término exacto que usaría tu cliente en Amazon.</p>
-  <div class="err" id="serr"></div>
-</div>
-
-<div class="ldg" id="ldg">
-  <div class="spinner"></div>
-  <div class="ldg-lbl" id="ldg-lbl">Buscando en Amazon...</div>
-  <div class="ldg-steps">
-    <div class="lstep" id="ls1"><div class="lstep-d"></div>Conectando con Amazon</div>
-    <div class="lstep" id="ls2"><div class="lstep-d"></div>Extrayendo competidores</div>
-    <div class="lstep" id="ls3"><div class="lstep-d"></div>Procesando resultados</div>
-  </div>
-</div>
-
-<div id="results">
-  <div class="rh">
-    <div>
-      <div class="rh-title" id="rtitle"></div>
-      <div class="rh-meta" id="rmeta"></div>
+<div class="container">
+  <header class="header">
+    <div class="brand">
+      <div class="logo-box">RI</div>
+      <div>
+        <h1>Review Intel <span style="font-weight: 400; color: var(--text-muted);">Pro</span></h1>
+        <p>Market Intelligence for Private Label Sellers</p>
+      </div>
     </div>
-    <button class="rbtn" onclick="reset()">← Nueva búsqueda</button>
+    <div style="font-family: var(--font-mono); font-size: 11px; color: var(--green);">● SYSTEM_OPERATIONAL</div>
+  </header>
+
+  <div class="main-card" id="input-ui">
+    <div class="field-group">
+      <label class="label">Competitor ASINs</label>
+      <textarea id="asins-input" placeholder="Pega los ASINs separados por comas (ej: B08XY123, B09TZ456)"></textarea>
+    </div>
+
+    <div class="grid-inputs">
+      <div class="field-group">
+        <label class="label">Marketplace</label>
+        <select id="mk-input" style="width: 100%;">
+          <option value="es">Amazon España</option>
+          <option value="de">Amazon Alemania</option>
+          <option value="uk">Amazon UK</option>
+          <option value="it">Amazon Italia</option>
+          <option value="fr">Amazon Francia</option>
+          <option value="us">Amazon USA</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label class="label">Producto</label>
+        <input type="text" id="context-input" placeholder="Ej: Alcachofa de ducha" style="width: 100%;">
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="runAnalysis()" id="main-btn">Iniciar Deep Research</button>
+    <div id="error-box" class="error-msg"></div>
   </div>
-  <div class="cgrid" id="cgrid"></div>
-  <div id="apanels"></div>
+
+  <div id="loader" class="loader-box">
+    <div class="spinner"></div>
+    <h3 id="loader-title">Extrayendo datos de Amazon...</h3>
+    <p id="loader-status" style="color: var(--text-muted); font-size: 13px;">Esto puede tardar hasta 30 segundos</p>
+  </div>
+
+  <div id="results-area">
+    <div class="result-header">
+      <h2 style="font-size: 20px;">Análisis de Oportunidad</h2>
+      <button onclick="location.reload()" style="background: none; border: 1px solid var(--card-border); color: white; padding: 6px 12px; border-radius: 6px; cursor: pointer;">Nueva Consulta</button>
+    </div>
+
+    <div id="summary-content" class="summary-box"></div>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('tab-comparativa')">Comparativa</button>
+      <button class="tab-btn" onclick="switchTab('tab-patrones')">Patrones & Gaps</button>
+      <button class="tab-btn" onclick="switchTab('tab-acciones')">Plan de Acción</button>
+    </div>
+
+    <div id="tab-comparativa" class="tab-content">
+      <div class="table-container">
+        <table id="comp-table">
+          <thead>
+            <tr>
+              <th>Categoría</th>
+              <th>Peor ASIN (Debilidad)</th>
+              <th>Mejor ASIN (Fortaleza)</th>
+              <th>Análisis</th>
+            </tr>
+          </thead>
+          <tbody id="comp-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="tab-patrones" class="tab-content" style="display: none;">
+      <div id="patterns-list"></div>
+    </div>
+
+    <div id="tab-acciones" class="tab-content" style="display: none;">
+      <div id="actions-list"></div>
+    </div>
+  </div>
 </div>
 
-</div>
 <script>
-const API_BASE = window.location.hostname === 'localhost'
-  ? 'http://localhost:3000'
-  : '';
+const API_BASE = ''; // Vercel maneja esto automáticamente
+const $ = id => document.getElementById(id);
 
-let products=[], analyzed={}, stimer=null;
-const $=id=>document.getElementById(id);
-const stars=(n,t)=>`<span class="${t==='bad'?'sbd':'sgd'}">${'★'.repeat(+n||0)}${'☆'.repeat(5-(+n||0))}</span>`;
-const sbadge=n=>`<span class="sbadge ${n>=7?'sbh':n>=4?'sbm':'sbl'}">${n}</span>`;
+async function runAnalysis() {
+  const input = $('asins-input').value;
+  const asins = input.split(/[\s,]+/).map(a => a.trim().toUpperCase()).filter(a => a.length >= 8);
+  const context = $('context-input').value;
+  const mk = $('mk-input').value;
 
-function stepSet(a){['ls1','ls2','ls3'].forEach((id,i)=>{const el=$(id);if(!el)return;el.className='lstep'+(i<a?' ok':i===a?' on':'')})}
-function showErr(id,m){const e=$(id);if(e){e.textContent=m;e.classList.add('on')}}
-function clearErr(id){const e=$(id);if(e)e.classList.remove('on')}
+  if (asins.length === 0) return showError("Introduce ASINs válidos");
+  
+  // UI Loading
+  $('input-ui').style.display = 'none';
+  $('loader').classList.add('on');
+  $('error-box').classList.remove('on');
 
-async function go(){
-  const kw=$('kw').value.trim(),mk=$('mk').value;
-  clearErr('serr');
-  if(!kw){showErr('serr','Introduce un término de búsqueda.');return}
-  $('sbtn').disabled=true;
-  $('results').style.display='none';
-  $('ldg').classList.add('on');
-  let s=0;stepSet(0);
-  stimer=setInterval(()=>{s=Math.min(s+1,2);stepSet(s)},1400);
-  try{
-    const r=await fetch(`${API_BASE}/api/search`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({keyword:kw,marketplace:mk,maxResults:12})});
-    const d=await r.json();
-    if(!r.ok||!d.success)throw new Error(d.error||'Error en la búsqueda');
-    products=d.products;analyzed={};
-    clearInterval(stimer);$('ldg').classList.remove('on');
-    $('sbtn').disabled=false;
-    renderResults(d);
-  }catch(e){
-    clearInterval(stimer);$('ldg').classList.remove('on');
-    $('sbtn').disabled=false;
-    showErr('serr','⚠ '+e.message);
+  try {
+    let allReviewsText = "";
+
+    // 1. Obtener reseñas de cada ASIN
+    for (let asin of asins) {
+      $('loader-title').innerText = `Analizando ASIN: ${asin}...`;
+      const res = await fetch(`${API_BASE}/api/get-reviews`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ asin, marketplace: mk })
+      });
+      const data = await res.json();
+      
+      if (data.reviews) {
+        allReviewsText += `\n--- COMPETIDOR ASIN: ${asin} ---\n`;
+        allReviewsText += data.reviews.map(r => `[${r.stars} estrellas] ${r.review_text}`).join('\n');
+      }
+    }
+
+    // 2. Análisis con IA
+    $('loader-title').innerText = `Procesando comparativa final...`;
+    const resAi = await fetch(`${API_BASE}/api/analyze`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ reviewsData: allReviewsText, product_context: context })
+    });
+    const aiData = await resAi.json();
+
+    if (!resAi.ok) throw new Error(aiData.error);
+
+    renderResults(aiData.analysis);
+
+  } catch (e) {
+    console.error(e);
+    $('loader').classList.remove('on');
+    $('input-ui').style.display = 'block';
+    showError("Error: " + e.message);
   }
 }
 
-function renderResults(d){
-  $('results').style.display='block';
-  $('rtitle').textContent=`${d.total} competidores · ${d.marketplace}`;
-  $('rmeta').textContent=`"${d.keyword}" · ${new Date().toLocaleDateString('es-ES')}`;
-  $('cgrid').innerHTML=d.products.map(p=>`
-    <div class="ccard" id="card-${p.asin}">
-      <div class="ctop-bar"></div>
-      <div class="cpos">#${String(p.position).padStart(2,'0')} · ${p.asin}</div>
-      <div class="cbadges">
-        ${p.is_amazon_choice?'<span class="ctag ctag-ac">Amazon\'s Choice</span>':''}
-        ${p.is_best_seller?'<span class="ctag ctag-bs">Best Seller</span>':''}
-      </div>
-      <div class="ctitle">${p.title}</div>
-      <div class="cbrand">${p.brand}</div>
-      <div class="cpills">
-        ${p.price!=='N/A'?`<span class="cpill">${p.price}</span>`:''}
-        ${p.rating?`<span class="cpill g">★ ${p.rating}</span>`:''}
-        ${p.reviews_count>0?`<span class="cpill">${p.reviews_count.toLocaleString('es-ES')} reseñas</span>`:''}
-        ${p.bought_last_month?`<span class="cpill o">${p.bought_last_month}/mes</span>`:''}
-      </div>
-      <a class="clink" href="${p.reviews_url}" target="_blank">↗ Ver reseñas en Amazon</a>
-      <button class="cabtn" id="btn-${p.asin}" onclick="openInput('${p.asin}','${p.title.replace(/'/g,"\\'").replace(/"/g,'\\"')}')">+ Analizar reseñas</button>
-    </div>`).join('');
-  $('apanels').innerHTML='';
-}
+function renderResults(data) {
+  $('loader').classList.remove('on');
+  $('results-area').style.display = 'block';
+  
+  $('summary-content').innerText = data.summary;
 
-function openInput(asin,title){
-  if(analyzed[asin])return;
-  const ex=$(`input-${asin}`);if(ex){ex.remove();return}
-  const p=document.createElement('div');
-  p.className='apanel';p.id=`input-${asin}`;
-  p.innerHTML=`
-    <div class="ph">
-      <h3>${title.substring(0,62)}${title.length>62?'...':''}</h3>
-      <div style="font-family:'Geist Mono',monospace;font-size:10px;color:var(--text2);margin-top:3px">ASIN: ${asin}</div>
+  // Render Tabla
+  $('comp-table-body').innerHTML = data.comparison_table.map(t => `
+    <tr>
+      <td style="font-weight: 600;">${t.topic}</td>
+      <td><span class="badge badge-red">${t.worst_asin}</span></td>
+      <td><span class="badge badge-green">${t.best_asin}</span></td>
+      <td style="color: var(--text-muted); font-size: 13px;">${t.insight}</td>
+    </tr>
+  `).join('');
+
+  // Render Patrones
+  $('patterns-list').innerHTML = data.patterns_and_gaps.map(p => `
+    <div class="action-card">
+      <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+        <span class="label" style="margin:0;">${p.theme}</span>
+        <span style="font-size:11px; color:var(--amber); font-family:var(--font-mono);">${p.star_range}</span>
+      </div>
+      <p style="font-weight:600; margin-bottom:4px;">${p.pattern}</p>
+      <p style="color:var(--green); font-size:13px;">💡 Oportunidad: ${p.opportunity}</p>
     </div>
-    <div class="ria on">
-      <label class="flabel">pega las reseñas de este competidor</label>
-      <textarea id="ta-${asin}" placeholder="Copia y pega las reseñas desde Amazon. Sin formato especial.\n\nEjemplo:\n★★ — El filtro se obstruyó al mes, muy decepcionante.\n★★★★★ — Excelente presión, funciona perfecto.\n★ — El plástico se rompió a los dos meses..."></textarea>
-      <div class="err" id="err-${asin}"></div>
-      <button class="rabtn" id="rb-${asin}" onclick="analyze('${asin}','${title.replace(/'/g,"\\'").replace(/"/g,'\\"')}')">Analizar con IA →</button>
-    </div>`;
-  $('apanels').appendChild(p);
-  p.scrollIntoView({behavior:'smooth',block:'start'});
-}
+  `).join('');
 
-async function analyze(asin,title){
-  const txt=$(`ta-${asin}`)?.value?.trim();
-  clearErr(`err-${asin}`);
-  if(!txt||txt.length<40){showErr(`err-${asin}`,'Pega al menos algunas reseñas antes de analizar.');return}
-  const btn=$(`rb-${asin}`);btn.disabled=true;btn.textContent='Analizando...';
-  try{
-    const r=await fetch(`${API_BASE}/api/analyze`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({reviews:txt,competitor_name:title,product_context:$('kw')?.value||''})});
-    const d=await r.json();
-    if(!r.ok||!d.success)throw new Error(d.error||'Error en el análisis');
-    analyzed[asin]=d.analysis;
-    renderAnalysis(asin,title,d.analysis);
-    const card=$(`card-${asin}`);if(card)card.classList.add('analyzed');
-    const cb=$(`btn-${asin}`);if(cb){cb.className='cabtn done';cb.textContent='✓ Analizado'}
-  }catch(e){
-    showErr(`err-${asin}`,'⚠ '+e.message);
-    btn.disabled=false;btn.textContent='Analizar con IA →';
-  }
-}
-
-function renderAnalysis(asin,title,a){
-  const panel=$(`input-${asin}`);if(!panel)return;
-  panel.innerHTML=`
-    <div class="ph">
-      <h3>✓ ${title.substring(0,55)}${title.length>55?'...':''}</h3>
-      <div class="ph-sub">Análisis completado · ASIN: ${asin}</div>
+  // Render Acciones
+  $('actions-list').innerHTML = data.actions.map(a => `
+    <div class="action-card" style="border-left: 3px solid var(--accent);">
+      <div class="aitem-pri ${a.priority.toLowerCase()}">${a.priority} PRIORIDAD</div>
+      <div class="aitem-act">${a.action}</div>
+      <div class="aitem-imp">Impacto: ${a.impact}</div>
     </div>
-    <div class="pb">
-      <div class="esumm">${a.summary}</div>
-      <div class="stats4">
-        <div class="sbox"><div class="sval" style="color:var(--accent)">${a.stats?.total_analyzed||'—'}</div><div class="slbl">Reseñas analizadas</div></div>
-        <div class="sbox"><div class="sval" style="color:var(--red)">${a.stats?.sentiment_negative_pct||0}%</div><div class="slbl">Sentimiento negativo</div></div>
-        <div class="sbox"><div class="sval" style="color:var(--green)">${a.stats?.sentiment_positive_pct||0}%</div><div class="slbl">Sentimiento positivo</div></div>
-        <div class="sbox"><div class="sval" style="font-size:12px;padding-top:6px;color:var(--amber)">${a.stats?.main_weakness||'—'}</div><div class="slbl">Debilidad principal</div></div>
-      </div>
-      <div class="tabs">
-        <button class="tab on" onclick="st('${asin}','problemas',this)">❌ Problemas</button>
-        <button class="tab" onclick="st('${asin}','positivos',this)">✅ Positivos</button>
-        <button class="tab" onclick="st('${asin}','patrones',this)">📊 Patrones</button>
-        <button class="tab" onclick="st('${asin}','scores',this)">🎯 Scores</button>
-        <button class="tab" onclick="st('${asin}','acciones',this)">⚡ Acciones</button>
-      </div>
-      <div class="tc on" id="tc-${asin}-problemas">
-        <div class="rcards">${(a.problems||[]).map(p=>`<div class="rcard"><div class="rtop">${stars(p.stars,'bad')}${p.severity?`<span class="sevtag sev-${p.severity}">${p.severity}</span>`:''}</div><div class="rtext">${p.text}</div><div class="tpills">${(p.themes||[]).map(t=>`<span class="tpill">${t}</span>`).join('')}</div></div>`).join('')||'<div class="empty">No se detectaron problemas graves.</div>'}</div>
-      </div>
-      <div class="tc" id="tc-${asin}-positivos">
-        <div class="rcards">${(a.positives||[]).map(p=>`<div class="rcard"><div class="rtop">${stars(p.stars,'good')}</div><div class="rtext">${p.text}</div><div class="tpills">${(p.themes||[]).map(t=>`<span class="tpill">${t}</span>`).join('')}</div></div>`).join('')||'<div class="empty">Sin reseñas positivas representativas.</div>'}</div>
-      </div>
-      <div class="tc" id="tc-${asin}-patrones">
-        <div class="plist">${(a.patterns||[]).map(p=>`<div class="pitem"><div class="picon ${p.type}">${p.type==='bad'?'⚠':p.type==='good'?'✓':'→'}</div><div class="pbody"><h4>${p.title}</h4><p>${p.description}</p>${p.opportunity?`<div class="popp">→ ${p.opportunity}</div>`:''}<div class="fbar"><div class="ffill ${p.type}" style="width:${Math.min(p.pct||0,100)}%"></div></div><div class="fnum">${p.count} menciones · ${p.pct}%</div></div></div>`).join('')||'<div class="empty">No se detectaron patrones.</div>'}</div>
-      </div>
-      <div class="tc" id="tc-${asin}-scores">
-        <table class="stbl"><thead><tr><th>Tema</th><th>Frecuencia</th><th>Severidad</th><th>Score competidor</th><th>Tu oportunidad</th></tr></thead>
-        <tbody>${(a.scores||[]).map(s=>`<tr><td style="color:var(--text);font-weight:500">${s.topic}</td><td>${s.frequency}</td><td style="color:${s.severity==='Alta'?'var(--red)':s.severity==='Media'?'var(--amber)':'var(--green)'}">${s.severity}</td><td>${sbadge(s.competitor_score)}</td><td>${sbadge(s.your_opportunity)}</td></tr>`).join('')||'<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text3)">Sin datos</td></tr>'}</tbody></table>
-      </div>
-      <div class="tc" id="tc-${asin}-acciones">
-        <div class="alist">${(a.actions||[]).map((ac,i)=>`<div class="aitem"><div class="anum">${String(i+1).padStart(2,'0')}</div><div><div class="acat ${ac.priority||''}">${ac.category}${ac.priority?' · '+ac.priority.toUpperCase():''}</div><div class="atxt">${ac.action}</div>${ac.impact?`<div class="aimp">→ ${ac.impact}</div>`:''}</div></div>`).join('')||'<div class="empty">Sin acciones generadas.</div>'}</div>
-      </div>
-    </div>`;
+  `).join('');
 }
 
-function st(asin,name,btn){
-  const panel=$(`input-${asin}`);if(!panel)return;
-  panel.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
-  panel.querySelectorAll('.tc').forEach(c=>c.classList.remove('on'));
-  btn.classList.add('on');
-  const tc=$(`tc-${asin}-${name}`);if(tc)tc.classList.add('on');
+function switchTab(id) {
+  document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  $(id).style.display = 'block';
+  event.currentTarget.classList.add('active');
 }
 
-function reset(){$('results').style.display='none';$('kw').value='';products=[];analyzed={}}
-$('kw').addEventListener('keydown',e=>{if(e.key==='Enter')go()});
+function showError(m) {
+  $('error-box').innerText = m;
+  $('error-box').classList.add('on');
+}
 </script>
+
 </body>
 </html>
