@@ -2,29 +2,29 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
- 
+
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
- 
+
   const { reviews, product_context, competitor_name } = req.body;
- 
+
   if (!reviews || reviews.trim().length < 30) {
     return res.status(400).json({ error: 'Reviews text too short' });
   }
- 
+
   const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
   if (!OPENAI_API_KEY) {
     return res.status(500).json({ error: 'OpenAI API key not configured' });
   }
- 
+
   const prompt = `Eres un experto en Amazon FBA y análisis de competencia para Private Label.
 Analiza estas reseñas del competidor "${competitor_name || 'Desconocido'}"${product_context ? ` (producto: ${product_context})` : ''}.
- 
+
 RESEÑAS:
 ${reviews}
- 
+
 Devuelve SOLO un JSON válido con esta estructura exacta, sin markdown ni texto extra:
- 
+
 {
   "summary": "Resumen ejecutivo de 4-5 líneas: estado general del competidor, principales debilidades y oportunidades para superarlo.",
   "stats": {
@@ -77,7 +77,7 @@ Devuelve SOLO un JSON válido con esta estructura exacta, sin markdown ni texto 
     }
   ]
 }
- 
+
 Reglas:
 - problems: 3-6 quejas más representativas
 - positives: 2-4 elogios más representativas
@@ -85,7 +85,7 @@ Reglas:
 - scores: 4-6 temas clave
 - actions: 3-5 acciones concretas y accionables
 - Sé específico. Nada genérico. Todo orientado a Private Label pre-lanzamiento.`;
- 
+
   try {
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -103,18 +103,17 @@ Reglas:
         ],
       }),
     });
- 
+
     const data = await response.json();
     if (!response.ok) throw new Error(data.error?.message || 'OpenAI API error');
- 
+
     const rawText = data.choices?.[0]?.message?.content || '';
     const clean = rawText.replace(/```json|```/g, '').trim();
     const parsed = JSON.parse(clean);
- 
+
     return res.status(200).json({ success: true, analysis: parsed });
- 
+
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
 }
- 
