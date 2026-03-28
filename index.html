@@ -9,132 +9,67 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 :root {
-  --bg: #09090b;
-  --bg2: #111113;
-  --bg3: #18181b;
-  --border: rgba(255,255,255,0.07);
-  --border2: rgba(255,255,255,0.12);
-  --text: #fafafa;
-  --text2: #a1a1aa;
-  --text3: #52525b;
-  --accent: #f97316;
-  --accent2: #ea580c;
-  --green: #10b981;
-  --green-d: rgba(16,185,129,0.1);
-  --green-b: rgba(16,185,129,0.2);
-  --red: #ef4444;
-  --red-d: rgba(239,68,68,0.1);
-  --red-b: rgba(239,68,68,0.2);
-  --amber: #f59e0b;
-  --amber-d: rgba(245,158,11,0.1);
-  --amber-b: rgba(245,158,11,0.2);
-  --blue: #3b82f6;
-  --blue-d: rgba(59,130,246,0.1);
-  --r: 12px;
-  --rs: 8px;
-  --font-mono: 'Geist Mono', monospace;
+  --bg: #09090b; --bg2: #111113; --bg3: #18181b;
+  --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.12);
+  --text: #fafafa; --text2: #a1a1aa; --text3: #52525b;
+  --accent: #f97316; --accent2: #ea580c;
+  --green: #10b981; --green-d: rgba(16,185,129,0.1); --green-b: rgba(16,185,129,0.2);
+  --red: #ef4444; --red-d: rgba(239,68,68,0.1); --red-b: rgba(239,68,68,0.2);
+  --amber: #f59e0b; --amber-d: rgba(245,158,11,0.1); --amber-b: rgba(245,158,11,0.2);
+  --r: 12px; --rs: 8px; --font-mono: 'Geist Mono', monospace;
 }
-body {
-  background: var(--bg); color: var(--text);
-  font-family: 'Geist', system-ui, sans-serif;
-  font-size: 14px; line-height: 1.6; min-height: 100vh;
-}
-.wrap { max-width: 940px; margin: 0 auto; padding: 52px 20px 100px; }
+body { background: var(--bg); color: var(--text); font-family: 'Geist', system-ui, sans-serif; font-size: 14px; line-height: 1.6; min-height: 100vh; }
+.wrap { max-width: 900px; margin: 0 auto; padding: 52px 20px 100px; }
 
 /* HEADER */
-.hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 48px; }
+.hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; }
 .brand { display: flex; align-items: center; gap: 14px; }
-.logo {
-  width: 42px; height: 42px; background: var(--accent); border-radius: 11px;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 700; color: #fff; font-size: 16px;
-  box-shadow: 0 0 24px rgba(249,115,22,0.35);
-}
+.logo { width: 42px; height: 42px; background: var(--accent); border-radius: 11px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 16px; box-shadow: 0 0 24px rgba(249,115,22,0.35); }
 .brand-text h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.4px; }
 .brand-text p { font-size: 12px; color: var(--text2); margin-top: 2px; }
 .status { font-family: var(--font-mono); font-size: 11px; color: var(--green); display: flex; align-items: center; gap: 6px; }
 .status-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); animation: blink 2s ease infinite; }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
 
-/* STEP INDICATOR */
-.steps { display: flex; align-items: center; gap: 0; margin-bottom: 36px; }
-.step-item { display: flex; align-items: center; gap: 8px; }
-.step-num {
-  width: 28px; height: 28px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px; font-weight: 600; flex-shrink: 0;
-  background: var(--bg3); border: 1px solid var(--border2); color: var(--text2);
-  transition: all .2s;
-}
-.step-num.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-.step-num.done { background: var(--green-d); border-color: var(--green-b); color: var(--green); }
-.step-label { font-size: 12px; color: var(--text2); transition: color .2s; }
-.step-label.active { color: var(--text); font-weight: 500; }
-.step-sep { width: 32px; height: 1px; background: var(--border2); margin: 0 8px; flex-shrink: 0; }
+/* INPUT CARD */
+.card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 28px; margin-bottom: 16px; }
+.card-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+.card-sub { font-size: 13px; color: var(--text2); margin-bottom: 24px; line-height: 1.6; }
 
-/* CARDS */
-.card {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: var(--r); padding: 28px; margin-bottom: 16px;
-}
-.card-title {
-  font-size: 15px; font-weight: 600; margin-bottom: 6px;
-  display: flex; align-items: center; gap: 10px;
-}
-.card-sub { font-size: 13px; color: var(--text2); margin-bottom: 24px; }
+.flabel { display: block; font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); margin-bottom: 8px; }
 
-.flabel {
-  display: block; font-family: var(--font-mono); font-size: 10px;
-  text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent);
-  margin-bottom: 8px; font-weight: 500;
-}
-
-input[type=text], select, textarea {
+input[type=text], select {
   width: 100%; background: var(--bg3); border: 1px solid var(--border);
   border-radius: var(--rs); color: var(--text); font-family: 'Geist', sans-serif;
-  font-size: 14px; padding: 11px 14px; outline: none;
-  transition: border-color .15s, box-shadow .15s;
+  font-size: 14px; padding: 11px 14px; outline: none; transition: border-color .15s, box-shadow .15s;
 }
-input[type=text]:focus, select:focus, textarea:focus {
-  border-color: var(--accent); box-shadow: 0 0 0 3px rgba(249,115,22,.1);
-}
-input::placeholder, textarea::placeholder { color: var(--text3); }
+input[type=text]:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(249,115,22,.1); }
+input::placeholder { color: var(--text3); }
 select { appearance: none; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%2352525b' d='M5 6L0 0h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
 select option { background: var(--bg3); }
-textarea { resize: vertical; min-height: 110px; font-family: var(--font-mono); font-size: 12px; line-height: 1.7; }
 
-/* ASIN ROW */
-.asin-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: end; margin-bottom: 12px; }
-.asin-block { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--rs); padding: 16px 18px; margin-bottom: 10px; position: relative; }
-.asin-block.loaded { border-color: rgba(16,185,129,0.25); }
-.asin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
-.asin-tag { font-family: var(--font-mono); font-size: 11px; color: var(--text2); }
-.asin-title-display { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 8px; line-height: 1.4; }
-.asin-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
-.pill { font-size: 11px; padding: 3px 9px; border-radius: 20px; border: 1px solid var(--border2); color: var(--text2); background: var(--bg); }
+/* ASIN ROWS */
+.asin-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.asin-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; }
+.asin-info { background: var(--bg3); border: 1px solid var(--green-b); border-radius: var(--rs); padding: 10px 14px; margin-top: 6px; display: none; }
+.asin-info.on { display: block; }
+.asin-info-title { font-size: 12px; font-weight: 500; color: var(--text); margin-bottom: 6px; line-height: 1.4; }
+.asin-pills { display: flex; gap: 5px; flex-wrap: wrap; }
+.pill { font-size: 11px; padding: 2px 8px; border-radius: 20px; border: 1px solid var(--border2); color: var(--text2); background: var(--bg); }
 .pill.g { background: var(--green-d); color: var(--green); border-color: var(--green-b); }
 .pill.o { background: var(--amber-d); color: var(--amber); border-color: var(--amber-b); }
-.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-.field-single { margin-bottom: 10px; }
+.pill.r { background: var(--red-d); color: var(--red); border-color: var(--red-b); }
 
 /* BUTTONS */
-.btn {
-  padding: 10px 18px; border-radius: var(--rs); font-family: 'Geist', sans-serif;
-  font-weight: 500; font-size: 13px; cursor: pointer; transition: all .15s;
-  border: 1px solid var(--border2); background: var(--bg3); color: var(--text2);
-  white-space: nowrap;
-}
-.btn:hover { border-color: var(--border2); color: var(--text); }
-.btn-accent { background: var(--accent); border-color: var(--accent); color: #fff; font-size: 15px; padding: 14px 24px; width: 100%; margin-top: 20px; }
-.btn-accent:hover { background: var(--accent2); border-color: var(--accent2); }
-.btn-accent:disabled { opacity: .45; cursor: not-allowed; }
-.btn-sm { padding: 7px 14px; font-size: 12px; }
-.btn-fetch { background: var(--blue-d); border-color: rgba(59,130,246,.3); color: var(--blue); }
-.btn-fetch:hover { background: rgba(59,130,246,.15); }
-.btn-fetch:disabled { opacity: .4; cursor: not-allowed; }
-.btn-remove { background: transparent; border-color: transparent; color: var(--text3); padding: 6px 10px; }
-.btn-remove:hover { color: var(--red); border-color: var(--red-b); background: var(--red-d); }
-.btn-add { border-style: dashed; width: 100%; justify-content: center; display: flex; align-items: center; gap: 8px; color: var(--text2); }
+.btn { padding: 10px 18px; border-radius: var(--rs); font-family: 'Geist', sans-serif; font-weight: 500; font-size: 13px; cursor: pointer; transition: all .15s; border: 1px solid var(--border2); background: var(--bg3); color: var(--text2); white-space: nowrap; }
+.btn:hover { color: var(--text); border-color: var(--border2); }
+.btn-accent { background: var(--accent); border-color: var(--accent); color: #fff; font-size: 15px; padding: 14px; width: 100%; margin-top: 8px; }
+.btn-accent:hover { background: var(--accent2); border-color: var(--accent2); color: #fff; }
+.btn-accent:disabled { opacity: .4; cursor: not-allowed; }
+.btn-load { background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.3); color: #60a5fa; font-size: 12px; padding: 10px 16px; }
+.btn-load:hover { background: rgba(59,130,246,0.15); color: #93c5fd; }
+.btn-load:disabled { opacity: .4; cursor: not-allowed; }
+.btn-add { border-style: dashed; width: 100%; justify-content: center; display: flex; align-items: center; gap: 8px; font-size: 13px; }
 .btn-add:hover { border-color: var(--accent); color: var(--accent); }
 
 /* LOADER */
@@ -154,89 +89,74 @@ textarea { resize: vertical; min-height: 110px; font-family: var(--font-mono); f
 .err.on { display: block; }
 
 /* RESULTS */
-#results { display: none; }
-
-.res-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; flex-wrap: wrap; gap: 12px; }
+#results { display: none; margin-top: 8px; }
+.res-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 28px; flex-wrap: wrap; gap: 12px; }
 .res-title { font-size: 20px; font-weight: 700; }
 .res-meta { font-family: var(--font-mono); font-size: 11px; color: var(--text2); margin-top: 3px; }
 
-.summary-box {
-  background: rgba(249,115,22,.05); border: 1px solid rgba(249,115,22,.15);
-  border-left: 3px solid var(--accent); border-radius: 0 var(--rs) var(--rs) 0;
-  padding: 20px 22px; margin-bottom: 28px; font-size: 14px; line-height: 1.8; color: var(--text);
-}
+.summary-box { background: rgba(249,115,22,.05); border: 1px solid rgba(249,115,22,.15); border-left: 3px solid var(--accent); border-radius: 0 var(--rs) var(--rs) 0; padding: 20px 22px; margin-bottom: 28px; font-size: 14px; line-height: 1.8; }
 
-/* COMPETITOR SCORES */
-.scores-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; margin-bottom: 28px; }
-.score-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 20px; }
-.score-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
-.score-asin { font-family: var(--font-mono); font-size: 11px; color: var(--text2); }
-.score-badges { display: flex; gap: 6px; }
-.score-badge { width: 36px; height: 36px; border-radius: var(--rs); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; }
-.sb-h { background: var(--red-d); color: var(--red); border: 1px solid var(--red-b); }
-.sb-m { background: var(--amber-d); color: var(--amber); border: 1px solid var(--amber-b); }
-.sb-l { background: var(--green-d); color: var(--green); border: 1px solid var(--green-b); }
-.score-title { font-size: 13px; font-weight: 500; line-height: 1.4; margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+/* SCORE CARDS */
+.scores-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin-bottom: 28px; }
+.score-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 18px; }
+.score-asin { font-family: var(--font-mono); font-size: 11px; color: var(--text2); margin-bottom: 8px; }
+.score-title-text { font-size: 12px; color: var(--text); margin-bottom: 12px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .score-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
-.score-lbl { font-size: 11px; color: var(--text2); width: 60px; flex-shrink: 0; }
+.score-lbl { font-size: 11px; color: var(--text2); width: 56px; flex-shrink: 0; }
 .score-bar { flex: 1; height: 4px; background: var(--border2); border-radius: 2px; overflow: hidden; }
-.score-fill { height: 100%; border-radius: 2px; background: var(--accent); transition: width .4s ease; }
-.score-num-sm { font-family: var(--font-mono); font-size: 11px; color: var(--text2); width: 20px; text-align: right; }
-.score-weakness { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 12px; color: var(--red); }
-.score-strength { font-size: 12px; color: var(--green); margin-top: 4px; }
+.score-fill { height: 100%; border-radius: 2px; transition: width .5s ease; }
+.score-num { font-family: var(--font-mono); font-size: 11px; color: var(--text2); width: 18px; text-align: right; }
+.score-weakness { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); font-size: 12px; color: var(--red); }
+.score-strength { font-size: 12px; color: var(--green); margin-top: 3px; }
 
 /* TABS */
 .tabs { display: flex; gap: 3px; background: var(--bg3); border: 1px solid var(--border); border-radius: var(--rs); padding: 4px; margin-bottom: 20px; }
-.tab { flex: 1; padding: 8px 10px; border: none; background: transparent; color: var(--text2); font-family: 'Geist', sans-serif; font-size: 12px; font-weight: 500; cursor: pointer; border-radius: 6px; transition: all .15s; text-align: center; }
-.tab.on { background: var(--bg2); color: var(--text); border: 1px solid var(--border2); box-shadow: 0 1px 4px rgba(0,0,0,.2); }
+.tab { flex: 1; padding: 8px 8px; border: none; background: transparent; color: var(--text2); font-family: 'Geist', sans-serif; font-size: 12px; font-weight: 500; cursor: pointer; border-radius: 6px; transition: all .15s; text-align: center; }
+.tab.on { background: var(--bg2); color: var(--text); border: 1px solid var(--border2); }
 .tc { display: none; }
 .tc.on { display: block; }
 
-/* ANALYSIS CARDS */
-.comp-analysis { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); margin-bottom: 14px; overflow: hidden; }
-.comp-analysis-hdr { background: var(--bg3); border-bottom: 1px solid var(--border); padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
-.comp-analysis-body { padding: 20px; }
-.analysis-section { margin-bottom: 18px; }
-.analysis-section-title { font-size: 11px; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 1px; color: var(--text2); margin-bottom: 8px; }
-.analysis-text { font-size: 13px; color: var(--text); line-height: 1.65; }
+/* ANALYSIS */
+.comp-panel { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); margin-bottom: 12px; overflow: hidden; }
+.comp-panel-hdr { background: var(--bg3); border-bottom: 1px solid var(--border); padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.comp-panel-body { padding: 20px; }
+.section-label { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text2); margin-bottom: 8px; }
+.section-text { font-size: 13px; color: var(--text); line-height: 1.65; margin-bottom: 16px; }
 
-/* COMPLIANCE */
-.compliance-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; background: var(--red-d); border: 1px solid var(--red-b); border-radius: var(--rs); margin-bottom: 8px; font-size: 13px; color: var(--text); }
-.compliance-icon { color: var(--red); flex-shrink: 0; font-size: 14px; }
-.compliance-ok { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--green-d); border: 1px solid var(--green-b); border-radius: var(--rs); font-size: 13px; color: var(--green); }
+.compliance-ok { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--green-d); border: 1px solid var(--green-b); border-radius: var(--rs); font-size: 13px; color: var(--green); margin-bottom: 8px; }
+.compliance-warn { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; background: var(--red-d); border: 1px solid var(--red-b); border-radius: var(--rs); font-size: 13px; color: var(--text); margin-bottom: 8px; }
+.compliance-icon { flex-shrink: 0; }
 
 /* GAPS */
-.gap-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--rs); padding: 16px 18px; margin-bottom: 10px; }
-.gap-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
-.gap-evidence { font-size: 12px; color: var(--text2); margin-bottom: 6px; }
+.gap-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--rs); padding: 16px; margin-bottom: 10px; }
+.gap-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.gap-evidence { font-size: 12px; color: var(--text2); margin-bottom: 5px; }
 .gap-opp { font-size: 12px; color: var(--green); }
 
 /* MY LISTING */
-.listing-rec { background: var(--bg3); border: 1px solid rgba(249,115,22,.2); border-radius: var(--r); padding: 20px; margin-bottom: 16px; }
-.listing-title-rec { font-size: 14px; font-weight: 600; color: var(--accent); margin-bottom: 8px; }
-.listing-title-text { font-size: 14px; color: var(--text); line-height: 1.5; padding: 14px 16px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--rs); margin-bottom: 10px; font-weight: 500; }
-.keywords-row { display: flex; gap: 6px; flex-wrap: wrap; }
-.kw-tag { font-family: var(--font-mono); font-size: 11px; padding: 3px 9px; border-radius: 4px; background: rgba(249,115,22,.1); color: var(--accent); border: 1px solid rgba(249,115,22,.2); }
+.listing-section { background: var(--bg3); border: 1px solid rgba(249,115,22,.2); border-radius: var(--r); padding: 20px; margin-bottom: 16px; }
+.listing-section-title { font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 10px; }
+.title-box { font-size: 14px; font-weight: 500; color: var(--text); padding: 14px 16px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--rs); margin-bottom: 10px; line-height: 1.5; }
+.keywords { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+.kw { font-family: var(--font-mono); font-size: 11px; padding: 3px 9px; border-radius: 4px; background: rgba(249,115,22,.1); color: var(--accent); border: 1px solid rgba(249,115,22,.2); }
+.reasoning { font-size: 12px; color: var(--text2); font-style: italic; }
 
-.bullet-item { display: flex; gap: 14px; padding: 14px 16px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--rs); margin-bottom: 8px; }
-.bullet-num { font-size: 18px; font-weight: 700; color: var(--accent); opacity: .25; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+.bullet-card { display: flex; gap: 14px; padding: 14px 16px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--rs); margin-bottom: 8px; }
+.bullet-n { font-size: 18px; font-weight: 700; color: var(--accent); opacity: .25; flex-shrink: 0; line-height: 1; margin-top: 2px; }
 .bullet-text { font-size: 13px; color: var(--text); line-height: 1.6; margin-bottom: 4px; }
 .bullet-reason { font-size: 11px; color: var(--green); }
 
 /* ACTIONS */
-.action-item { display: flex; gap: 14px; background: var(--bg3); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 var(--rs) var(--rs) 0; padding: 16px 18px; margin-bottom: 10px; }
+.action-card { display: flex; gap: 14px; background: var(--bg3); border: 1px solid var(--border); border-left: 3px solid var(--green); border-radius: 0 var(--rs) var(--rs) 0; padding: 16px 18px; margin-bottom: 10px; }
 .action-n { font-size: 20px; font-weight: 700; color: var(--text2); opacity: .2; line-height: 1; flex-shrink: 0; }
-.action-pri { font-family: var(--font-mono); font-size: 9px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+.action-pri { font-family: var(--font-mono); font-size: 9px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
 .action-pri.Alta { color: var(--red); }
 .action-pri.Media { color: var(--amber); }
-.action-txt { font-size: 13px; color: var(--text); line-height: 1.55; margin-bottom: 5px; }
+.action-txt { font-size: 13px; color: var(--text); line-height: 1.55; margin-bottom: 4px; }
 .action-imp { font-size: 11px; color: var(--green); }
 
 @media (max-width: 600px) {
   .hdr { flex-direction: column; align-items: flex-start; gap: 12px; }
-  .steps { flex-wrap: wrap; gap: 8px; }
-  .step-sep { display: none; }
-  .field-row { grid-template-columns: 1fr; }
   .scores-grid { grid-template-columns: 1fr; }
   .tabs { flex-wrap: wrap; }
 }
@@ -250,91 +170,56 @@ textarea { resize: vertical; min-height: 110px; font-family: var(--font-mono); f
       <div class="logo">LI</div>
       <div class="brand-text">
         <h1>Listing Intel</h1>
-        <p>Amazon FBA · Análisis de Competencia y Listing</p>
+        <p>Análisis automático de competencia Amazon FBA</p>
       </div>
     </div>
     <div class="status"><div class="status-dot"></div>Live</div>
   </header>
 
-  <!-- STEPS -->
-  <div class="steps" id="steps">
-    <div class="step-item">
-      <div class="step-num active" id="sn1">1</div>
-      <span class="step-label active" id="sl1">Competidores</span>
-    </div>
-    <div class="step-sep"></div>
-    <div class="step-item">
-      <div class="step-num" id="sn2">2</div>
-      <span class="step-label" id="sl2">Datos & Contenido</span>
-    </div>
-    <div class="step-sep"></div>
-    <div class="step-item">
-      <div class="step-num" id="sn3">3</div>
-      <span class="step-label" id="sl3">Análisis IA</span>
-    </div>
-  </div>
+  <!-- INPUT -->
+  <div class="card" id="input-card">
+    <div class="card-title">Analiza a tu competencia</div>
+    <div class="card-sub">Introduce hasta 3 ASINs de competidores directos. La app extrae título, bullets y reseñas automáticamente y genera el informe completo.</div>
 
-  <!-- STEP 1: ASINs -->
-  <div id="step1">
-    <div class="card">
-      <div class="card-title">Introduce los ASINs de tus competidores</div>
-      <div class="card-sub">Añade entre 1 y 3 competidores directos. Puedes pegar el ASIN o la URL completa de Amazon.</div>
+    <div style="margin-bottom:20px">
+      <label class="flabel">Marketplace</label>
+      <select id="mk" style="max-width:220px">
+        <option value="es">Amazon España</option>
+        <option value="de">Amazon Alemania</option>
+        <option value="uk">Amazon UK</option>
+        <option value="it">Amazon Italia</option>
+        <option value="fr">Amazon Francia</option>
+        <option value="us">Amazon USA</option>
+      </select>
+    </div>
 
-      <div style="margin-bottom:16px">
-        <label class="flabel">Marketplace</label>
-        <select id="mk-select" style="max-width:240px">
-          <option value="es">Amazon España (ES)</option>
-          <option value="de">Amazon Alemania (DE)</option>
-          <option value="uk">Amazon UK</option>
-          <option value="it">Amazon Italia (IT)</option>
-          <option value="fr">Amazon Francia (FR)</option>
-          <option value="us">Amazon USA (US)</option>
-        </select>
-      </div>
-
-      <div id="asin-inputs">
-        <div class="asin-row" id="asin-row-0">
-          <div>
-            <label class="flabel">ASIN o URL — Competidor 1</label>
-            <input type="text" id="asin-0" placeholder="ej: B08XY1234Z o https://amazon.es/dp/B08XY1234Z">
-          </div>
-          <button class="btn btn-sm btn-fetch" onclick="fetchAsin(0)">Cargar →</button>
+    <div class="asin-list" id="asin-list">
+      <div id="asin-block-0">
+        <label class="flabel">Competidor 1 — ASIN o URL</label>
+        <div class="asin-row">
+          <input type="text" id="asin-0" placeholder="ej: B08XY1234Z o https://amazon.es/dp/B08XY1234Z">
+          <button class="btn btn-load" id="load-0" onclick="loadAsin(0)">Cargar →</button>
         </div>
-      </div>
-
-      <button class="btn btn-add" id="add-btn" onclick="addAsin()" style="margin-top:8px">
-        + Añadir otro competidor
-      </button>
-
-      <div style="margin-top:24px">
-        <label class="flabel">Tu producto (opcional)</label>
-        <input type="text" id="my-product" placeholder="ej: Alcachofa de ducha premium con filtro ABS">
-      </div>
-
-      <div class="err" id="err1"></div>
-      <button class="btn btn-accent" onclick="goStep2()">Continuar →</button>
-    </div>
-  </div>
-
-  <!-- STEP 2: Content -->
-  <div id="step2" style="display:none">
-    <div class="card">
-      <div class="card-title">Añade el contenido de cada competidor</div>
-      <div class="card-sub">Para cada ASIN cargado, pega los bullet points de su listing y las reseñas más relevantes. Cuanto más completo, mejor el análisis.</div>
-      <div id="content-blocks"></div>
-      <div class="err" id="err2"></div>
-      <div style="display:flex;gap:10px;margin-top:20px">
-        <button class="btn" onclick="goStep1()" style="flex:0 0 auto">← Atrás</button>
-        <button class="btn btn-accent" onclick="runAnalysis()" style="margin-top:0">Analizar con IA →</button>
+        <div class="asin-info" id="info-0"></div>
       </div>
     </div>
+
+    <button class="btn btn-add" id="add-btn" onclick="addRow()">+ Añadir competidor</button>
+
+    <div style="margin-top:20px">
+      <label class="flabel">Tu producto (opcional)</label>
+      <input type="text" id="my-product" placeholder="ej: Alcachofa de ducha premium filtro ABS">
+    </div>
+
+    <div class="err" id="main-err"></div>
+    <button class="btn btn-accent" id="analyze-btn" onclick="runAnalysis()">Analizar competencia →</button>
   </div>
 
   <!-- LOADER -->
   <div class="loader" id="loader">
     <div class="spinner"></div>
-    <div class="loader-title" id="loader-title">Analizando competidores...</div>
-    <div class="loader-sub">Esto puede tardar hasta 30 segundos</div>
+    <div class="loader-title" id="loader-title">Cargando datos...</div>
+    <div class="loader-sub">Extrayendo información de Amazon automáticamente</div>
     <div class="prog-list" id="prog-list"></div>
   </div>
 
@@ -342,15 +227,14 @@ textarea { resize: vertical; min-height: 110px; font-family: var(--font-mono); f
   <div id="results">
     <div class="res-header">
       <div>
-        <div class="res-title">Informe de Análisis Competitivo</div>
+        <div class="res-title">Informe de Competencia</div>
         <div class="res-meta" id="res-meta"></div>
       </div>
-      <button class="btn btn-sm" onclick="location.reload()">Nueva consulta</button>
+      <button class="btn" style="font-size:12px" onclick="location.reload()">Nueva consulta</button>
     </div>
 
-    <div id="summary-box" class="summary-box"></div>
-
-    <div class="scores-grid" id="scores-grid"></div>
+    <div id="summary" class="summary-box"></div>
+    <div class="scores-grid" id="scores"></div>
 
     <div class="tabs">
       <button class="tab on" onclick="st('tc-listings',this)">📋 Listings</button>
@@ -359,311 +243,242 @@ textarea { resize: vertical; min-height: 110px; font-family: var(--font-mono); f
       <button class="tab" onclick="st('tc-acciones',this)">⚡ Acciones</button>
     </div>
 
-    <div class="tc on" id="tc-listings"><div id="listings-content"></div></div>
-    <div class="tc" id="tc-gaps"><div id="gaps-content"></div></div>
-    <div class="tc" id="tc-milisting"><div id="milisting-content"></div></div>
-    <div class="tc" id="tc-acciones"><div id="acciones-content"></div></div>
+    <div class="tc on" id="tc-listings"></div>
+    <div class="tc" id="tc-gaps"></div>
+    <div class="tc" id="tc-milisting"></div>
+    <div class="tc" id="tc-acciones"></div>
   </div>
 
 </div>
 <script>
 const API_BASE = '';
 const $ = id => document.getElementById(id);
+let rowCount = 1;
+let loadedData = [null];
 
-let asinCount = 1;
-let loadedAsins = [{ asin: '', title: '', price: 'N/A', rating: null, reviews_count: 0, loaded: false }];
-
-// STEP NAVIGATION
-function setStep(n) {
-  [1,2,3].forEach(i => {
-    const num = $(`sn${i}`);
-    const lbl = $(`sl${i}`);
-    num.className = 'step-num' + (i < n ? ' done' : i === n ? ' active' : '');
-    if (i < n) num.innerText = '✓';
-    else num.innerText = i;
-    lbl.className = 'step-label' + (i === n ? ' active' : '');
-  });
-}
-
-function goStep1() {
-  $('step1').style.display = 'block';
-  $('step2').style.display = 'none';
-  setStep(1);
-}
-
-function goStep2() {
-  clearErr('err1');
-  const validAsins = loadedAsins.filter(a => a.asin);
-  if (validAsins.length === 0) return showErr('err1', 'Carga al menos un ASIN válido usando el botón "Cargar →"');
-
-  $('step1').style.display = 'none';
-  $('step2').style.display = 'block';
-  setStep(2);
-  renderContentBlocks(validAsins);
-}
-
-// ASIN MANAGEMENT
-function addAsin() {
-  if (asinCount >= 3) return;
-  const idx = asinCount;
-  loadedAsins.push({ asin: '', title: '', price: 'N/A', rating: null, reviews_count: 0, loaded: false });
-  const container = $('asin-inputs');
+function addRow() {
+  if (rowCount >= 3) return;
+  const i = rowCount;
+  loadedData.push(null);
+  const list = $('asin-list');
   const div = document.createElement('div');
-  div.className = 'asin-row';
-  div.id = `asin-row-${idx}`;
+  div.id = `asin-block-${i}`;
   div.innerHTML = `
-    <div style="flex:1">
-      <label class="flabel">ASIN o URL — Competidor ${idx + 1}</label>
-      <input type="text" id="asin-${idx}" placeholder="ej: B08XY1234Z o URL de Amazon">
+    <label class="flabel" style="margin-top:12px;display:block">Competidor ${i+1} — ASIN o URL</label>
+    <div class="asin-row">
+      <input type="text" id="asin-${i}" placeholder="ej: B08XY1234Z">
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-load" id="load-${i}" onclick="loadAsin(${i})">Cargar →</button>
+        <button class="btn" style="padding:10px 12px;font-size:12px;color:var(--text3)" onclick="removeRow(${i})">✕</button>
+      </div>
     </div>
-    <div style="display:flex;gap:6px;align-items:flex-end">
-      <button class="btn btn-sm btn-fetch" onclick="fetchAsin(${idx})">Cargar →</button>
-      <button class="btn btn-sm btn-remove" onclick="removeAsin(${idx})">✕</button>
-    </div>`;
-  container.appendChild(div);
-  asinCount++;
-  if (asinCount >= 3) $('add-btn').style.display = 'none';
+    <div class="asin-info" id="info-${i}"></div>`;
+  list.appendChild(div);
+  rowCount++;
+  if (rowCount >= 3) $('add-btn').style.display = 'none';
 }
 
-function removeAsin(idx) {
-  const row = $(`asin-row-${idx}`);
-  if (row) row.remove();
-  loadedAsins[idx] = { asin: '', title: '', price: 'N/A', rating: null, reviews_count: 0, loaded: false };
-  asinCount--;
+function removeRow(i) {
+  const block = $(`asin-block-${i}`);
+  if (block) block.remove();
+  loadedData[i] = null;
+  rowCount--;
   $('add-btn').style.display = 'flex';
 }
 
-async function fetchAsin(idx) {
-  const input = $(`asin-${idx}`);
-  const raw = input?.value?.trim();
-  if (!raw) return showErr('err1', 'Introduce un ASIN o URL primero');
+async function loadAsin(i) {
+  const raw = $(`asin-${i}`)?.value?.trim();
+  if (!raw) return showErr('main-err', 'Introduce un ASIN o URL primero');
+  clearErr('main-err');
 
-  const btn = document.querySelector(`#asin-row-${idx} .btn-fetch`);
-  if (btn) { btn.disabled = true; btn.innerText = 'Cargando...'; }
-  clearErr('err1');
+  const btn = $(`load-${i}`);
+  btn.disabled = true;
+  btn.innerText = 'Cargando...';
+
+  const info = $(`info-${i}`);
+  info.classList.remove('on');
 
   try {
-    const mk = $('mk-select').value;
+    const mk = $('mk').value;
     const res = await fetch(`${API_BASE}/api/get-asin`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ asin: raw, marketplace: mk })
     });
-
     const data = await res.json();
-    if (!data.success) throw new Error(data.error || 'Error al cargar ASIN');
+    if (!data.success) throw new Error(data.error);
 
     const p = data.product;
-    loadedAsins[idx] = { ...p, loaded: true };
+    loadedData[i] = p;
 
-    // Show loaded info below input
-    let info = document.getElementById(`asin-info-${idx}`);
-    if (!info) {
-      info = document.createElement('div');
-      info.id = `asin-info-${idx}`;
-      info.style.marginTop = '8px';
-      input.parentNode.appendChild(info);
-    }
+    const reviewCount = (p.reviews_auto || []).length;
+    const hasBullets = p.bullets && p.bullets.length > 0;
 
-    if (p.manual_required) {
-      info.innerHTML = `<div class="pill" style="display:inline-block;color:var(--amber);background:var(--amber-d);border-color:var(--amber-b)">⚠ Datos no disponibles — introduce el contenido manualmente en el paso 2</div>`;
-    } else {
-      info.innerHTML = `
-        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">
-          <span class="pill g">✓ ${p.asin}</span>
-          ${p.rating ? `<span class="pill g">★ ${p.rating}</span>` : ''}
-          ${p.reviews_count > 0 ? `<span class="pill">${p.reviews_count.toLocaleString('es-ES')} reseñas</span>` : ''}
-          ${p.price !== 'N/A' ? `<span class="pill">${p.price}</span>` : ''}
-        </div>
-        ${p.title ? `<div style="font-size:12px;color:var(--text2);margin-top:6px;line-height:1.4">${p.title.substring(0,100)}${p.title.length>100?'...':''}</div>` : ''}`;
-    }
+    info.classList.add('on');
+    info.innerHTML = `
+      <div class="asin-info-title">${p.title || p.asin}</div>
+      <div class="asin-pills">
+        <span class="pill g">✓ ${p.asin}</span>
+        ${p.rating ? `<span class="pill g">★ ${p.rating}</span>` : ''}
+        ${p.reviews_count > 0 ? `<span class="pill">${p.reviews_count.toLocaleString('es-ES')} reseñas</span>` : ''}
+        ${p.price !== 'N/A' ? `<span class="pill">${p.price}</span>` : ''}
+        ${hasBullets ? `<span class="pill g">Bullets ✓</span>` : `<span class="pill r">Sin bullets</span>`}
+        ${reviewCount > 0 ? `<span class="pill g">${reviewCount} reseñas cargadas ✓</span>` : `<span class="pill r">Sin reseñas</span>`}
+      </div>`;
 
-    if (btn) { btn.innerText = '✓ Cargado'; btn.style.background = 'var(--green-d)'; btn.style.color = 'var(--green)'; btn.style.borderColor = 'var(--green-b)'; }
+    btn.innerText = '✓ Cargado';
+    btn.style.background = 'var(--green-d)';
+    btn.style.color = 'var(--green)';
+    btn.style.borderColor = 'var(--green-b)';
 
   } catch (e) {
-    // Still allow manual entry
-    loadedAsins[idx] = { asin: raw.match(/[A-Z0-9]{10}/i)?.[0]?.toUpperCase() || raw, title: '', price: 'N/A', rating: null, reviews_count: 0, loaded: false, manual_required: true };
-    if (btn) { btn.disabled = false; btn.innerText = 'Cargar →'; }
-    let info = document.getElementById(`asin-info-${idx}`);
-    if (!info) { info = document.createElement('div'); info.id = `asin-info-${idx}`; info.style.marginTop = '8px'; input.parentNode.appendChild(info); }
-    info.innerHTML = `<div class="pill" style="display:inline-block;color:var(--amber);background:var(--amber-d);border-color:var(--amber-b)">⚠ Introduce el contenido manualmente</div>`;
+    btn.disabled = false;
+    btn.innerText = 'Cargar →';
+    showErr('main-err', '⚠ ' + e.message);
   }
 }
 
-function renderContentBlocks(asins) {
-  const container = $('content-blocks');
-  container.innerHTML = asins.map((a, i) => `
-    <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
-        <span style="font-family:var(--font-mono);font-size:11px;color:var(--accent)">COMPETIDOR ${i+1}</span>
-        <span style="font-family:var(--font-mono);font-size:11px;color:var(--text2)">${a.asin}</span>
-        ${a.title ? `<span style="font-size:12px;color:var(--text2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${a.title.substring(0,60)}...</span>` : ''}
-      </div>
-      <div class="field-single">
-        <label class="flabel">Bullet points del listing</label>
-        <textarea id="bullets-${i}" placeholder="Copia y pega los 5 bullet points del listing de este competidor desde Amazon.&#10;&#10;• Bullet 1&#10;• Bullet 2&#10;• Bullet 3..."></textarea>
-      </div>
-      <div class="field-single">
-        <label class="flabel">Reseñas (1★ a 5★)</label>
-        <textarea id="reviews-${i}" placeholder="Copia las reseñas más relevantes (especialmente 1★, 2★ y 5★).&#10;&#10;[1★] El producto se rompió al mes...&#10;[5★] Excelente calidad, muy contento..."></textarea>
-      </div>
-    </div>`).join('');
-}
-
-// ANALYSIS
 async function runAnalysis() {
-  clearErr('err2');
-  const validAsins = loadedAsins.filter(a => a.asin);
+  clearErr('main-err');
+  const validData = loadedData.filter(d => d && d.asin);
 
-  const competitors = validAsins.map((a, i) => ({
-    ...a,
-    bullets: $(`bullets-${i}`)?.value?.trim() || '',
-    reviews: $(`reviews-${i}`)?.value?.trim() || ''
-  }));
+  if (validData.length === 0) {
+    return showErr('main-err', 'Carga al menos un ASIN con el botón "Cargar →" primero');
+  }
 
-  const hasSomeContent = competitors.some(c => c.bullets || c.reviews);
-  if (!hasSomeContent) return showErr('err2', 'Añade al menos los bullet points o reseñas de un competidor');
+  const myProduct = $('my-product')?.value?.trim();
 
-  $('step2').style.display = 'none';
+  $('input-card').style.display = 'none';
   $('loader').classList.add('on');
   $('results').style.display = 'none';
   $('prog-list').innerHTML = '';
 
-  const my_product = $('my-product')?.value?.trim();
-  setStep(3);
+  addProg(`Preparando ${validData.length} competidor${validData.length > 1 ? 'es' : ''}...`);
 
-  addProg('Preparando datos de competidores...');
-  await delay(600);
-  addProg('Enviando a análisis IA...');
+  // Build competitors payload
+  const competitors = validData.map(p => ({
+    asin: p.asin,
+    title: p.title || '',
+    price: p.price || 'N/A',
+    rating: p.rating,
+    reviews_count: p.reviews_count || 0,
+    brand: p.brand || '',
+    bullets: p.bullets || '',
+    reviews: (p.reviews_auto || []).map(r => `[${r.stars}★] ${r.review_text}`).join('\n')
+  }));
 
   try {
+    addProg('Analizando con IA...');
+    $('loader-title').innerText = 'Analizando con IA...';
+
     const res = await fetch(`${API_BASE}/api/analyze-listing`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ competitors, my_product })
+      body: JSON.stringify({ competitors, my_product: myProduct })
     });
 
     const data = await res.json();
     if (!res.ok || !data.success) throw new Error(data.error || 'Error en el análisis');
 
-    addProg('Generando informe...', 'ok');
-    await delay(400);
+    addProg('Informe generado', 'ok');
+    await new Promise(r => setTimeout(r, 300));
     renderResults(data.analysis, competitors);
 
   } catch (e) {
     $('loader').classList.remove('on');
-    $('step2').style.display = 'block';
-    setStep(2);
-    showErr('err2', '⚠ ' + e.message);
+    $('input-card').style.display = 'block';
+    showErr('main-err', '⚠ ' + e.message);
   }
 }
 
 function renderResults(data, competitors) {
   $('loader').classList.remove('on');
   $('results').style.display = 'block';
-  $('res-meta').innerText = `${competitors.length} competidores analizados · ${new Date().toLocaleDateString('es-ES')}`;
+  $('res-meta').innerText = `${competitors.length} competidor${competitors.length>1?'es':''} · ${new Date().toLocaleDateString('es-ES')}`;
 
-  $('summary-box').innerText = data.executive_summary || '';
+  $('summary').innerText = data.executive_summary || '';
 
-  // Scores grid
-  $('scores-grid').innerHTML = (data.competitors || []).map(c => {
-    const tCls = c.title_score >= 7 ? 'sb-l' : c.title_score >= 4 ? 'sb-m' : 'sb-h';
-    const bCls = c.bullet_score >= 7 ? 'sb-l' : c.bullet_score >= 4 ? 'sb-m' : 'sb-h';
-    const oCls = c.overall_score >= 7 ? 'sb-l' : c.overall_score >= 4 ? 'sb-m' : 'sb-h';
+  // Scores
+  $('scores').innerHTML = (data.competitors || []).map(c => {
+    const tC = c.title_score >= 7 ? 'var(--green)' : c.title_score >= 4 ? 'var(--amber)' : 'var(--red)';
+    const bC = c.bullet_score >= 7 ? 'var(--green)' : c.bullet_score >= 4 ? 'var(--amber)' : 'var(--red)';
     return `<div class="score-card">
-      <div class="score-top">
-        <div>
-          <div class="score-asin">${c.asin}</div>
-        </div>
-        <div class="score-badges">
-          <div class="score-badge ${oCls}" title="Score global">${c.overall_score}</div>
-        </div>
-      </div>
+      <div class="score-asin">${c.asin}</div>
+      <div class="score-title-text">${competitors.find(x=>x.asin===c.asin)?.title?.substring(0,80) || c.asin}...</div>
       <div class="score-row">
         <span class="score-lbl">Título</span>
-        <div class="score-bar"><div class="score-fill" style="width:${c.title_score*10}%;background:${c.title_score>=7?'var(--green)':c.title_score>=4?'var(--amber)':'var(--red)'}"></div></div>
-        <span class="score-num-sm">${c.title_score}</span>
+        <div class="score-bar"><div class="score-fill" style="width:${c.title_score*10}%;background:${tC}"></div></div>
+        <span class="score-num">${c.title_score}</span>
       </div>
       <div class="score-row">
         <span class="score-lbl">Bullets</span>
-        <div class="score-bar"><div class="score-fill" style="width:${c.bullet_score*10}%;background:${c.bullet_score>=7?'var(--green)':c.bullet_score>=4?'var(--amber)':'var(--red)'}"></div></div>
-        <span class="score-num-sm">${c.bullet_score}</span>
+        <div class="score-bar"><div class="score-fill" style="width:${c.bullet_score*10}%;background:${bC}"></div></div>
+        <span class="score-num">${c.bullet_score}</span>
       </div>
       <div class="score-weakness">⚠ ${c.main_weakness}</div>
       <div class="score-strength">✓ ${c.main_strength}</div>
     </div>`;
   }).join('');
 
-  // Listings analysis
-  $('listings-content').innerHTML = (data.competitors || []).map(c => `
-    <div class="comp-analysis">
-      <div class="comp-analysis-hdr">
-        <span style="font-family:var(--font-mono);font-size:12px;color:var(--text2)">${c.asin}</span>
+  // Listings
+  $('tc-listings').innerHTML = (data.competitors || []).map(c => `
+    <div class="comp-panel">
+      <div class="comp-panel-hdr">
+        <span style="font-family:var(--font-mono);font-size:11px;color:var(--text2)">${c.asin}</span>
         <div style="display:flex;gap:6px">
           <span class="pill ${c.title_score>=7?'g':''}">Título: ${c.title_score}/10</span>
           <span class="pill ${c.bullet_score>=7?'g':''}">Bullets: ${c.bullet_score}/10</span>
         </div>
       </div>
-      <div class="comp-analysis-body">
-        <div class="analysis-section">
-          <div class="analysis-section-title">Análisis del Título</div>
-          <div class="analysis-text">${c.title_analysis}</div>
-        </div>
-        <div class="analysis-section">
-          <div class="analysis-section-title">Análisis de Bullets</div>
-          <div class="analysis-text">${c.bullet_analysis}</div>
-        </div>
-        <div class="analysis-section">
-          <div class="analysis-section-title">Cumplimiento de Políticas Amazon</div>
-          ${c.compliance_issues && c.compliance_issues.length > 0
-            ? c.compliance_issues.map(issue => `<div class="compliance-item"><span class="compliance-icon">⚠</span>${issue}</div>`).join('')
-            : '<div class="compliance-ok">✓ No se detectaron violaciones de políticas</div>'}
-        </div>
+      <div class="comp-panel-body">
+        <div class="section-label">Análisis del Título</div>
+        <div class="section-text">${c.title_analysis}</div>
+        <div class="section-label">Análisis de Bullets</div>
+        <div class="section-text">${c.bullet_analysis}</div>
+        <div class="section-label">Políticas Amazon</div>
+        ${c.compliance_issues?.length > 0
+          ? c.compliance_issues.map(x => `<div class="compliance-warn"><span class="compliance-icon">⚠</span>${x}</div>`).join('')
+          : '<div class="compliance-ok">✓ Sin violaciones detectadas</div>'}
       </div>
     </div>`).join('');
 
   // Gaps
-  $('gaps-content').innerHTML = (data.market_gaps || []).map(g => `
+  $('tc-gaps').innerHTML = (data.market_gaps || []).map(g => `
     <div class="gap-card">
       <div class="gap-title">${g.gap}</div>
       <div class="gap-evidence">Evidencia: ${g.evidence}</div>
       <div class="gap-opp">💡 ${g.opportunity}</div>
     </div>`).join('');
 
-  // My listing
+  // Mi listing
   const rec = data.my_listing_recommendations;
-  if (rec) {
-    $('milisting-content').innerHTML = `
-      <div class="listing-rec">
-        <div class="listing-title-rec">📌 Título recomendado</div>
-        <div class="listing-title-text">${rec.title?.recommended || ''}</div>
-        <div style="margin-bottom:8px">
-          <div class="analysis-section-title" style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--text2);margin-bottom:8px">Keywords clave detectadas</div>
-          <div class="keywords-row">${(rec.title?.keywords_to_use || []).map(k => `<span class="kw-tag">${k}</span>`).join('')}</div>
-        </div>
-        <div style="font-size:12px;color:var(--text2);font-style:italic">${rec.title?.reasoning || ''}</div>
-      </div>
-      <div style="margin-bottom:20px">
-        <div class="listing-title-rec" style="margin-bottom:12px">📝 Bullets recomendados</div>
-        ${(rec.bullets || []).map((b, i) => `
-          <div class="bullet-item">
-            <div class="bullet-num">B${i+1}</div>
-            <div>
-              <div class="bullet-text">${b.bullet}</div>
-              <div class="bullet-reason">→ ${b.reasoning}</div>
-            </div>
-          </div>`).join('')}
-      </div>
-      ${rec.compliance_warnings && rec.compliance_warnings.length > 0 ? `
-      <div>
-        <div class="listing-title-rec" style="color:var(--red);margin-bottom:10px">🚫 Prohibido en tu listing</div>
-        ${rec.compliance_warnings.map(w => `<div class="compliance-item"><span class="compliance-icon">✕</span>${w}</div>`).join('')}
-      </div>` : ''}`;
-  }
+  $('tc-milisting').innerHTML = rec ? `
+    <div class="listing-section">
+      <div class="listing-section-title">📌 Título recomendado</div>
+      <div class="title-box">${rec.title?.recommended || ''}</div>
+      <div class="keywords">${(rec.title?.keywords_to_use||[]).map(k=>`<span class="kw">${k}</span>`).join('')}</div>
+      <div class="reasoning">${rec.title?.reasoning || ''}</div>
+    </div>
+    <div class="listing-section">
+      <div class="listing-section-title">📝 Bullets recomendados</div>
+      ${(rec.bullets||[]).map((b,i)=>`
+        <div class="bullet-card">
+          <div class="bullet-n">B${i+1}</div>
+          <div>
+            <div class="bullet-text">${b.bullet}</div>
+            <div class="bullet-reason">→ ${b.reasoning}</div>
+          </div>
+        </div>`).join('')}
+    </div>
+    ${rec.compliance_warnings?.length > 0 ? `
+    <div class="listing-section" style="border-color:rgba(239,68,68,.2)">
+      <div class="listing-section-title" style="color:var(--red)">🚫 Prohibido en tu listing</div>
+      ${rec.compliance_warnings.map(w=>`<div class="compliance-warn"><span class="compliance-icon">✕</span>${w}</div>`).join('')}
+    </div>` : ''}` : '<p style="color:var(--text2);padding:20px">No se generaron recomendaciones.</p>';
 
   // Actions
-  $('acciones-content').innerHTML = (data.actions || []).map((a, i) => `
-    <div class="action-item" style="border-left-color:${a.priority === 'Alta' ? 'var(--red)' : 'var(--amber)'}">
+  $('tc-acciones').innerHTML = (data.actions||[]).map((a,i)=>`
+    <div class="action-card" style="border-left-color:${a.priority==='Alta'?'var(--red)':'var(--amber)'}">
       <div class="action-n">${String(i+1).padStart(2,'0')}</div>
       <div>
         <div class="action-pri ${a.priority}">${a.priority} Prioridad</div>
@@ -684,16 +499,15 @@ function st(id, btn) {
 
 function addProg(text, state) {
   const list = $('prog-list');
-  list.querySelectorAll('.prog-item.on').forEach(el => { el.className = 'prog-item ok'; el.innerText = '✓ ' + el.innerText.replace('→ ', ''); });
+  list.querySelectorAll('.prog-item.on').forEach(el => { el.className = 'prog-item ok'; el.innerText = '✓ ' + el.innerText.replace('→ ',''); });
   const el = document.createElement('div');
   el.className = 'prog-item ' + (state || 'on');
   el.innerText = (state !== 'ok' ? '→ ' : '') + text;
   list.appendChild(el);
 }
 
-function showErr(id, m) { const e = $(id); if (e) { e.innerText = m; e.classList.add('on'); } }
-function clearErr(id) { const e = $(id); if (e) e.classList.remove('on'); }
-function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+function showErr(id, m) { const e=$(id); if(e){e.innerText=m;e.classList.add('on');} }
+function clearErr(id) { const e=$(id); if(e) e.classList.remove('on'); }
 </script>
 </body>
 </html>
