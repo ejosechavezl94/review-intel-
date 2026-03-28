@@ -6,31 +6,42 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { asin, marketplace = 'es', limit = 100 } = req.body;
+  let { asin, marketplace = 'es', limit = 100 } = req.body;
 
+  // --- LÓGICA DE LIMPIEZA "ANTI-ERRORES" ---
   if (!asin) return res.status(400).json({ error: 'ASIN is required' });
+
+  // 1. Buscamos el patrón de un ASIN (10 caracteres alfanuméricos que suelen empezar por B)
+  // Esto permite que si pegas "asin: B0CGHXYM1Y" o "  b0cghxym1y  ", el código extraiga solo el ID.
+  const asinMatch = asin.match(/[A-Z0-9]{10}/i);
+  if (!asinMatch) {
+    return res.status(400).json({ error: `El formato del ASIN "${asin}" no es válido.` });
+  }
+  
+  // 2. Lo pasamos siempre a Mayúsculas y quitamos espacios (Imprescindible para la API)
+  const cleanAsin = asinMatch[0].toUpperCase();
 
   const DATAFORSEO_LOGIN = process.env.DATAFORSEO_LOGIN;
   const DATAFORSEO_PASSWORD = process.env.DATAFORSEO_PASSWORD;
 
   if (!DATAFORSEO_LOGIN || !DATAFORSEO_PASSWORD) {
-    return res.status(500).json({ error: 'DataForSEO credentials not configured in Vercel' });
+    return res.status(500).json({ error: 'Credenciales de DataForSEO no configuradas en Vercel.' });
   }
 
-  // Map marketplace to DataForSEO locale for Merchant API
+  // Configuración de Marketplace
   const marketplaceConfig = {
-    es: { location_code: 2724, locale: 'en_ES' }, // Reviews are usually in local language, let's use the standard locale
-    de: { location_code: 2276, locale: 'de_DE' },
-    uk: { location_code: 2826, locale: 'en_GB' },
-    it: { location_code: 2380, locale: 'it_IT' },
-    fr: { location_code: 2250, locale: 'fr_FR' },
+    es: { location_code: 2724, domain: 'amazon.es' },
+    de: { location_code: 2276, domain: 'amazon.de' },
+    uk: { location_code: 2826, domain: 'amazon.co.uk' },
+    it: { location_code: 2380, domain: 'amazon.it' },
+    fr: { location_code: 2250, domain: 'amazon.fr' },
+    us: { location_code: 2840, domain: 'amazon.com' }
   };
 
   const config = marketplaceConfig[marketplace] || marketplaceConfig.es;
   const credentials = Buffer.from(`${DATAFORSEO_LOGIN}:${DATAFORSEO_PASSWORD}`).toString('base64');
 
   try {
-    // Usamos el endpoint específico de Reseñas de DataForSEO
     const response = await fetch('https://api.dataforseo.com/v3/merchant/amazon/reviews/live', {
       method: 'POST',
       headers: {
@@ -38,45 +49,55 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify([{
-        asin,
+        asin: cleanAsin,
         location_code: config.location_code,
-        depth: limit, // Número máximo de reviews a descargar (DataForSEO cobra por bloque de 100)
-        sort_by: 'recent' // Nos interesan las más actuales
+        depth: limit,
+        sort_by: 'recent'
       }]),
     });
 
     const data = await response.json();
 
+    // --- MANEJO DE ERRORES DETALLADO ---
     if (!response.ok || data.status_code !== 20000) {
-      console.error("Error devuelto por DataForSEO (Reviews):", JSON.stringify(data, null, 2));
-      const errMsg = data?.tasks?.[0]?.status_message || data?.status_message || 'Error desconocido';
-      const errCode = data?.status_code || response.status;
-      return res.status(500).json({ error: `Fallo DataForSEO Reviews: ${errMsg} (Código: ${errCode})` });
+      const statusMsg = data?.status_message || "Error de conexión";
+      const taskMsg = data?.tasks?.[0]?.status_message || "";
+      
+      // Si la API dice que no encontró el ASIN, lo reportamos amigablemente
+      if (statusMsg.includes("not found") || taskMsg.includes("not found")) {
+        return res.status(404).json({ error: `El ASIN ${cleanAsin} no existe en Amazon ${config.domain}.` });
+      }
+
+      return res.status(500).json({ 
+        error: `DataForSEO: ${statusMsg} | ${taskMsg}`,
+        status_code: data?.status_code 
+      });
     }
 
-    // Procesamos y limpiamos las reseñas
     const items = data?.tasks?.[0]?.result?.[0]?.items || [];
     
-    // Limpiamos la reseña: extraemos estrellas, limpiamos el HTML del texto, etc.
+    // Si no hay reseñas, devolvemos un error específico para que el frontend lo sepa
+    if (items.length === 0) {
+      return res.status(404).json({ error: `No se encontraron reseñas para el ASIN ${cleanAsin}.` });
+    }
+
     const cleanReviews = items
-      .filter(item => item.type === 'amazon_review') // Nos aseguramos de que es una reseña y no un anuncio
+      .filter(item => item.type === 'amazon_review')
       .map(item => ({
         timestamp: item.timestamp,
-        review_text: item.review_text?.replace(/<[^>]*>?/gm, '').trim() || '', // Limpiamos HTML
+        review_text: item.review_text?.replace(/<[^>]*>?/gm, '').trim() || '',
         stars: item.rating?.value || 0,
-        verified: item.is_verified || false,
-        variant: item.variant?.trim() || null // Útil para productos con tallas/colores
+        verified: item.is_verified || false
       }));
 
     return res.status(200).json({
       success: true,
-      asin,
+      asin: cleanAsin,
       total_found: cleanReviews.length,
       reviews: cleanReviews,
     });
 
   } catch (err) {
-    console.error("Error en get-reviews catch:", err);
-    return res.status(500).json({ error: `Error interno de servidor: ${err.message}` });
+    return res.status(500).json({ error: `Fallo crítico: ${err.message}` });
   }
 }
