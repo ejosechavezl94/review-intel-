@@ -1,8 +1,8 @@
 {
   "version": 2,
   "routes": [
-    { "src": "/api/search", "dest": "/search.js" },
-    { "src": "/api/analyze", "dest": "/analyze.js" },
+    { "src": "/api/search", "dest": "/api/search.js" },
+    { "src": "/api/analyze", "dest": "/api/analyze.js" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
