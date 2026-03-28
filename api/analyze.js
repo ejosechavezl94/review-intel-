@@ -6,10 +6,11 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { reviews, product_context, competitor_name } = req.body;
+  // Recibiremos un bloque de texto consolidado con reseñas de varios ASINs
+  const { reviewsData, product_context } = req.body;
 
-  if (!reviews || reviews.trim().length < 30) {
-    return res.status(400).json({ error: 'Reviews text too short' });
+  if (!reviewsData || reviewsData.trim().length < 50) {
+    return res.status(400).json({ error: 'Reviews text too short or missing' });
   }
 
   const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
@@ -18,73 +19,67 @@ export default async function handler(req, res) {
   }
 
   const prompt = `Eres un experto en Amazon FBA y análisis de competencia para Private Label.
-Analiza estas reseñas del competidor "${competitor_name || 'Desconocido'}"${product_context ? ` (producto: ${product_context})` : ''}.
+Tu objetivo es analizar un conjunto de reseñas pertenecientes a VARIOS competidores (identificados por su ASIN) y extraer conclusiones claras y accionables.
+${product_context ? `\nContexto del producto a lanzar: ${product_context}\n` : ''}
+A continuación se presentan las reseñas extraídas, agrupadas por ASIN:
 
-RESEÑAS:
-${reviews}
+${reviewsData}
+
+CLASIFICACIÓN ESTRICTA DE TEMAS:
+Al analizar, debes clasificar cada problema, queja o ventaja detectada en una de estas categorías EXACTAS:
+1. Tamaño / fit / medidas
+2. Materiales / calidad
+3. Durabilidad / se rompe pronto
+4. Uso / funcionamiento (no hace lo que promete)
+5. Packaging / envase
+6. Instrucciones / manual / experiencia de uso
+7. Envío / tiempo de entrega
+8. Servicio postventa / soporte
+9. Precio / valor percibido
+10. Otros
 
 Devuelve SOLO un JSON válido con esta estructura exacta, sin markdown ni texto extra:
 
 {
-  "summary": "Resumen ejecutivo de 4-5 líneas: estado general del competidor, principales debilidades y oportunidades para superarlo.",
-  "stats": {
-    "total_analyzed": número estimado de reviews analizadas,
-    "sentiment_negative_pct": porcentaje negativo (0-100),
-    "sentiment_positive_pct": porcentaje positivo (0-100),
-    "main_weakness": "La debilidad principal en 5-8 palabras"
-  },
-  "problems": [
+  "summary": "Resumen ejecutivo de 5-10 líneas: estado general de los competidores, problemas comunes en el mercado y la gran oportunidad para un nuevo producto.",
+  "competitor_scores": [
     {
-      "stars": "1 o 2",
-      "text": "Paráfrasis representativa de queja real",
-      "themes": ["tema principal", "tema secundario"],
-      "severity": "alta | media"
+      "asin": "ASIN del competidor",
+      "main_weakness": "Debilidad principal (ej: Falla mucho en tamaño)",
+      "best_feature": "Lo que mejor hacen",
+      "weakness_score": número 1-10 (10 = debilidad muy grave, alta oportunidad para superarlo)
     }
   ],
-  "positives": [
+  "comparison_table": [
     {
-      "stars": "4 o 5",
-      "text": "Paráfrasis representativa de elogio real",
-      "themes": ["tema"],
-      "emulate": true
+      "topic": "Nombre exacto de la categoría (ej: Materiales / calidad)",
+      "worst_asin": "ASIN con más quejas o peor desempeño aquí",
+      "best_asin": "ASIN mejor valorado o con menos quejas aquí",
+      "insight": "Breve explicación del patrón detectado"
     }
   ],
-  "patterns": [
+  "patterns_and_gaps": [
     {
-      "title": "Nombre del patrón detectado",
-      "description": "Qué pasa exactamente y por qué importa para tu producto",
-      "type": "bad | good | neutral",
-      "count": número de menciones estimadas,
-      "pct": porcentaje del total (0-100),
-      "opportunity": "Cómo puedes aprovecharlo en tu producto"
-    }
-  ],
-  "scores": [
-    {
-      "topic": "Tema (ej: Calidad material, Durabilidad, Packaging)",
-      "frequency": "Alta | Media | Baja",
-      "severity": "Alta | Media | Baja",
-      "competitor_score": número 1-10 (10 = muy mal para el competidor),
-      "your_opportunity": número 1-10 (10 = gran oportunidad para ti)
+      "theme": "Categoría exacta",
+      "pattern": "Patrón repetido (ej: Todos se rompen a las 2 semanas o tienen instrucciones confusas)",
+      "star_range": "1-2 estrellas | 3-4 estrellas",
+      "opportunity": "Cómo solucionar este gap específicamente en el nuevo producto"
     }
   ],
   "actions": [
     {
-      "category": "CATEGORÍA EN MAYÚSCULAS (ej: PRODUCTO, PACKAGING, COMUNICACIÓN)",
-      "priority": "alta | media",
-      "action": "Acción específica y concreta que debes tomar antes de lanzar",
-      "impact": "Por qué esto te dará ventaja competitiva real"
+      "priority": "Alta | Media",
+      "action": "Acción hiper-específica para el producto o comunicación (ej: Reforzar costura X, añadir diagrama de medidas)",
+      "impact": "Por qué esto dará ventaja competitiva real frente a los ASINs analizados"
     }
   ]
 }
 
 Reglas:
-- problems: 3-6 quejas más representativas
-- positives: 2-4 elogios más representativas
-- patterns: 4-7 patrones ordenados por frecuencia
-- scores: 4-6 temas clave
-- actions: 3-5 acciones concretas y accionables
-- Sé específico. Nada genérico. Todo orientado a Private Label pre-lanzamiento.`;
+- Sé implacable en el análisis de las debilidades.
+- Compara siempre: busca qué falla en casi todos los ASINs (ese es el gap de mercado).
+- Diferencia quejas graves (defectos, 1-2 estrellas) de fricciones (3-4 estrellas).
+- La salida debe ser estrictamente JSON parseable. Nada de texto antes ni después.`;
 
   try {
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -94,11 +89,11 @@ Reglas:
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
-        max_tokens: 2000,
-        temperature: 0.3,
+        model: 'gpt-4o', 
+        max_tokens: 3000,
+        temperature: 0.2, // Temperatura baja para que sea analítico y estricto con el JSON
         messages: [
-          { role: 'system', content: 'Eres un experto en Amazon FBA. Respondes SOLO con JSON válido, sin markdown ni texto extra.' },
+          { role: 'system', content: 'Eres un analista de datos FBA. Devuelves SOLO un JSON válido. Cero formato markdown, cero explicaciones.' },
           { role: 'user', content: prompt },
         ],
       }),
@@ -114,6 +109,7 @@ Reglas:
     return res.status(200).json({ success: true, analysis: parsed });
 
   } catch (err) {
+    console.error("Error en analyze.js:", err);
     return res.status(500).json({ error: err.message });
   }
 }
