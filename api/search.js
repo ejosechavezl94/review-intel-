@@ -47,10 +47,17 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
+    // --- AQUÍ ESTÁ LA CORRECCIÓN CLAVE ---
     if (!response.ok || data.status_code !== 20000) {
-      const errMsg = data?.tasks?.[0]?.status_message || 'DataForSEO API error';
-      return res.status(500).json({ error: errMsg });
+      console.error("Error devuelto por DataForSEO:", JSON.stringify(data, null, 2));
+      
+      // Captura el mensaje de error ya sea que venga dentro de 'tasks' o en la raíz de la respuesta
+      const errMsg = data?.tasks?.[0]?.status_message || data?.status_message || 'Error desconocido en la API';
+      const errCode = data?.status_code || response.status;
+      
+      return res.status(500).json({ error: `Fallo DataForSEO: ${errMsg} (Código: ${errCode})` });
     }
+    // -------------------------------------
 
     const items = data?.tasks?.[0]?.result?.[0]?.items || [];
 
@@ -82,6 +89,7 @@ export default async function handler(req, res) {
     });
 
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    console.error("Error en el bloque catch:", err);
+    return res.status(500).json({ error: `Error interno: ${err.message}` });
   }
 }
