@@ -1,669 +1,321 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Listing Intel — Amazon FBA</title>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-:root {
-  --bg: #09090b; --bg2: #111113; --bg3: #18181b;
-  --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.12);
-  --text: #fafafa; --text2: #a1a1aa; --text3: #52525b;
-  --accent: #f97316; --accent2: #ea580c;
-  --green: #10b981; --green-d: rgba(16,185,129,0.1); --green-b: rgba(16,185,129,0.2);
-  --red: #ef4444; --red-d: rgba(239,68,68,0.1); --red-b: rgba(239,68,68,0.2);
-  --amber: #f59e0b; --amber-d: rgba(245,158,11,0.1); --amber-b: rgba(245,158,11,0.2);
-  --blue: #3b82f6; --blue-d: rgba(59,130,246,0.1); --blue-b: rgba(59,130,246,0.2);
-  --purple: #8b5cf6; --purple-d: rgba(139,92,246,0.1); --purple-b: rgba(139,92,246,0.2);
-  --r: 12px; --rs: 8px; --font-mono: 'Geist Mono', monospace;
-}
+module.exports = async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-body { background: #07070f; color: var(--text); font-family: 'Geist', system-ui, sans-serif; font-size: 14px; line-height: 1.6; min-height: 100vh; position: relative; }
-
-.aurora-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-.aurora-layer { position: absolute; inset: -20%; background: radial-gradient(ellipse 75% 55% at 18% 28%, rgba(249,115,22,0.13) 0%, transparent 60%), radial-gradient(ellipse 55% 75% at 82% 72%, rgba(99,60,180,0.16) 0%, transparent 60%), radial-gradient(ellipse 45% 45% at 52% 48%, rgba(16,185,129,0.07) 0%, transparent 55%); animation: auroraShift 14s ease-in-out infinite alternate; filter: blur(50px); }
-@keyframes auroraShift { 0%{transform:scale(1) translate(0%,0%)} 33%{transform:scale(1.06) translate(2%,-2%)} 66%{transform:scale(1.03) translate(-1%,3%)} 100%{transform:scale(1) translate(-2%,1%)} }
-.aurora-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px), linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px); background-size: 64px 64px; }
-.aurora-noise { position: absolute; inset: 0; opacity: 0.035; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 220px 220px; }
-
-.wrap { max-width: 900px; margin: 0 auto; padding: 52px 20px 100px; position: relative; z-index: 1; }
-
-/* HEADER */
-.hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; }
-.brand { display: flex; align-items: center; gap: 14px; }
-.logo { width: 42px; height: 42px; background: var(--accent); border-radius: 11px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 16px; box-shadow: 0 0 24px rgba(249,115,22,0.35); }
-.brand-text h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.4px; }
-.brand-text p { font-size: 12px; color: var(--text2); margin-top: 2px; }
-.status { font-family: var(--font-mono); font-size: 11px; color: var(--green); display: flex; align-items: center; gap: 6px; }
-.status-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); animation: blink 2s ease infinite; }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
-
-/* CARD */
-.card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 28px; margin-bottom: 16px; }
-.card-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
-.card-sub { font-size: 13px; color: var(--text2); margin-bottom: 24px; line-height: 1.6; }
-.flabel { display: block; font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); margin-bottom: 8px; }
-
-input[type=text], select { width: 100%; background: var(--bg3); border: 1px solid var(--border); border-radius: var(--rs); color: var(--text); font-family: 'Geist', sans-serif; font-size: 14px; padding: 11px 14px; outline: none; transition: border-color .15s, box-shadow .15s; }
-input[type=text]:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(249,115,22,.1); }
-input::placeholder { color: var(--text3); }
-select { appearance: none; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%2352525b' d='M5 6L0 0h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
-select option { background: var(--bg3); }
-
-.asin-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-.asin-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; }
-.asin-info { background: var(--bg3); border: 1px solid var(--green-b); border-radius: var(--rs); padding: 10px 14px; margin-top: 6px; display: none; }
-.asin-info.on { display: block; }
-.asin-info-title { font-size: 12px; font-weight: 500; color: var(--text); margin-bottom: 6px; line-height: 1.4; }
-.asin-pills { display: flex; gap: 5px; flex-wrap: wrap; }
-.pill { font-size: 11px; padding: 2px 8px; border-radius: 20px; border: 1px solid var(--border2); color: var(--text2); background: var(--bg); }
-.pill.g { background: var(--green-d); color: var(--green); border-color: var(--green-b); }
-.pill.o { background: var(--amber-d); color: var(--amber); border-color: var(--amber-b); }
-.pill.r { background: var(--red-d); color: var(--red); border-color: var(--red-b); }
-.pill.b { background: var(--blue-d); color: var(--blue); border-color: var(--blue-b); }
-
-.btn { padding: 10px 18px; border-radius: var(--rs); font-family: 'Geist', sans-serif; font-weight: 500; font-size: 13px; cursor: pointer; transition: all .15s; border: 1px solid var(--border2); background: var(--bg3); color: var(--text2); white-space: nowrap; }
-.btn:hover { color: var(--text); }
-.btn-accent { background: var(--accent); border-color: var(--accent); color: #fff; font-size: 15px; padding: 14px; width: 100%; margin-top: 8px; }
-.btn-accent:hover { background: var(--accent2); border-color: var(--accent2); color: #fff; }
-.btn-accent:disabled { opacity: .4; cursor: not-allowed; }
-.btn-load { background: var(--blue-d); border-color: var(--blue-b); color: #60a5fa; font-size: 12px; padding: 10px 16px; }
-.btn-load:hover { background: rgba(59,130,246,0.15); }
-.btn-load:disabled { opacity: .4; cursor: not-allowed; }
-.btn-add { border-style: dashed; width: 100%; justify-content: center; display: flex; align-items: center; gap: 8px; font-size: 13px; }
-.btn-add:hover { border-color: var(--accent); color: var(--accent); }
-
-.loader { display: none; text-align: center; padding: 56px 24px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); margin-bottom: 16px; }
-.loader.on { display: block; }
-.spinner { width: 36px; height: 36px; border: 2px solid rgba(255,255,255,.08); border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite; margin: 0 auto 20px; }
-@keyframes spin { to { transform: rotate(360deg); } }
-.loader-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
-.loader-sub { font-size: 13px; color: var(--text2); margin-bottom: 20px; }
-.prog-list { display: inline-flex; flex-direction: column; gap: 6px; text-align: left; }
-.prog-item { font-family: var(--font-mono); font-size: 11px; color: var(--text3); transition: color .2s; }
-.prog-item.on { color: var(--accent); }
-.prog-item.ok { color: var(--green); }
-
-.err { display: none; background: var(--red-d); border: 1px solid var(--red-b); border-radius: var(--rs); padding: 12px 16px; color: var(--red); font-size: 13px; margin-top: 12px; line-height: 1.6; }
-.err.on { display: block; }
-
-#results { display: none; margin-top: 8px; }
-.res-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 28px; flex-wrap: wrap; gap: 12px; }
-.res-title { font-size: 20px; font-weight: 700; }
-.res-meta { font-family: var(--font-mono); font-size: 11px; color: var(--text2); margin-top: 3px; }
-.summary-box { background: rgba(249,115,22,.05); border: 1px solid rgba(249,115,22,.15); border-left: 3px solid var(--accent); border-radius: 0 var(--rs) var(--rs) 0; padding: 20px 22px; margin-bottom: 28px; font-size: 14px; line-height: 1.8; }
-
-.scores-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin-bottom: 28px; }
-.score-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 18px; }
-.score-asin { font-family: var(--font-mono); font-size: 11px; color: var(--text2); margin-bottom: 8px; }
-.score-title-text { font-size: 12px; color: var(--text); margin-bottom: 12px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.score-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
-.score-lbl { font-size: 11px; color: var(--text2); width: 56px; flex-shrink: 0; }
-.score-bar { flex: 1; height: 4px; background: var(--border2); border-radius: 2px; overflow: hidden; }
-.score-fill { height: 100%; border-radius: 2px; transition: width .5s ease; }
-.score-num { font-family: var(--font-mono); font-size: 11px; color: var(--text2); width: 18px; text-align: right; }
-.score-weakness { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); font-size: 12px; color: var(--red); }
-.score-strength { font-size: 12px; color: var(--green); margin-top: 3px; }
-
-.tabs { display: flex; gap: 3px; background: var(--bg3); border: 1px solid var(--border); border-radius: var(--rs); padding: 4px; margin-bottom: 20px; flex-wrap: wrap; }
-.tab { flex: 1; min-width: 70px; padding: 8px 6px; border: none; background: transparent; color: var(--text2); font-family: 'Geist', sans-serif; font-size: 11px; font-weight: 500; cursor: pointer; border-radius: 6px; transition: all .15s; text-align: center; }
-.tab.on { background: var(--bg2); color: var(--text); border: 1px solid var(--border2); }
-.tc { display: none; }
-.tc.on { display: block; }
-
-/* ANALYSIS */
-.comp-panel { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); margin-bottom: 12px; overflow: hidden; }
-.comp-panel-hdr { background: var(--bg3); border-bottom: 1px solid var(--border); padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
-.comp-panel-body { padding: 20px; }
-.section-label { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text2); margin-bottom: 8px; display: block; }
-.section-text { font-size: 13px; color: var(--text); line-height: 1.65; margin-bottom: 16px; }
-
-.compliance-ok { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--green-d); border: 1px solid var(--green-b); border-radius: var(--rs); font-size: 13px; color: var(--green); margin-bottom: 8px; }
-.compliance-warn { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; background: var(--red-d); border: 1px solid var(--red-b); border-radius: var(--rs); font-size: 13px; color: var(--text); margin-bottom: 8px; }
-.compliance-verify { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; background: var(--amber-d); border: 1px solid var(--amber-b); border-radius: var(--rs); font-size: 13px; color: var(--text); margin-bottom: 8px; }
-.compliance-icon { flex-shrink: 0; font-size: 14px; }
-.verify-tag { font-family: var(--font-mono); font-size: 9px; padding: 2px 6px; border-radius: 3px; background: var(--amber-d); color: var(--amber); border: 1px solid var(--amber-b); margin-left: 6px; text-transform: uppercase; vertical-align: middle; }
-
-/* IMAGES TAB */
-.img-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; margin-bottom: 16px; }
-.img-thumb { aspect-ratio: 1; border-radius: var(--rs); overflow: hidden; border: 1px solid var(--border); background: var(--bg3); }
-.img-thumb img { width: 100%; height: 100%; object-fit: cover; }
-.img-checklist { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
-.img-check { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: var(--rs); font-size: 12px; }
-.img-check.ok { background: var(--green-d); color: var(--green); border: 1px solid var(--green-b); }
-.img-check.fail { background: var(--red-d); color: var(--text); border: 1px solid var(--red-b); }
-.img-check.warn { background: var(--amber-d); color: var(--text); border: 1px solid var(--amber-b); }
-.img-missing { background: var(--bg3); border: 1px dashed var(--border2); border-radius: var(--rs); padding: 12px 14px; margin-bottom: 6px; font-size: 12px; color: var(--text2); }
-.img-missing::before { content: '+ '; color: var(--accent); font-weight: 600; }
-.img-rec { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--rs); padding: 14px 16px; margin-bottom: 8px; }
-.img-rec-pos { font-family: var(--font-mono); font-size: 10px; color: var(--accent); margin-bottom: 4px; }
-.img-rec-desc { font-size: 13px; color: var(--text); margin-bottom: 4px; }
-.img-rec-pri { font-size: 11px; }
-.img-rec-pri.critica { color: var(--red); }
-.img-rec-pri.importante { color: var(--amber); }
-.img-rec-pri.recomendada { color: var(--green); }
-
-/* REVIEWS */
-.sentiment-bar-wrap { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--rs); padding: 16px; margin-bottom: 20px; }
-.sentiment-bar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; margin: 10px 0; }
-.sentiment-legend { display: flex; gap: 16px; font-size: 11px; color: var(--text2); flex-wrap: wrap; }
-.sentiment-legend-item { display: flex; align-items: center; gap: 5px; }
-.sentiment-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.verdict-box { background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--rs); padding: 14px 16px; font-size: 13px; color: var(--text); line-height: 1.65; margin-top: 12px; }
-.review-section { margin-bottom: 24px; }
-.review-section-hdr { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
-.review-icon { width: 30px; height: 30px; border-radius: var(--rs); display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
-.review-section-title { font-size: 14px; font-weight: 600; }
-.review-section-pct { font-family: var(--font-mono); font-size: 11px; color: var(--text2); margin-left: auto; }
-.emotion-tag { font-size: 10px; padding: 2px 8px; border-radius: 20px; }
-.theme-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--rs); padding: 14px 16px; margin-bottom: 8px; }
-.theme-top { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-.theme-name { font-size: 13px; font-weight: 600; }
-.freq-tag { font-family: var(--font-mono); font-size: 10px; padding: 2px 7px; border-radius: 4px; }
-.freq-alta { background: var(--red-d); color: var(--red); }
-.freq-media { background: var(--amber-d); color: var(--amber); }
-.freq-baja { background: var(--blue-d); color: var(--blue); }
-.theme-desc { font-size: 12px; color: var(--text2); line-height: 1.55; margin-bottom: 6px; }
-.theme-opp { font-size: 11px; color: var(--green); }
-.phrases-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
-.phrase-tag { font-family: var(--font-mono); font-size: 10px; padding: 3px 9px; border-radius: 4px; background: var(--bg2); border: 1px solid var(--border2); color: var(--text2); font-style: italic; }
-
-/* GAPS */
-.gap-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--rs); padding: 16px; margin-bottom: 10px; }
-.gap-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
-.gap-evidence { font-size: 12px; color: var(--text2); margin-bottom: 5px; }
-.gap-opp { font-size: 12px; color: var(--green); }
-
-/* MY LISTING */
-.listing-section { background: var(--bg3); border: 1px solid rgba(249,115,22,.2); border-radius: var(--r); padding: 20px; margin-bottom: 16px; }
-.listing-section-title { font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 10px; }
-.title-box { font-size: 14px; font-weight: 500; color: var(--text); padding: 14px 16px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--rs); margin-bottom: 10px; line-height: 1.5; }
-.keywords { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
-.kw { font-family: var(--font-mono); font-size: 11px; padding: 3px 9px; border-radius: 4px; background: rgba(249,115,22,.1); color: var(--accent); border: 1px solid rgba(249,115,22,.2); }
-.reasoning { font-size: 12px; color: var(--text2); font-style: italic; }
-.bullet-card { display: flex; gap: 14px; padding: 14px 16px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--rs); margin-bottom: 8px; }
-.bullet-n { font-size: 18px; font-weight: 700; color: var(--accent); opacity: .25; flex-shrink: 0; line-height: 1; margin-top: 2px; }
-.bullet-text { font-size: 13px; color: var(--text); line-height: 1.6; margin-bottom: 4px; }
-.bullet-reason { font-size: 11px; color: var(--green); }
-
-/* ACTIONS */
-.action-card { display: flex; gap: 14px; background: var(--bg3); border: 1px solid var(--border); border-left: 3px solid var(--green); border-radius: 0 var(--rs) var(--rs) 0; padding: 16px 18px; margin-bottom: 10px; }
-.action-n { font-size: 20px; font-weight: 700; color: var(--text2); opacity: .2; line-height: 1; flex-shrink: 0; }
-.action-pri { font-family: var(--font-mono); font-size: 9px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-.action-pri.Alta { color: var(--red); }
-.action-pri.Media { color: var(--amber); }
-.action-txt { font-size: 13px; color: var(--text); line-height: 1.55; margin-bottom: 4px; }
-.action-imp { font-size: 11px; color: var(--green); }
-
-@media (max-width: 600px) {
-  .hdr { flex-direction: column; align-items: flex-start; gap: 12px; }
-  .scores-grid { grid-template-columns: 1fr; }
-}
-</style>
-</head>
-<body>
-
-<div class="aurora-bg">
-  <div class="aurora-layer"></div>
-  <div class="aurora-grid"></div>
-  <div class="aurora-noise"></div>
-</div>
-
-<div class="wrap">
-
-  <header class="hdr">
-    <div class="brand">
-      <div class="logo">LI</div>
-      <div class="brand-text">
-        <h1>Listing Intel</h1>
-        <p>Análisis automático de competencia Amazon FBA</p>
-      </div>
-    </div>
-    <div class="status"><div class="status-dot"></div>Live</div>
-  </header>
-
-  <div class="card" id="input-card">
-    <div class="card-title">Analiza a tu competencia</div>
-    <div class="card-sub">Introduce hasta 3 ASINs de competidores directos. La app extrae título, bullets, imágenes y reseñas automáticamente y genera el informe completo.</div>
-
-    <div style="margin-bottom:20px">
-      <label class="flabel">Marketplace</label>
-      <select id="mk" style="max-width:220px">
-        <option value="es">Amazon España</option>
-        <option value="de">Amazon Alemania</option>
-        <option value="uk">Amazon UK</option>
-        <option value="it">Amazon Italia</option>
-        <option value="fr">Amazon Francia</option>
-        <option value="us">Amazon USA</option>
-      </select>
-    </div>
-
-    <div class="asin-list" id="asin-list">
-      <div id="asin-block-0">
-        <label class="flabel">Competidor 1 — ASIN o URL</label>
-        <div class="asin-row">
-          <input type="text" id="asin-0" placeholder="ej: B08XY1234Z o https://amazon.es/dp/B08XY1234Z">
-          <button class="btn btn-load" id="load-0" onclick="loadAsin(0)">Cargar →</button>
-        </div>
-        <div class="asin-info" id="info-0"></div>
-      </div>
-    </div>
-
-    <button class="btn btn-add" id="add-btn" onclick="addRow()">+ Añadir competidor</button>
-
-    <div style="margin-top:20px">
-      <label class="flabel">Tu producto (opcional)</label>
-      <input type="text" id="my-product" placeholder="ej: Alcachofa de ducha premium filtro ABS — describe materiales, características, precio objetivo">
-    </div>
-
-    <div class="err" id="main-err"></div>
-    <button class="btn btn-accent" id="analyze-btn" onclick="runAnalysis()">Analizar competencia →</button>
-  </div>
-
-  <div class="loader" id="loader">
-    <div class="spinner"></div>
-    <div class="loader-title" id="loader-title">Cargando datos...</div>
-    <div class="loader-sub">Extrayendo información de Amazon automáticamente</div>
-    <div class="prog-list" id="prog-list"></div>
-  </div>
-
-  <div id="results">
-    <div class="res-header">
-      <div>
-        <div class="res-title">Informe de Competencia</div>
-        <div class="res-meta" id="res-meta"></div>
-      </div>
-      <button class="btn" style="font-size:12px" onclick="location.reload()">Nueva consulta</button>
-    </div>
-
-    <div id="summary" class="summary-box"></div>
-    <div class="scores-grid" id="scores"></div>
-
-    <div class="tabs">
-      <button class="tab on" onclick="st('tc-listings',this)">📋 Listings</button>
-      <button class="tab" onclick="st('tc-photos',this)">📸 Fotos</button>
-      <button class="tab" onclick="st('tc-reviews',this)">💬 Reseñas</button>
-      <button class="tab" onclick="st('tc-gaps',this)">🎯 Gaps</button>
-      <button class="tab" onclick="st('tc-milisting',this)">✨ Mi Listing</button>
-      <button class="tab" onclick="st('tc-acciones',this)">⚡ Acciones</button>
-    </div>
-
-    <div class="tc on" id="tc-listings"></div>
-    <div class="tc" id="tc-photos"></div>
-    <div class="tc" id="tc-reviews"></div>
-    <div class="tc" id="tc-gaps"></div>
-    <div class="tc" id="tc-milisting"></div>
-    <div class="tc" id="tc-acciones"></div>
-  </div>
-
-</div>
-<script>
-const API_BASE = '';
-const $ = id => document.getElementById(id);
-let rowCount = 1;
-let loadedData = [null];
-
-function addRow() {
-  if (rowCount >= 3) return;
-  const i = rowCount;
-  loadedData.push(null);
-  const list = $('asin-list');
-  const div = document.createElement('div');
-  div.id = `asin-block-${i}`;
-  div.innerHTML = `
-    <label class="flabel" style="margin-top:12px;display:block">Competidor ${i+1} — ASIN o URL</label>
-    <div class="asin-row">
-      <input type="text" id="asin-${i}" placeholder="ej: B08XY1234Z">
-      <div style="display:flex;gap:6px">
-        <button class="btn btn-load" id="load-${i}" onclick="loadAsin(${i})">Cargar →</button>
-        <button class="btn" style="padding:10px 12px;font-size:12px;color:var(--text3)" onclick="removeRow(${i})">✕</button>
-      </div>
-    </div>
-    <div class="asin-info" id="info-${i}"></div>`;
-  list.appendChild(div);
-  rowCount++;
-  if (rowCount >= 3) $('add-btn').style.display = 'none';
-}
-
-function removeRow(i) {
-  const block = $(`asin-block-${i}`);
-  if (block) block.remove();
-  loadedData[i] = null;
-  rowCount--;
-  $('add-btn').style.display = 'flex';
-}
-
-async function loadAsin(i) {
-  const raw = $(`asin-${i}`)?.value?.trim();
-  if (!raw) return showErr('main-err', 'Introduce un ASIN o URL primero');
-  clearErr('main-err');
-  const btn = $(`load-${i}`);
-  btn.disabled = true;
-  btn.innerText = 'Cargando...';
-  const info = $(`info-${i}`);
-  info.classList.remove('on');
-  try {
-    const mk = $('mk').value;
-    const res = await fetch(`${API_BASE}/api/get-asin`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ asin: raw, marketplace: mk })
-    });
-    const data = await res.json();
-    if (!data.success) throw new Error(data.error);
-    const p = data.product;
-    loadedData[i] = p;
-    const reviewCount = (p.reviews_auto || []).length;
-    const hasBullets = p.bullets && p.bullets.length > 0;
-    const imgCount = (p.images || []).length;
-    info.classList.add('on');
-    info.innerHTML = `
-      <div class="asin-info-title">${p.title || p.asin}</div>
-      <div class="asin-pills">
-        <span class="pill g">✓ ${p.asin}</span>
-        ${p.rating ? `<span class="pill g">★ ${p.rating}</span>` : ''}
-        ${p.reviews_count > 0 ? `<span class="pill">${p.reviews_count.toLocaleString('es-ES')} reseñas</span>` : ''}
-        ${p.price !== 'N/A' ? `<span class="pill">${p.price}</span>` : ''}
-        ${hasBullets ? `<span class="pill g">Bullets ✓</span>` : `<span class="pill r">Sin bullets</span>`}
-        ${reviewCount > 0 ? `<span class="pill g">${reviewCount} reseñas ✓</span>` : `<span class="pill r">Sin reseñas</span>`}
-        ${imgCount > 0 ? `<span class="pill b">${imgCount} fotos ✓</span>` : `<span class="pill r">Sin fotos</span>`}
-      </div>`;
-    btn.innerText = '✓ Cargado';
-    btn.style.background = 'var(--green-d)';
-    btn.style.color = 'var(--green)';
-    btn.style.borderColor = 'var(--green-b)';
-  } catch (e) {
-    btn.disabled = false;
-    btn.innerText = 'Cargar →';
-    showErr('main-err', '⚠ ' + e.message);
+  const { competitors, my_product } = req.body;
+  if (!competitors || competitors.length === 0) {
+    return res.status(400).json({ error: 'No hay datos de competidores' });
   }
-}
 
-async function runAnalysis() {
-  clearErr('main-err');
-  const validData = loadedData.filter(d => d && d.asin);
-  if (validData.length === 0) return showErr('main-err', 'Carga al menos un ASIN con el botón "Cargar →" primero');
-  const myProduct = $('my-product')?.value?.trim();
-  $('input-card').style.display = 'none';
-  $('loader').classList.add('on');
-  $('results').style.display = 'none';
-  $('prog-list').innerHTML = '';
-  addProg(`Preparando ${validData.length} competidor${validData.length > 1 ? 'es' : ''}...`);
-  const competitors = validData.map(p => ({
-    asin: p.asin, title: p.title || '', price: p.price || 'N/A',
-    rating: p.rating, reviews_count: p.reviews_count || 0,
-    brand: p.brand || '', bullets: p.bullets || '',
-    bsr: p.bsr || '', images: p.images || [],
-    images_count: (p.images || []).length,
-    reviews: (p.reviews_auto || []).map(r => `[${r.stars}★] ${r.review_text}`).join('\n')
-  }));
-  try {
-    addProg('Analizando con IA...');
-    $('loader-title').innerText = 'Analizando con IA...';
-    const res = await fetch(`${API_BASE}/api/analyze-listing`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ competitors, my_product: myProduct })
-    });
-    const data = await res.json();
-    if (!res.ok || !data.success) throw new Error(data.error || 'Error en el análisis');
-    addProg('Informe generado', 'ok');
-    await new Promise(r => setTimeout(r, 300));
-    renderResults(data.analysis, competitors, validData);
-  } catch (e) {
-    $('loader').classList.remove('on');
-    $('input-card').style.display = 'block';
-    showErr('main-err', '⚠ ' + e.message);
-  }
-}
+  const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+  if (!OPENAI_API_KEY) return res.status(500).json({ error: 'OpenAI API key no configurada' });
 
-function renderCompliance(issues) {
-  if (!issues || issues.length === 0) {
-    return '<div class="compliance-ok">✓ Sin violaciones detectadas</div>';
-  }
-  return issues.map(item => {
-    if (typeof item === 'string') {
-      return `<div class="compliance-warn"><span class="compliance-icon">⚠</span><span>${item}</span></div>`;
+  const competitorText = competitors.map((c, i) => `
+╔══════════════════════════════════════════════════════
+║ COMPETIDOR ${i + 1} — ASIN: ${c.asin}
+╠══════════════════════════════════════════════════════
+║ Título: ${c.title || 'No disponible'}
+║ Precio: ${c.price || 'N/A'} | Rating: ${c.rating || 'N/A'}★ | Reseñas totales: ${c.reviews_count || 0}
+║ BSR: ${c.bsr || 'No disponible'}
+║ Nº de imágenes: ${c.images_count || 0}
+╠══════════════════════════════════════════════════════
+║ BULLET POINTS:
+${c.bullets || '(no disponibles)'}
+╠══════════════════════════════════════════════════════
+║ URLS DE IMÁGENES (analiza cada una visualmente):
+${c.images && c.images.length > 0 ? c.images.map((url, i) => `Imagen ${i + 1}: ${url}`).join('\n') : '(no disponibles)'}
+╠══════════════════════════════════════════════════════
+║ RESEÑAS DE CLIENTES:
+${c.reviews || '(no disponibles)'}
+╚══════════════════════════════════════════════════════`).join('\n');
+
+  const prompt = `Eres un consultor senior especializado en Amazon FBA con más de 10 años de experiencia en Private Label, optimización de listings, análisis competitivo y cumplimiento de políticas en Amazon Europa (especialmente Amazon España, Alemania, Italia, Francia y UK).
+
+Tu análisis debe ser riguroso, detallado y orientado a la acción. Cada conclusión debe estar basada estrictamente en los datos recibidos. No inventes información que no esté en los datos.
+
+IMPORTANTE SOBRE POLÍTICAS DE AMAZON:
+Las políticas de Amazon se actualizan con frecuencia. Aplica las normas más estrictas conocidas hasta tu fecha de corte de conocimiento, e indica siempre cuando algo podría haber cambiado recientemente o requiera verificación en Seller Central antes de implementarlo. En caso de duda entre dos interpretaciones de política, aplica siempre la más conservadora para proteger la cuenta del seller.
+
+════════════════════════════════════════
+PRODUCTO A LANZAR:
+════════════════════════════════════════
+${my_product ? my_product : 'No especificado — analiza el mercado de forma genérica'}
+
+════════════════════════════════════════
+DATOS DE COMPETIDORES:
+════════════════════════════════════════
+${competitorText}
+
+════════════════════════════════════════
+INSTRUCCIONES DE ANÁLISIS
+════════════════════════════════════════
+
+## 1. ANÁLISIS DE TÍTULO
+- Evalúa estructura, claridad y potencial de conversión
+- Identifica keywords principales y secundarias usadas
+- Detecta keywords relevantes que faltan
+- Verifica longitud (máx 200 caracteres en Amazon ES)
+- Detecta si hay emojis, todo en mayúsculas, o claims prohibidos
+- Evalúa si está orientado al comprador o solo al algoritmo
+
+## 2. ANÁLISIS DE BULLETS
+- Evalúa si comunican BENEFICIOS reales o solo características técnicas
+- Analiza la estructura lógica y jerarquía de información
+- Detecta qué beneficios emocionales faltan
+- Verifica longitud de cada bullet (máx 200 caracteres)
+- Detecta si empiezan con mayúscula
+- Identifica el bullet más débil y por qué
+
+## 3. ANÁLISIS DE IMÁGENES (analiza cada URL proporcionada)
+Para cada imagen evalúa:
+- Foto principal: ¿fondo blanco puro? ¿producto ocupa 85%+ del frame? ¿sin texto ni marcas de agua?
+- ¿Hay infografía con medidas o dimensiones?
+- ¿Hay lifestyle photo (producto en uso real)?
+- ¿Se muestra el producto desde múltiples ángulos?
+- ¿Hay foto de packaging o caja?
+- ¿Se comunican visualmente los beneficios clave?
+- ¿Hay comparativa de tamaño con objeto de referencia?
+- Para productos de ducha específicamente: ¿se ve el chorro de agua? ¿modos de rociado? ¿instalación?
+- ¿Qué fotos FALTAN que sería importante añadir?
+- Evalúa el pack completo: Amazon recomienda mínimo 6-7 imágenes
+
+## 4. ANÁLISIS DE RESEÑAS
+Clasifica en tres franjas:
+- CRÍTICAS (1-2★): Defectos graves, problemas recurrentes
+- FRICCIONES (3★): Lo que casi funciona pero falla en algo
+- POSITIVAS (4-5★): Lo que genuinamente valoran
+
+Para cada franja:
+- Temas más repetidos con frecuencia
+- Frases o palabras exactas de los clientes
+- Emociones detectadas
+- Expectativa vs realidad
+
+## 5. VERIFICACIÓN ESTRICTA DE POLÍTICAS AMAZON
+Verifica TODOS estos puntos (marca como violación cualquier incumplimiento):
+
+TÍTULO:
+□ Máximo 200 caracteres
+□ Sin emojis
+□ Sin TODO EN MAYÚSCULAS
+□ Sin claims de #1, Best Seller, Amazon's Choice
+□ Sin menciones de precio, descuento o promoción
+□ Sin información de vendedor (email, URL, teléfono)
+
+BULLETS:
+□ Cada bullet máximo 200 caracteres
+□ Empiezan con mayúscula
+□ Sin HTML ni caracteres especiales no permitidos
+□ Sin claims de salud o médicos sin certificación
+□ Sin comparaciones directas con marcas ("mejor que X")
+□ Sin garantías de devolución de dinero
+□ Sin menciones de competidores por nombre
+□ Sin claims no verificables ("el mejor del mundo", "único", "revolucionario")
+□ Sin términos promocionales ("gratis", "oferta", "descuento", "ahorra")
+□ Sin información de contacto del vendedor
+
+IMÁGENES:
+□ Foto principal: fondo blanco puro (RGB 255,255,255)
+□ Foto principal: sin texto, logos, marcas de agua ni bordes
+□ Foto principal: producto ocupa mínimo 85% del frame
+□ Sin imágenes de estilo de vida como foto principal
+□ Sin contenido ofensivo o inapropiado
+□ Formato permitido: JPEG, PNG, GIF, TIFF (no BMP)
+□ Mínimo 1000px en el lado más largo (recomendado 2000px+)
+
+NOTA: Si alguna política requiere verificación por posible actualización reciente, indícalo explícitamente.
+
+════════════════════════════════════════
+FORMATO DE RESPUESTA — JSON ESTRICTO
+════════════════════════════════════════
+
+Devuelve EXCLUSIVAMENTE JSON válido y parseable. Sin markdown, sin texto antes ni después, sin comentarios.
+
+{
+  "executive_summary": "Párrafo de 5-8 líneas. Estado real del mercado, qué falla de forma generalizada, y cuál es la oportunidad concreta. Sé directo y específico.",
+
+  "competitors": [
+    {
+      "asin": "ASIN exacto",
+      "title_score": 7,
+      "bullet_score": 6,
+      "image_score": 7,
+      "overall_score": 7,
+      "title_analysis": "Análisis detallado: estructura, keywords, longitud, conversión, qué falta. Mínimo 3 líneas.",
+      "bullet_analysis": "Análisis detallado: beneficios vs características, estructura, bullet más débil, qué falta. Mínimo 3 líneas.",
+      "image_analysis": {
+        "total_images": 0,
+        "main_image_ok": true,
+        "has_infographic": false,
+        "has_lifestyle": false,
+        "has_packaging": false,
+        "has_water_flow": false,
+        "missing": ["Lista de fotos que faltan y por qué son importantes"],
+        "strengths": ["Qué hacen bien con las imágenes"],
+        "weaknesses": ["Qué falla o qué no comunican visualmente"],
+        "verdict": "Evaluación general del pack de imágenes en 2-3 líneas"
+      },
+      "compliance_issues": [
+        {
+          "type": "titulo | bullet | imagen",
+          "issue": "Descripción exacta de la violación",
+          "rule": "Política de Amazon que incumple",
+          "verify": true
+        }
+      ],
+      "main_weakness": "La debilidad más explotable en una frase directa",
+      "main_strength": "Su punto más fuerte a emular o superar"
     }
-    const needsVerify = item.verify;
-    const cls = needsVerify ? 'compliance-verify' : 'compliance-warn';
-    const icon = needsVerify ? '⚡' : '⚠';
-    return `<div class="${cls}">
-      <span class="compliance-icon">${icon}</span>
-      <span>${item.issue || item}${item.rule ? ` — <em style="color:var(--text2)">${item.rule}</em>` : ''}${needsVerify ? '<span class="verify-tag">Verificar</span>' : ''}</span>
-    </div>`;
-  }).join('');
+  ],
+
+  "review_analysis": {
+    "critical": {
+      "count_pct": "% estimado",
+      "top_themes": [
+        {
+          "theme": "Nombre del tema",
+          "frequency": "Alta | Media | Baja",
+          "description": "Qué dicen exactamente los clientes. Menciona frases representativas.",
+          "opportunity": "Cómo tu producto puede resolver esto"
+        }
+      ],
+      "key_phrases": ["frase exacta del cliente", "otra frase"],
+      "dominant_emotion": "Emoción principal detectada"
+    },
+    "friction": {
+      "count_pct": "% estimado",
+      "top_themes": [
+        {
+          "theme": "Nombre del tema",
+          "frequency": "Alta | Media | Baja",
+          "description": "Qué les impide dar 5 estrellas",
+          "opportunity": "Cómo resolver esta fricción"
+        }
+      ],
+      "key_phrases": ["frase representativa"],
+      "dominant_emotion": "Emoción principal"
+    },
+    "positive": {
+      "count_pct": "% estimado",
+      "top_themes": [
+        {
+          "theme": "Nombre del tema",
+          "frequency": "Alta | Media | Baja",
+          "description": "Qué valoran realmente y por qué lo compran",
+          "opportunity": "Cómo comunicar esto mejor en tu listing"
+        }
+      ],
+      "key_phrases": ["frase positiva representativa"],
+      "dominant_emotion": "Emoción principal"
+    },
+    "overall_sentiment_score": 7,
+    "market_verdict": "Veredicto claro en 2-3 líneas sobre el nivel de satisfacción del mercado"
+  },
+
+  "market_gaps": [
+    {
+      "gap": "Problema concreto que nadie resuelve bien",
+      "evidence": "En qué competidores y reseñas se detecta",
+      "opportunity": "Acción específica para tu producto o listing"
+    }
+  ],
+
+  "my_listing_recommendations": {
+    "title": {
+      "recommended": "Título optimizado, máx 200 caracteres, sin emojis, con keywords principales detectadas. Orientado al comprador.",
+      "keywords_to_use": ["keyword principal", "keyword secundaria", "keyword long-tail"],
+      "reasoning": "Por qué supera a los competidores analizados"
+    },
+    "bullets": [
+      {
+        "bullet": "BENEFICIO EN MAYÚSCULAS — Descripción del beneficio orientada al comprador, máx 200 chars.",
+        "reasoning": "Por qué ataca un gap detectado"
+      },
+      {
+        "bullet": "SEGUNDO BENEFICIO — Descripción específica...",
+        "reasoning": "Justificación"
+      },
+      {
+        "bullet": "TERCER BENEFICIO — Descripción específica...",
+        "reasoning": "Justificación"
+      },
+      {
+        "bullet": "CUARTO BENEFICIO — Descripción específica...",
+        "reasoning": "Justificación"
+      },
+      {
+        "bullet": "QUINTO BENEFICIO — Descripción específica...",
+        "reasoning": "Justificación"
+      }
+    ],
+    "images_recommendations": [
+      {
+        "position": 1,
+        "description": "Qué debe mostrar esta foto y por qué es clave para la conversión",
+        "priority": "Crítica | Importante | Recomendada"
+      }
+    ],
+    "compliance_warnings": [
+      {
+        "warning": "Cosa específica que NO debes incluir",
+        "reason": "Política de Amazon que lo prohíbe",
+        "verify": false
+      }
+    ]
+  },
+
+  "actions": [
+    {
+      "priority": "Alta | Media",
+      "action": "Acción concreta, específica y medible",
+      "impact": "Por qué mejorará conversión, posicionamiento o diferenciación"
+    }
+  ]
 }
 
-function renderResults(data, competitors, rawData) {
-  $('loader').classList.remove('on');
-  $('results').style.display = 'block';
-  $('res-meta').innerText = `${competitors.length} competidor${competitors.length>1?'es':''} · ${new Date().toLocaleDateString('es-ES')}`;
-  $('summary').innerText = data.executive_summary || '';
+REGLAS FINALES:
+1. Todo análisis basado estrictamente en datos recibidos — nunca inventes
+2. Si no hay reseñas suficientes para una franja, indícalo en la descripción
+3. Bullets recomendados: empiezan siempre con PALABRA(S) EN MAYÚSCULAS seguidas de guión largo —
+4. Si detectas poca información, sé honesto sobre las limitaciones
+5. Cuando una política pueda haber cambiado recientemente, añade "verify: true" en el campo correspondiente
+6. El JSON debe ser 100% parseable — sin comas finales, sin caracteres rotos`;
 
-  // SCORES
-  $('scores').innerHTML = (data.competitors || []).map(c => {
-    const tC = c.title_score >= 7 ? 'var(--green)' : c.title_score >= 4 ? 'var(--amber)' : 'var(--red)';
-    const bC = c.bullet_score >= 7 ? 'var(--green)' : c.bullet_score >= 4 ? 'var(--amber)' : 'var(--red)';
-    const iC = (c.image_score||5) >= 7 ? 'var(--green)' : (c.image_score||5) >= 4 ? 'var(--amber)' : 'var(--red)';
-    return `<div class="score-card">
-      <div class="score-asin">${c.asin}</div>
-      <div class="score-title-text">${competitors.find(x=>x.asin===c.asin)?.title?.substring(0,80)||c.asin}...</div>
-      <div class="score-row"><span class="score-lbl">Título</span><div class="score-bar"><div class="score-fill" style="width:${c.title_score*10}%;background:${tC}"></div></div><span class="score-num">${c.title_score}</span></div>
-      <div class="score-row"><span class="score-lbl">Bullets</span><div class="score-bar"><div class="score-fill" style="width:${c.bullet_score*10}%;background:${bC}"></div></div><span class="score-num">${c.bullet_score}</span></div>
-      <div class="score-row"><span class="score-lbl">Fotos</span><div class="score-bar"><div class="score-fill" style="width:${(c.image_score||5)*10}%;background:${iC}"></div></div><span class="score-num">${c.image_score||'-'}</span></div>
-      <div class="score-weakness">⚠ ${c.main_weakness}</div>
-      <div class="score-strength">✓ ${c.main_strength}</div>
-    </div>`;
-  }).join('');
+  try {
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${OPENAI_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o-mini',
+        max_tokens: 6000,
+        temperature: 0.1,
+        messages: [
+          {
+            role: 'system',
+            content: 'Eres un consultor senior de Amazon FBA. Analizas listings, reseñas e imágenes con máxima precisión. Devuelves SOLO JSON válido y parseable. Cero texto antes o después. Cero markdown. Aplicas las políticas de Amazon de forma estricta e indicas cuándo requieren verificación por posibles actualizaciones recientes.'
+          },
+          { role: 'user', content: prompt }
+        ]
+      })
+    });
 
-  // LISTINGS TAB
-  $('tc-listings').innerHTML = (data.competitors || []).map(c => `
-    <div class="comp-panel">
-      <div class="comp-panel-hdr">
-        <span style="font-family:var(--font-mono);font-size:11px;color:var(--text2)">${c.asin}</span>
-        <div style="display:flex;gap:6px;flex-wrap:wrap">
-          <span class="pill ${c.title_score>=7?'g':''}">Título: ${c.title_score}/10</span>
-          <span class="pill ${c.bullet_score>=7?'g':''}">Bullets: ${c.bullet_score}/10</span>
-        </div>
-      </div>
-      <div class="comp-panel-body">
-        <span class="section-label">Análisis del Título</span>
-        <div class="section-text">${c.title_analysis}</div>
-        <span class="section-label">Análisis de Bullets</span>
-        <div class="section-text">${c.bullet_analysis}</div>
-        <span class="section-label">Políticas Amazon</span>
-        ${renderCompliance(c.compliance_issues)}
-        ${c.compliance_issues?.some(i => i.verify) ? `<p style="font-size:11px;color:var(--amber);margin-top:8px">⚡ Los items marcados como "Verificar" pueden haber cambiado recientemente — confirma en Seller Central antes de implementar.</p>` : ''}
-      </div>
-    </div>`).join('');
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error?.message || 'OpenAI API error');
 
-  // PHOTOS TAB
-  $('tc-photos').innerHTML = (data.competitors || []).map((c, ci) => {
-    const ia = c.image_analysis || {};
-    const rawImages = rawData[ci]?.images || [];
-    return `
-    <div class="comp-panel">
-      <div class="comp-panel-hdr">
-        <span style="font-family:var(--font-mono);font-size:11px;color:var(--text2)">${c.asin}</span>
-        <span class="pill ${(c.image_score||5)>=7?'g':''}">Fotos: ${c.image_score||'-'}/10</span>
-      </div>
-      <div class="comp-panel-body">
-        ${rawImages.length > 0 ? `
-        <span class="section-label">Imágenes del producto</span>
-        <div class="img-grid" style="margin-bottom:16px">
-          ${rawImages.map(url => `<div class="img-thumb"><img src="${url}" loading="lazy" onerror="this.style.display='none'"></div>`).join('')}
-        </div>` : ''}
-        <span class="section-label">Checklist de imágenes</span>
-        <div class="img-checklist">
-          <div class="img-check ${ia.main_image_ok ? 'ok' : 'fail'}">${ia.main_image_ok ? '✓' : '✕'} Foto principal: fondo blanco, producto 85%+ del frame</div>
-          <div class="img-check ${ia.has_infographic ? 'ok' : 'fail'}">${ia.has_infographic ? '✓' : '✕'} Infografía con medidas o características</div>
-          <div class="img-check ${ia.has_lifestyle ? 'ok' : 'fail'}">${ia.has_lifestyle ? '✓' : '✕'} Foto lifestyle (producto en uso real)</div>
-          <div class="img-check ${ia.has_packaging ? 'ok' : 'fail'}">${ia.has_packaging ? '✓' : '✕'} Foto del packaging o caja</div>
-          <div class="img-check ${ia.has_water_flow ? 'ok' : 'warn'}">${ia.has_water_flow ? '✓' : '—'} Muestra el chorro de agua en acción</div>
-          <div class="img-check ${ia.total_images >= 6 ? 'ok' : 'fail'}">${ia.total_images >= 6 ? '✓' : '✕'} Nº de imágenes: ${ia.total_images || rawImages.length} (mín. 6 recomendadas)</div>
-        </div>
-        ${ia.strengths?.length > 0 ? `
-        <span class="section-label">Puntos fuertes visuales</span>
-        ${ia.strengths.map(s => `<div class="compliance-ok" style="margin-bottom:6px">✓ ${s}</div>`).join('')}` : ''}
-        ${ia.missing?.length > 0 ? `
-        <span class="section-label" style="margin-top:14px">Fotos que faltan</span>
-        ${ia.missing.map(m => `<div class="img-missing">${m}</div>`).join('')}` : ''}
-        ${ia.verdict ? `
-        <span class="section-label" style="margin-top:14px">Veredicto</span>
-        <div class="section-text">${ia.verdict}</div>` : ''}
-      </div>
-    </div>`;
-  }).join('');
+    const raw = data.choices?.[0]?.message?.content || '';
+    const clean = raw.replace(/```json|```/g, '').trim();
+    const parsed = JSON.parse(clean);
 
-  // REVIEWS TAB
-  const ra = data.review_analysis;
-  if (ra) {
-    const critPct = parseFloat(ra.critical?.count_pct) || 15;
-    const fricPct = parseFloat(ra.friction?.count_pct) || 15;
-    const posPct = parseFloat(ra.positive?.count_pct) || 70;
-    const renderThemes = (themes) => (themes || []).map(t => {
-      const fc = t.frequency === 'Alta' ? 'freq-alta' : t.frequency === 'Media' ? 'freq-media' : 'freq-baja';
-      return `<div class="theme-card">
-        <div class="theme-top"><span class="theme-name">${t.theme}</span><span class="freq-tag ${fc}">${t.frequency}</span></div>
-        <div class="theme-desc">${t.description}</div>
-        <div class="theme-opp">💡 ${t.opportunity}</div>
-      </div>`;
-    }).join('');
-    const renderPhrases = (phrases) => (phrases||[]).length > 0
-      ? `<div class="phrases-row">${phrases.map(p=>`<span class="phrase-tag">"${p}"</span>`).join('')}</div>` : '';
+    return res.status(200).json({ success: true, analysis: parsed });
 
-    $('tc-reviews').innerHTML = `
-      <div class="sentiment-bar-wrap">
-        <span class="section-label">Distribución de sentimiento</span>
-        <div class="sentiment-bar">
-          <div style="width:${critPct}%;background:var(--red)"></div>
-          <div style="width:${fricPct}%;background:var(--amber)"></div>
-          <div style="width:${posPct}%;background:var(--green)"></div>
-        </div>
-        <div class="sentiment-legend">
-          <div class="sentiment-legend-item"><div class="sentiment-dot" style="background:var(--red)"></div>Críticas ${ra.critical?.count_pct||''}</div>
-          <div class="sentiment-legend-item"><div class="sentiment-dot" style="background:var(--amber)"></div>Fricciones ${ra.friction?.count_pct||''}</div>
-          <div class="sentiment-legend-item"><div class="sentiment-dot" style="background:var(--green)"></div>Positivas ${ra.positive?.count_pct||''}</div>
-        </div>
-        <div class="verdict-box">${ra.market_verdict||''}</div>
-      </div>
-      <div class="review-section">
-        <div class="review-section-hdr">
-          <div class="review-icon" style="background:var(--red-d)">🔴</div>
-          <div class="review-section-title">Críticas (1-2★)</div>
-          ${ra.critical?.dominant_emotion ? `<span class="emotion-tag" style="background:var(--red-d);color:var(--red);border:1px solid var(--red-b)">${ra.critical.dominant_emotion}</span>` : ''}
-          <span class="review-section-pct">${ra.critical?.count_pct||''}</span>
-        </div>
-        ${renderThemes(ra.critical?.top_themes)}
-        ${renderPhrases(ra.critical?.key_phrases)}
-      </div>
-      <div class="review-section">
-        <div class="review-section-hdr">
-          <div class="review-icon" style="background:var(--amber-d)">🟡</div>
-          <div class="review-section-title">Fricciones (3★)</div>
-          ${ra.friction?.dominant_emotion ? `<span class="emotion-tag" style="background:var(--amber-d);color:var(--amber);border:1px solid var(--amber-b)">${ra.friction.dominant_emotion}</span>` : ''}
-          <span class="review-section-pct">${ra.friction?.count_pct||''}</span>
-        </div>
-        ${renderThemes(ra.friction?.top_themes)}
-        ${renderPhrases(ra.friction?.key_phrases)}
-      </div>
-      <div class="review-section">
-        <div class="review-section-hdr">
-          <div class="review-icon" style="background:var(--green-d)">🟢</div>
-          <div class="review-section-title">Positivas (4-5★)</div>
-          ${ra.positive?.dominant_emotion ? `<span class="emotion-tag" style="background:var(--green-d);color:var(--green);border:1px solid var(--green-b)">${ra.positive.dominant_emotion}</span>` : ''}
-          <span class="review-section-pct">${ra.positive?.count_pct||''}</span>
-        </div>
-        ${renderThemes(ra.positive?.top_themes)}
-        ${renderPhrases(ra.positive?.key_phrases)}
-      </div>`;
-  } else {
-    $('tc-reviews').innerHTML = '<p style="color:var(--text2);padding:20px">No hay reseñas suficientes para analizar.</p>';
+  } catch (err) {
+    console.error('analyze-listing error:', err);
+    return res.status(500).json({ error: err.message });
   }
-
-  // GAPS TAB
-  $('tc-gaps').innerHTML = (data.market_gaps||[]).map(g => `
-    <div class="gap-card">
-      <div class="gap-title">${g.gap}</div>
-      <div class="gap-evidence">Evidencia: ${g.evidence}</div>
-      <div class="gap-opp">💡 ${g.opportunity}</div>
-    </div>`).join('');
-
-  // MI LISTING TAB
-  const rec = data.my_listing_recommendations;
-  $('tc-milisting').innerHTML = rec ? `
-    <div class="listing-section">
-      <div class="listing-section-title">📌 Título recomendado</div>
-      <div class="title-box">${rec.title?.recommended||''}</div>
-      <div class="keywords">${(rec.title?.keywords_to_use||[]).map(k=>`<span class="kw">${k}</span>`).join('')}</div>
-      <div class="reasoning">${rec.title?.reasoning||''}</div>
-    </div>
-    <div class="listing-section">
-      <div class="listing-section-title">📝 Bullets recomendados</div>
-      ${(rec.bullets||[]).map((b,i)=>`
-        <div class="bullet-card">
-          <div class="bullet-n">B${i+1}</div>
-          <div><div class="bullet-text">${b.bullet}</div><div class="bullet-reason">→ ${b.reasoning}</div></div>
-        </div>`).join('')}
-    </div>
-    ${rec.images_recommendations?.length > 0 ? `
-    <div class="listing-section">
-      <div class="listing-section-title">📸 Fotos recomendadas para tu producto</div>
-      ${rec.images_recommendations.map(r => `
-        <div class="img-rec">
-          <div class="img-rec-pos">Posición ${r.position}</div>
-          <div class="img-rec-desc">${r.description}</div>
-          <div class="img-rec-pri ${(r.priority||'').toLowerCase()}">${r.priority}</div>
-        </div>`).join('')}
-    </div>` : ''}
-    ${rec.compliance_warnings?.length > 0 ? `
-    <div class="listing-section" style="border-color:rgba(239,68,68,.2)">
-      <div class="listing-section-title" style="color:var(--red)">🚫 Prohibido en tu listing</div>
-      ${rec.compliance_warnings.map(w => {
-        if (typeof w === 'string') return `<div class="compliance-warn"><span class="compliance-icon">✕</span>${w}</div>`;
-        return `<div class="${w.verify ? 'compliance-verify' : 'compliance-warn'}">
-          <span class="compliance-icon">${w.verify ? '⚡' : '✕'}</span>
-          <span>${w.warning}${w.reason ? ` — <em style="color:var(--text2)">${w.reason}</em>` : ''}${w.verify ? '<span class="verify-tag">Verificar</span>' : ''}</span>
-        </div>`;
-      }).join('')}
-    </div>` : ''}` : '<p style="color:var(--text2);padding:20px">No se generaron recomendaciones.</p>';
-
-  // ACCIONES TAB
-  $('tc-acciones').innerHTML = (data.actions||[]).map((a,i)=>`
-    <div class="action-card" style="border-left-color:${a.priority==='Alta'?'var(--red)':'var(--amber)'}">
-      <div class="action-n">${String(i+1).padStart(2,'0')}</div>
-      <div>
-        <div class="action-pri ${a.priority}">${a.priority} Prioridad</div>
-        <div class="action-txt">${a.action}</div>
-        <div class="action-imp">→ ${a.impact}</div>
-      </div>
-    </div>`).join('');
-
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function st(id, btn) {
-  document.querySelectorAll('.tc').forEach(c => c.classList.remove('on'));
-  document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
-  $(id).classList.add('on');
-  btn.classList.add('on');
-}
-
-function addProg(text, state) {
-  const list = $('prog-list');
-  list.querySelectorAll('.prog-item.on').forEach(el => { el.className = 'prog-item ok'; el.innerText = '✓ ' + el.innerText.replace('→ ',''); });
-  const el = document.createElement('div');
-  el.className = 'prog-item ' + (state || 'on');
-  el.innerText = (state !== 'ok' ? '→ ' : '') + text;
-  list.appendChild(el);
-}
-
-function showErr(id, m) { const e=$(id); if(e){e.innerText=m;e.classList.add('on');} }
-function clearErr(id) { const e=$(id); if(e) e.classList.remove('on'); }
-</script>
-</body>
-</html>
+};
