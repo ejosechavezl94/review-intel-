@@ -8,61 +8,96 @@ module.exports = async (req, res) => {
   try {
     const { asin, marketplace = 'es' } = req.body;
 
+    // Extract ASIN from URL if needed
     const cleanAsin = (asin || '').match(/[A-Z0-9]{10}/i)?.[0]?.toUpperCase();
-    if (!cleanAsin) return res.status(400).json({ error: 'ASIN inválido. Debe tener 10 caracteres alfanuméricos.' });
+    if (!cleanAsin) {
+      return res.status(400).json({ error: 'ASIN inválido. Debe tener 10 caracteres alfanuméricos (ej: B08XY1234Z).' });
+    }
 
     const API_KEY = process.env.RAINFOREST_API_KEY;
-    if (!API_KEY) return res.status(500).json({ error: 'Rainforest API key no configurada' });
+    if (!API_KEY) return res.status(500).json({ error: 'Rainforest API key no configurada en Vercel.' });
 
     const domains = {
-      es: 'amazon.es', de: 'amazon.de', uk: 'amazon.co.uk',
-      it: 'amazon.it', fr: 'amazon.fr', us: 'amazon.com'
+      es: 'amazon.es',
+      de: 'amazon.de',
+      uk: 'amazon.co.uk',
+      it: 'amazon.it',
+      fr: 'amazon.fr',
+      us: 'amazon.com'
     };
     const domain = domains[marketplace] || 'amazon.es';
 
-    // Fetch product data (título, bullets, precio, rating)
-    const productRes = await fetch(
-      `https://api.rainforestapi.com/request?api_key=${API_KEY}&type=product&asin=${cleanAsin}&amazon_domain=${domain}`
-    );
-    const productData = await productRes.json();
+    // Single API call — type=product already includes top_reviews and images
+    const url = `https://api.rainforestapi.com/request?api_key=${API_KEY}&type=product&asin=${cleanAsin}&amazon_domain=${domain}&include_summarization_attributes=true`;
 
-    if (!productData?.product) {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (!response.ok || !data?.request_info?.success) {
+      console.error('Rainforest error:', data);
       return res.status(200).json({
         success: true,
         product: {
-          asin: cleanAsin, title: '', price: 'N/A',
-          rating: null, reviews_count: 0, brand: '',
-          bullets: '', reviews_auto: [], manual_required: true,
+          asin: cleanAsin, title: '', price: 'N/A', rating: null,
+          reviews_count: 0, brand: '', bullets: '',
+          reviews_auto: [], images: [], manual_required: true,
           url: `https://www.${domain}/dp/${cleanAsin}`
         }
       });
     }
 
-    const p = productData.product;
+    const p = data.product;
 
-    // Fetch reviews automáticamente
-    const reviewsRes = await fetch(
-      `https://api.rainforestapi.com/request?api_key=${API_KEY}&type=reviews&asin=${cleanAsin}&amazon_domain=${domain}&sort_by=most_recent`
-    );
-    const reviewsData = await reviewsRes.json();
+    // Extract bullets
+    const bullets = (p.feature_bullets || []).join('\n') || p.feature_bullets_flat || '';
 
-    const reviews = (reviewsData?.reviews || [])
-      .slice(0, 30)
-      .map(r => ({ stars: r.rating || 0, review_text: r.body || '' }))
-      .filter(r => r.review_text.length > 0);
+    // Extract top reviews from product response (no extra API call needed)
+    const reviews_auto = (p.top_reviews || []).map(r => ({
+      stars: r.rating || 0,
+      review_text: (r.body || r.review || '').replace(/<[^>]*>/gm, '').trim()
+    })).filter(r => r.review_text.length > 10);
+
+    // Extract images
+    const images = [];
+    if (p.images_flat) {
+      p.images_flat.split(',').forEach(url => {
+        const clean = url.trim();
+        if (clean.startsWith('http')) images.push(clean);
+      });
+    } else if (p.images && Array.isArray(p.images)) {
+      p.images.forEach(img => {
+        const src = img.link || img.url || img.src || '';
+        if (src) images.push(src);
+      });
+    }
+
+    // Extract main image
+    const main_image = p.main_image?.link || p.main_image?.url || images[0] || '';
+
+    // Extract BSR
+    const bsr = p.bestsellers_rank_flat || '';
+
+    // Extract price
+    const price = p.buybox_winner?.price?.raw
+      || (p.buybox_winner?.price?.value ? `${p.buybox_winner.price.value}€` : 'N/A');
 
     return res.status(200).json({
       success: true,
       product: {
         asin: cleanAsin,
         title: p.title || '',
-        price: p.buybox_winner?.price?.raw || 'N/A',
+        price,
         rating: p.rating || null,
         reviews_count: p.ratings_total || 0,
         brand: p.brand || '',
-        bullets: (p.feature_bullets || []).join('\n'),
-        reviews_auto: reviews,
-        url: `https://www.${domain}/dp/${cleanAsin}`
+        bullets,
+        reviews_auto,
+        images,
+        main_image,
+        bsr,
+        images_count: images.length,
+        url: p.link || `https://www.${domain}/dp/${cleanAsin}`,
+        manual_required: false
       }
     });
 
@@ -72,9 +107,9 @@ module.exports = async (req, res) => {
     return res.status(200).json({
       success: true,
       product: {
-        asin: asinClean, title: '', price: 'N/A',
-        rating: null, reviews_count: 0, brand: '',
-        bullets: '', reviews_auto: [], manual_required: true
+        asin: asinClean, title: '', price: 'N/A', rating: null,
+        reviews_count: 0, brand: '', bullets: '',
+        reviews_auto: [], images: [], manual_required: true
       }
     });
   }
