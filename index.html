@@ -16,6 +16,7 @@ html { scroll-behavior: smooth; }
   --green: #10b981; --green-d: rgba(16,185,129,0.1); --green-b: rgba(16,185,129,0.2);
   --red: #ef4444; --red-d: rgba(239,68,68,0.1); --red-b: rgba(239,68,68,0.2);
   --amber: #f59e0b; --amber-d: rgba(245,158,11,0.1); --amber-b: rgba(245,158,11,0.2);
+  --blue: #3b82f6; --blue-d: rgba(59,130,246,0.1); --blue-b: rgba(59,130,246,0.2);
   --r: 12px; --rs: 8px; --font-mono: 'Geist Mono', monospace;
 }
 
@@ -67,7 +68,6 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 220px 220px;
 }
-/* ── END AURORA ── */
 
 .wrap { max-width: 900px; margin: 0 auto; padding: 52px 20px 100px; position: relative; z-index: 1; }
 
@@ -81,7 +81,7 @@ body {
 .status-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); animation: blink 2s ease infinite; }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
 
-/* INPUT CARD */
+/* CARD */
 .card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 28px; margin-bottom: 16px; }
 .card-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
 .card-sub { font-size: 13px; color: var(--text2); margin-bottom: 24px; line-height: 1.6; }
@@ -116,7 +116,7 @@ select option { background: var(--bg3); }
 .btn-accent { background: var(--accent); border-color: var(--accent); color: #fff; font-size: 15px; padding: 14px; width: 100%; margin-top: 8px; }
 .btn-accent:hover { background: var(--accent2); border-color: var(--accent2); color: #fff; }
 .btn-accent:disabled { opacity: .4; cursor: not-allowed; }
-.btn-load { background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.3); color: #60a5fa; font-size: 12px; padding: 10px 16px; }
+.btn-load { background: var(--blue-d); border-color: var(--blue-b); color: #60a5fa; font-size: 12px; padding: 10px 16px; }
 .btn-load:hover { background: rgba(59,130,246,0.15); color: #93c5fd; }
 .btn-load:disabled { opacity: .4; cursor: not-allowed; }
 .btn-add { border-style: dashed; width: 100%; justify-content: center; display: flex; align-items: center; gap: 8px; font-size: 13px; }
@@ -160,22 +160,59 @@ select option { background: var(--bg3); }
 .score-strength { font-size: 12px; color: var(--green); margin-top: 3px; }
 
 /* TABS */
-.tabs { display: flex; gap: 3px; background: var(--bg3); border: 1px solid var(--border); border-radius: var(--rs); padding: 4px; margin-bottom: 20px; }
-.tab { flex: 1; padding: 8px 8px; border: none; background: transparent; color: var(--text2); font-family: 'Geist', sans-serif; font-size: 12px; font-weight: 500; cursor: pointer; border-radius: 6px; transition: all .15s; text-align: center; }
+.tabs { display: flex; gap: 3px; background: var(--bg3); border: 1px solid var(--border); border-radius: var(--rs); padding: 4px; margin-bottom: 20px; flex-wrap: wrap; }
+.tab { flex: 1; min-width: 80px; padding: 8px 8px; border: none; background: transparent; color: var(--text2); font-family: 'Geist', sans-serif; font-size: 12px; font-weight: 500; cursor: pointer; border-radius: 6px; transition: all .15s; text-align: center; }
 .tab.on { background: var(--bg2); color: var(--text); border: 1px solid var(--border2); }
 .tc { display: none; }
 .tc.on { display: block; }
 
-/* ANALYSIS */
+/* ANALYSIS PANELS */
 .comp-panel { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); margin-bottom: 12px; overflow: hidden; }
 .comp-panel-hdr { background: var(--bg3); border-bottom: 1px solid var(--border); padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 .comp-panel-body { padding: 20px; }
-.section-label { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text2); margin-bottom: 8px; }
+.section-label { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text2); margin-bottom: 8px; display: block; }
 .section-text { font-size: 13px; color: var(--text); line-height: 1.65; margin-bottom: 16px; }
 
 .compliance-ok { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--green-d); border: 1px solid var(--green-b); border-radius: var(--rs); font-size: 13px; color: var(--green); margin-bottom: 8px; }
 .compliance-warn { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; background: var(--red-d); border: 1px solid var(--red-b); border-radius: var(--rs); font-size: 13px; color: var(--text); margin-bottom: 8px; }
 .compliance-icon { flex-shrink: 0; }
+
+/* REVIEW ANALYSIS */
+.review-section { margin-bottom: 24px; }
+.review-section-hdr { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.review-section-icon { width: 32px; height: 32px; border-radius: var(--rs); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.icon-critical { background: var(--red-d); }
+.icon-friction { background: var(--amber-d); }
+.icon-positive { background: var(--green-d); }
+.review-section-title { font-size: 14px; font-weight: 600; }
+.review-section-meta { font-family: var(--font-mono); font-size: 11px; color: var(--text2); margin-left: auto; }
+.review-emotion { font-size: 11px; padding: 3px 10px; border-radius: 20px; margin-left: 8px; }
+.emotion-critical { background: var(--red-d); color: var(--red); border: 1px solid var(--red-b); }
+.emotion-friction { background: var(--amber-d); color: var(--amber); border: 1px solid var(--amber-b); }
+.emotion-positive { background: var(--green-d); color: var(--green); border: 1px solid var(--green-b); }
+
+.theme-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--rs); padding: 14px 16px; margin-bottom: 8px; }
+.theme-card-top { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.theme-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.theme-freq { font-family: var(--font-mono); font-size: 10px; padding: 2px 7px; border-radius: 4px; }
+.freq-alta { background: var(--red-d); color: var(--red); }
+.freq-media { background: var(--amber-d); color: var(--amber); }
+.freq-baja { background: var(--blue-d); color: var(--blue); }
+.theme-desc { font-size: 12px; color: var(--text2); line-height: 1.55; margin-bottom: 6px; }
+.theme-opp { font-size: 11px; color: var(--green); }
+
+.phrases-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+.phrase-tag { font-family: var(--font-mono); font-size: 10px; padding: 3px 9px; border-radius: 4px; background: var(--bg2); border: 1px solid var(--border2); color: var(--text2); font-style: italic; }
+
+.sentiment-bar-wrap { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--rs); padding: 16px; margin-bottom: 20px; }
+.sentiment-bar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; margin: 10px 0; }
+.sentiment-critical { background: var(--red); }
+.sentiment-friction { background: var(--amber); }
+.sentiment-positive { background: var(--green); }
+.sentiment-legend { display: flex; gap: 16px; font-size: 11px; color: var(--text2); }
+.sentiment-legend-item { display: flex; align-items: center; gap: 5px; }
+.sentiment-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.verdict-box { background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--rs); padding: 14px 16px; font-size: 13px; color: var(--text); line-height: 1.65; margin-top: 12px; }
 
 /* GAPS */
 .gap-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--rs); padding: 16px; margin-bottom: 10px; }
@@ -190,7 +227,6 @@ select option { background: var(--bg3); }
 .keywords { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
 .kw { font-family: var(--font-mono); font-size: 11px; padding: 3px 9px; border-radius: 4px; background: rgba(249,115,22,.1); color: var(--accent); border: 1px solid rgba(249,115,22,.2); }
 .reasoning { font-size: 12px; color: var(--text2); font-style: italic; }
-
 .bullet-card { display: flex; gap: 14px; padding: 14px 16px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--rs); margin-bottom: 8px; }
 .bullet-n { font-size: 18px; font-weight: 700; color: var(--accent); opacity: .25; flex-shrink: 0; line-height: 1; margin-top: 2px; }
 .bullet-text { font-size: 13px; color: var(--text); line-height: 1.6; margin-bottom: 4px; }
@@ -208,19 +244,16 @@ select option { background: var(--bg3); }
 @media (max-width: 600px) {
   .hdr { flex-direction: column; align-items: flex-start; gap: 12px; }
   .scores-grid { grid-template-columns: 1fr; }
-  .tabs { flex-wrap: wrap; }
 }
 </style>
 </head>
 <body>
 
-<!-- AURORA BACKGROUND — solo visual, no toca nada más -->
 <div class="aurora-bg">
   <div class="aurora-layer"></div>
   <div class="aurora-grid"></div>
   <div class="aurora-noise"></div>
 </div>
-<!-- END AURORA -->
 
 <div class="wrap">
 
@@ -235,7 +268,6 @@ select option { background: var(--bg3); }
     <div class="status"><div class="status-dot"></div>Live</div>
   </header>
 
-  <!-- INPUT -->
   <div class="card" id="input-card">
     <div class="card-title">Analiza a tu competencia</div>
     <div class="card-sub">Introduce hasta 3 ASINs de competidores directos. La app extrae título, bullets y reseñas automáticamente y genera el informe completo.</div>
@@ -274,7 +306,6 @@ select option { background: var(--bg3); }
     <button class="btn btn-accent" id="analyze-btn" onclick="runAnalysis()">Analizar competencia →</button>
   </div>
 
-  <!-- LOADER -->
   <div class="loader" id="loader">
     <div class="spinner"></div>
     <div class="loader-title" id="loader-title">Cargando datos...</div>
@@ -282,7 +313,6 @@ select option { background: var(--bg3); }
     <div class="prog-list" id="prog-list"></div>
   </div>
 
-  <!-- RESULTS -->
   <div id="results">
     <div class="res-header">
       <div>
@@ -297,12 +327,14 @@ select option { background: var(--bg3); }
 
     <div class="tabs">
       <button class="tab on" onclick="st('tc-listings',this)">📋 Listings</button>
+      <button class="tab" onclick="st('tc-reviews',this)">💬 Reseñas</button>
       <button class="tab" onclick="st('tc-gaps',this)">🎯 Gaps</button>
       <button class="tab" onclick="st('tc-milisting',this)">✨ Mi Listing</button>
       <button class="tab" onclick="st('tc-acciones',this)">⚡ Acciones</button>
     </div>
 
     <div class="tc on" id="tc-listings"></div>
+    <div class="tc" id="tc-reviews"></div>
     <div class="tc" id="tc-gaps"></div>
     <div class="tc" id="tc-milisting"></div>
     <div class="tc" id="tc-acciones"></div>
@@ -349,14 +381,11 @@ async function loadAsin(i) {
   const raw = $(`asin-${i}`)?.value?.trim();
   if (!raw) return showErr('main-err', 'Introduce un ASIN o URL primero');
   clearErr('main-err');
-
   const btn = $(`load-${i}`);
   btn.disabled = true;
   btn.innerText = 'Cargando...';
-
   const info = $(`info-${i}`);
   info.classList.remove('on');
-
   try {
     const mk = $('mk').value;
     const res = await fetch(`${API_BASE}/api/get-asin`, {
@@ -366,13 +395,10 @@ async function loadAsin(i) {
     });
     const data = await res.json();
     if (!data.success) throw new Error(data.error);
-
     const p = data.product;
     loadedData[i] = p;
-
     const reviewCount = (p.reviews_auto || []).length;
     const hasBullets = p.bullets && p.bullets.length > 0;
-
     info.classList.add('on');
     info.innerHTML = `
       <div class="asin-info-title">${p.title || p.asin}</div>
@@ -382,14 +408,12 @@ async function loadAsin(i) {
         ${p.reviews_count > 0 ? `<span class="pill">${p.reviews_count.toLocaleString('es-ES')} reseñas</span>` : ''}
         ${p.price !== 'N/A' ? `<span class="pill">${p.price}</span>` : ''}
         ${hasBullets ? `<span class="pill g">Bullets ✓</span>` : `<span class="pill r">Sin bullets</span>`}
-        ${reviewCount > 0 ? `<span class="pill g">${reviewCount} reseñas cargadas ✓</span>` : `<span class="pill r">Sin reseñas</span>`}
+        ${reviewCount > 0 ? `<span class="pill g">${reviewCount} reseñas ✓</span>` : `<span class="pill r">Sin reseñas</span>`}
       </div>`;
-
     btn.innerText = '✓ Cargado';
     btn.style.background = 'var(--green-d)';
     btn.style.color = 'var(--green)';
     btn.style.borderColor = 'var(--green-b)';
-
   } catch (e) {
     btn.disabled = false;
     btn.innerText = 'Cargar →';
@@ -400,48 +424,32 @@ async function loadAsin(i) {
 async function runAnalysis() {
   clearErr('main-err');
   const validData = loadedData.filter(d => d && d.asin);
-
-  if (validData.length === 0) {
-    return showErr('main-err', 'Carga al menos un ASIN con el botón "Cargar →" primero');
-  }
-
+  if (validData.length === 0) return showErr('main-err', 'Carga al menos un ASIN con el botón "Cargar →" primero');
   const myProduct = $('my-product')?.value?.trim();
-
   $('input-card').style.display = 'none';
   $('loader').classList.add('on');
   $('results').style.display = 'none';
   $('prog-list').innerHTML = '';
-
   addProg(`Preparando ${validData.length} competidor${validData.length > 1 ? 'es' : ''}...`);
-
   const competitors = validData.map(p => ({
-    asin: p.asin,
-    title: p.title || '',
-    price: p.price || 'N/A',
-    rating: p.rating,
-    reviews_count: p.reviews_count || 0,
-    brand: p.brand || '',
+    asin: p.asin, title: p.title || '', price: p.price || 'N/A',
+    rating: p.rating, reviews_count: p.reviews_count || 0, brand: p.brand || '',
     bullets: p.bullets || '',
     reviews: (p.reviews_auto || []).map(r => `[${r.stars}★] ${r.review_text}`).join('\n')
   }));
-
   try {
     addProg('Analizando con IA...');
     $('loader-title').innerText = 'Analizando con IA...';
-
     const res = await fetch(`${API_BASE}/api/analyze-listing`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ competitors, my_product: myProduct })
     });
-
     const data = await res.json();
     if (!res.ok || !data.success) throw new Error(data.error || 'Error en el análisis');
-
     addProg('Informe generado', 'ok');
     await new Promise(r => setTimeout(r, 300));
     renderResults(data.analysis, competitors);
-
   } catch (e) {
     $('loader').classList.remove('on');
     $('input-card').style.display = 'block';
@@ -453,30 +461,23 @@ function renderResults(data, competitors) {
   $('loader').classList.remove('on');
   $('results').style.display = 'block';
   $('res-meta').innerText = `${competitors.length} competidor${competitors.length>1?'es':''} · ${new Date().toLocaleDateString('es-ES')}`;
-
   $('summary').innerText = data.executive_summary || '';
 
+  // SCORES
   $('scores').innerHTML = (data.competitors || []).map(c => {
     const tC = c.title_score >= 7 ? 'var(--green)' : c.title_score >= 4 ? 'var(--amber)' : 'var(--red)';
     const bC = c.bullet_score >= 7 ? 'var(--green)' : c.bullet_score >= 4 ? 'var(--amber)' : 'var(--red)';
     return `<div class="score-card">
       <div class="score-asin">${c.asin}</div>
-      <div class="score-title-text">${competitors.find(x=>x.asin===c.asin)?.title?.substring(0,80) || c.asin}...</div>
-      <div class="score-row">
-        <span class="score-lbl">Título</span>
-        <div class="score-bar"><div class="score-fill" style="width:${c.title_score*10}%;background:${tC}"></div></div>
-        <span class="score-num">${c.title_score}</span>
-      </div>
-      <div class="score-row">
-        <span class="score-lbl">Bullets</span>
-        <div class="score-bar"><div class="score-fill" style="width:${c.bullet_score*10}%;background:${bC}"></div></div>
-        <span class="score-num">${c.bullet_score}</span>
-      </div>
+      <div class="score-title-text">${competitors.find(x=>x.asin===c.asin)?.title?.substring(0,80)||c.asin}...</div>
+      <div class="score-row"><span class="score-lbl">Título</span><div class="score-bar"><div class="score-fill" style="width:${c.title_score*10}%;background:${tC}"></div></div><span class="score-num">${c.title_score}</span></div>
+      <div class="score-row"><span class="score-lbl">Bullets</span><div class="score-bar"><div class="score-fill" style="width:${c.bullet_score*10}%;background:${bC}"></div></div><span class="score-num">${c.bullet_score}</span></div>
       <div class="score-weakness">⚠ ${c.main_weakness}</div>
       <div class="score-strength">✓ ${c.main_strength}</div>
     </div>`;
   }).join('');
 
+  // LISTINGS TAB
   $('tc-listings').innerHTML = (data.competitors || []).map(c => `
     <div class="comp-panel">
       <div class="comp-panel-hdr">
@@ -487,17 +488,93 @@ function renderResults(data, competitors) {
         </div>
       </div>
       <div class="comp-panel-body">
-        <div class="section-label">Análisis del Título</div>
+        <span class="section-label">Análisis del Título</span>
         <div class="section-text">${c.title_analysis}</div>
-        <div class="section-label">Análisis de Bullets</div>
+        <span class="section-label">Análisis de Bullets</span>
         <div class="section-text">${c.bullet_analysis}</div>
-        <div class="section-label">Políticas Amazon</div>
+        <span class="section-label">Políticas Amazon</span>
         ${c.compliance_issues?.length > 0
           ? c.compliance_issues.map(x => `<div class="compliance-warn"><span class="compliance-icon">⚠</span>${x}</div>`).join('')
           : '<div class="compliance-ok">✓ Sin violaciones detectadas</div>'}
       </div>
     </div>`).join('');
 
+  // REVIEWS TAB
+  const ra = data.review_analysis;
+  if (ra) {
+    const critPct = parseFloat(ra.critical?.count_pct) || 20;
+    const fricPct = parseFloat(ra.friction?.count_pct) || 20;
+    const posPct = parseFloat(ra.positive?.count_pct) || 60;
+
+    const renderThemes = (themes, colorClass) => (themes || []).map(t => {
+      const freqClass = t.frequency === 'Alta' ? 'freq-alta' : t.frequency === 'Media' ? 'freq-media' : 'freq-baja';
+      return `<div class="theme-card">
+        <div class="theme-card-top">
+          <span class="theme-name">${t.theme}</span>
+          <span class="theme-freq ${freqClass}">${t.frequency}</span>
+        </div>
+        <div class="theme-desc">${t.description}</div>
+        <div class="theme-opp">💡 ${t.opportunity}</div>
+      </div>`;
+    }).join('');
+
+    const renderPhrases = (phrases) => (phrases || []).length > 0
+      ? `<div class="phrases-row">${phrases.map(p => `<span class="phrase-tag">"${p}"</span>`).join('')}</div>`
+      : '';
+
+    $('tc-reviews').innerHTML = `
+      <div class="sentiment-bar-wrap">
+        <span class="section-label">Distribución de sentimiento</span>
+        <div class="sentiment-bar">
+          <div class="sentiment-critical" style="width:${critPct}%"></div>
+          <div class="sentiment-friction" style="width:${fricPct}%"></div>
+          <div class="sentiment-positive" style="width:${posPct}%"></div>
+        </div>
+        <div class="sentiment-legend">
+          <div class="sentiment-legend-item"><div class="sentiment-dot" style="background:var(--red)"></div>Críticas ${ra.critical?.count_pct || ''}</div>
+          <div class="sentiment-legend-item"><div class="sentiment-dot" style="background:var(--amber)"></div>Fricciones ${ra.friction?.count_pct || ''}</div>
+          <div class="sentiment-legend-item"><div class="sentiment-dot" style="background:var(--green)"></div>Positivas ${ra.positive?.count_pct || ''}</div>
+        </div>
+        <div class="verdict-box">${ra.market_verdict || ''}</div>
+      </div>
+
+      <div class="review-section">
+        <div class="review-section-hdr">
+          <div class="review-section-icon icon-critical">🔴</div>
+          <div class="review-section-title">Reseñas críticas (1-2★)</div>
+          <span class="review-emotion emotion-critical">${ra.critical?.dominant_emotion || ''}</span>
+          <span class="review-section-meta">${ra.critical?.count_pct || ''}</span>
+        </div>
+        ${renderThemes(ra.critical?.top_themes)}
+        ${renderPhrases(ra.critical?.key_phrases)}
+      </div>
+
+      <div class="review-section">
+        <div class="review-section-hdr">
+          <div class="review-section-icon icon-friction">🟡</div>
+          <div class="review-section-title">Fricciones (3★)</div>
+          <span class="review-emotion emotion-friction">${ra.friction?.dominant_emotion || ''}</span>
+          <span class="review-section-meta">${ra.friction?.count_pct || ''}</span>
+        </div>
+        ${renderThemes(ra.friction?.top_themes)}
+        ${renderPhrases(ra.friction?.key_phrases)}
+      </div>
+
+      <div class="review-section">
+        <div class="review-section-hdr">
+          <div class="review-section-icon icon-positive">🟢</div>
+          <div class="review-section-title">Reseñas positivas (4-5★)</div>
+          <span class="review-emotion emotion-positive">${ra.positive?.dominant_emotion || ''}</span>
+          <span class="review-section-meta">${ra.positive?.count_pct || ''}</span>
+        </div>
+        ${renderThemes(ra.positive?.top_themes)}
+        ${renderPhrases(ra.positive?.key_phrases)}
+      </div>`;
+  } else {
+    $('tc-reviews').innerHTML = '<p style="color:var(--text2);padding:20px">No hay suficientes reseñas para analizar.</p>';
+  }
+
+  // GAPS TAB
   $('tc-gaps').innerHTML = (data.market_gaps || []).map(g => `
     <div class="gap-card">
       <div class="gap-title">${g.gap}</div>
@@ -505,6 +582,7 @@ function renderResults(data, competitors) {
       <div class="gap-opp">💡 ${g.opportunity}</div>
     </div>`).join('');
 
+  // MI LISTING TAB
   const rec = data.my_listing_recommendations;
   $('tc-milisting').innerHTML = rec ? `
     <div class="listing-section">
@@ -518,10 +596,7 @@ function renderResults(data, competitors) {
       ${(rec.bullets||[]).map((b,i)=>`
         <div class="bullet-card">
           <div class="bullet-n">B${i+1}</div>
-          <div>
-            <div class="bullet-text">${b.bullet}</div>
-            <div class="bullet-reason">→ ${b.reasoning}</div>
-          </div>
+          <div><div class="bullet-text">${b.bullet}</div><div class="bullet-reason">→ ${b.reasoning}</div></div>
         </div>`).join('')}
     </div>
     ${rec.compliance_warnings?.length > 0 ? `
@@ -530,6 +605,7 @@ function renderResults(data, competitors) {
       ${rec.compliance_warnings.map(w=>`<div class="compliance-warn"><span class="compliance-icon">✕</span>${w}</div>`).join('')}
     </div>` : ''}` : '<p style="color:var(--text2);padding:20px">No se generaron recomendaciones.</p>';
 
+  // ACCIONES TAB
   $('tc-acciones').innerHTML = (data.actions||[]).map((a,i)=>`
     <div class="action-card" style="border-left-color:${a.priority==='Alta'?'var(--red)':'var(--amber)'}">
       <div class="action-n">${String(i+1).padStart(2,'0')}</div>
