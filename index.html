@@ -18,8 +18,58 @@ html { scroll-behavior: smooth; }
   --amber: #f59e0b; --amber-d: rgba(245,158,11,0.1); --amber-b: rgba(245,158,11,0.2);
   --r: 12px; --rs: 8px; --font-mono: 'Geist Mono', monospace;
 }
-body { background: var(--bg); color: var(--text); font-family: 'Geist', system-ui, sans-serif; font-size: 14px; line-height: 1.6; min-height: 100vh; }
-.wrap { max-width: 900px; margin: 0 auto; padding: 52px 20px 100px; }
+
+/* ── AURORA BACKGROUND ── */
+body {
+  background: #07070f;
+  color: var(--text);
+  font-family: 'Geist', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+  position: relative;
+}
+.aurora-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.aurora-layer {
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(ellipse 75% 55% at 18% 28%, rgba(249,115,22,0.13) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 75% at 82% 72%, rgba(99,60,180,0.16) 0%, transparent 60%),
+    radial-gradient(ellipse 45% 45% at 52% 48%, rgba(16,185,129,0.07) 0%, transparent 55%);
+  animation: auroraShift 14s ease-in-out infinite alternate;
+  filter: blur(50px);
+}
+@keyframes auroraShift {
+  0%   { transform: scale(1)    translate(0%, 0%); }
+  33%  { transform: scale(1.06) translate(2%, -2%); }
+  66%  { transform: scale(1.03) translate(-1%, 3%); }
+  100% { transform: scale(1)    translate(-2%, 1%); }
+}
+.aurora-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+.aurora-noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 220px 220px;
+}
+/* ── END AURORA ── */
+
+.wrap { max-width: 900px; margin: 0 auto; padding: 52px 20px 100px; position: relative; z-index: 1; }
 
 /* HEADER */
 .hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; }
@@ -163,6 +213,15 @@ select option { background: var(--bg3); }
 </style>
 </head>
 <body>
+
+<!-- AURORA BACKGROUND — solo visual, no toca nada más -->
+<div class="aurora-bg">
+  <div class="aurora-layer"></div>
+  <div class="aurora-grid"></div>
+  <div class="aurora-noise"></div>
+</div>
+<!-- END AURORA -->
+
 <div class="wrap">
 
   <header class="hdr">
@@ -355,7 +414,6 @@ async function runAnalysis() {
 
   addProg(`Preparando ${validData.length} competidor${validData.length > 1 ? 'es' : ''}...`);
 
-  // Build competitors payload
   const competitors = validData.map(p => ({
     asin: p.asin,
     title: p.title || '',
@@ -398,7 +456,6 @@ function renderResults(data, competitors) {
 
   $('summary').innerText = data.executive_summary || '';
 
-  // Scores
   $('scores').innerHTML = (data.competitors || []).map(c => {
     const tC = c.title_score >= 7 ? 'var(--green)' : c.title_score >= 4 ? 'var(--amber)' : 'var(--red)';
     const bC = c.bullet_score >= 7 ? 'var(--green)' : c.bullet_score >= 4 ? 'var(--amber)' : 'var(--red)';
@@ -420,7 +477,6 @@ function renderResults(data, competitors) {
     </div>`;
   }).join('');
 
-  // Listings
   $('tc-listings').innerHTML = (data.competitors || []).map(c => `
     <div class="comp-panel">
       <div class="comp-panel-hdr">
@@ -442,7 +498,6 @@ function renderResults(data, competitors) {
       </div>
     </div>`).join('');
 
-  // Gaps
   $('tc-gaps').innerHTML = (data.market_gaps || []).map(g => `
     <div class="gap-card">
       <div class="gap-title">${g.gap}</div>
@@ -450,7 +505,6 @@ function renderResults(data, competitors) {
       <div class="gap-opp">💡 ${g.opportunity}</div>
     </div>`).join('');
 
-  // Mi listing
   const rec = data.my_listing_recommendations;
   $('tc-milisting').innerHTML = rec ? `
     <div class="listing-section">
@@ -476,7 +530,6 @@ function renderResults(data, competitors) {
       ${rec.compliance_warnings.map(w=>`<div class="compliance-warn"><span class="compliance-icon">✕</span>${w}</div>`).join('')}
     </div>` : ''}` : '<p style="color:var(--text2);padding:20px">No se generaron recomendaciones.</p>';
 
-  // Actions
   $('tc-acciones').innerHTML = (data.actions||[]).map((a,i)=>`
     <div class="action-card" style="border-left-color:${a.priority==='Alta'?'var(--red)':'var(--amber)'}">
       <div class="action-n">${String(i+1).padStart(2,'0')}</div>
