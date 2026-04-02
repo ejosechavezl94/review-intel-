@@ -292,7 +292,7 @@ REGLAS FINALES:
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
+        model: 'gpt-4.1-mini',
         max_tokens: 6000,
         temperature: 0.1,
         messages: [
