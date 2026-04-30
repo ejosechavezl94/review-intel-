@@ -582,6 +582,8 @@ function renderResults(data, competitors, rawData) {
       <div class="comp-panel-body">
         <span class="section-label">Análisis del Título</span>
         <div class="section-text">${escapeHTML(c.title_analysis)}</div>
+        ${c.converting_keywords && c.converting_keywords.length > 0 ? `<span class="section-label">Palabras que Convierten (Converting Keywords) 🎯</span>
+        <div class="phrases-row" style="margin-bottom:24px">${c.converting_keywords.map(k=>`<span class="phrase-tag" style="background:var(--green-d);color:var(--green);border-color:var(--green-b);font-weight:600">${escapeHTML(k)}</span>`).join('')}</div>` : ''}
         <span class="section-label">Análisis de Bullets</span>
         <div class="section-text">${escapeHTML(c.bullet_analysis)}</div>
         <span class="section-label">Políticas Amazon</span>

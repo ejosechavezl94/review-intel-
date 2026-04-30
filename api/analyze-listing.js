@@ -78,6 +78,7 @@ INSTRUCCIONES DE ANÁLISIS
 
 ## 1. ANÁLISIS DE TÍTULO
 - Evalúa estructura, claridad y potencial de conversión
+- Extrae cuáles palabras o frases (converting keywords) están probablemente generando las ventas o actuando como gatillos psicológicos
 - Identifica keywords principales y secundarias usadas
 - Detecta keywords relevantes que faltan
 - Verifica longitud (máx 200 caracteres en Amazon ES)
@@ -190,7 +191,8 @@ Devuelve EXCLUSIVAMENTE JSON válido y parseable. Sin markdown, sin texto antes 
         }
       ],
       "main_weakness": "La debilidad más explotable en una frase directa",
-      "main_strength": "Su punto más fuerte a emular o superar"
+      "main_strength": "Su punto más fuerte a emular o superar",
+      "converting_keywords": ["keyword o frase 1", "palabra gatillo 2"]
     }
   ],
 
@@ -315,7 +317,7 @@ REGLAS FINALES:
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4.1-mini',
+        model: 'gpt-4o',
         max_tokens: 6000,
         temperature: 0.1,
         messages: [
