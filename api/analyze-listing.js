@@ -121,25 +121,15 @@ Para cada franja:
 ## 5. VERIFICACIÓN ESTRICTA DE POLÍTICAS AMAZON
 Verifica TODOS estos puntos (marca como violación cualquier incumplimiento):
 
-TÍTULO:
-□ Máximo 200 caracteres
-□ Sin emojis
-□ Sin TODO EN MAYÚSCULAS
-□ Sin claims de #1, Best Seller, Amazon's Choice
-□ Sin menciones de precio, descuento o promoción
-□ Sin información de vendedor (email, URL, teléfono)
-
-BULLETS:
-□ Cada bullet máximo 200 caracteres
-□ Empiezan con mayúscula
-□ Sin HTML ni caracteres especiales no permitidos
-□ Sin claims de salud o médicos sin certificación
-□ Sin comparaciones directas con marcas ("mejor que X")
-□ Sin garantías de devolución de dinero
-□ Sin menciones de competidores por nombre
-□ Sin claims no verificables ("el mejor del mundo", "único", "revolucionario")
-□ Sin términos promocionales ("gratis", "oferta", "descuento", "ahorra")
-□ Sin información de contacto del vendedor
+TÍTULO Y BULLETS (PALABRAS PROHIBIDAS/PENALIZABLES - RIESGO ALTO):
+□ CERO claims de salud, médicos, curativos o pesticidas sin registro oficial (ej: "antibacterial", "cura", "previene", "antimicrobiano").
+□ CERO palabras promocionales prohibidas ("gratis", "regalo", "oferta", "descuento", "ahorra", "promo", "barato").
+□ CERO claims subjetivos absolutos ("el mejor del mundo", "100% garantizado", "#1", "Best Seller", "Amazon's Choice", "único", "perfecto").
+□ CERO comparaciones directas mencionando a otra marca registrada ("mejor que X").
+□ CERO garantías explícitas en texto ("devolución de dinero", "satisfacción garantizada").
+□ CERO información de vendedor (URL, email, teléfono).
+□ Máximo 200 caracteres por campo (título o bullet).
+□ Sin emojis, sin HTML, sin caracteres especiales raros, y no abusar de TODAS LAS LETRAS EN MAYÚSCULAS.
 
 IMÁGENES:
 □ Foto principal: fondo blanco puro (RGB 255,255,255)
@@ -303,11 +293,12 @@ Devuelve EXCLUSIVAMENTE JSON válido y parseable. Sin markdown, sin texto antes 
 
 REGLAS FINALES:
 1. Todo análisis basado estrictamente en datos recibidos — nunca inventes
-2. Si no hay reseñas suficientes para una franja, indícalo en la descripción
-3. Bullets recomendados: empiezan siempre con PALABRA(S) EN MAYÚSCULAS seguidas de guión largo —
-4. Si detectas poca información, sé honesto sobre las limitaciones
-5. Cuando una política pueda haber cambiado recientemente, añade "verify: true" en el campo correspondiente
-6. El JSON debe ser 100% parseable — sin comas finales, sin caracteres rotos`;
+2. Si un competidor tiene pocas reseñas (menos de 6), evalúa con las que haya pero indica explícitamente que la muestra de reseñas es pequeña.
+3. ALERTA ROJA CON PALABRAS PENALIZADAS: Si detectas palabras baneadas o claims riesgosos, márcalo urgentemente en "compliance_warnings".
+4. Bullets recomendados: empiezan siempre con PALABRA(S) EN MAYÚSCULAS seguidas de guión largo —
+5. Si detectas poca información, sé honesto sobre las limitaciones
+6. Cuando una política pueda haber cambiado recientemente, añade "verify: true" en el campo correspondiente
+7. El JSON debe ser 100% parseable — sin comas finales, sin caracteres rotos`;
 
   try {
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
