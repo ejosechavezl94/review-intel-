@@ -74,10 +74,11 @@ module.exports = async (req, res) => {
     const bullets = (p.feature_bullets || []).join('\n') || p.feature_bullets_flat || '';
 
     // Extract top reviews from product response (no extra API call needed)
-    const reviews_auto = (p.top_reviews || []).map(r => ({
+    const rawReviews = p.top_reviews || p.reviews || p.recent_reviews || [];
+    const reviews_auto = rawReviews.map(r => ({
       stars: r.rating || 0,
-      review_text: (r.body || r.review || '').replace(/<[^>]*>/gm, '').trim()
-    })).filter(r => r.review_text.length > 10);
+      review_text: (r.body || r.review || r.text || '').replace(/<[^>]*>/gm, '').trim()
+    })).filter(r => r.review_text.length > 10).slice(0, 15);
 
     // Extract images
     const images = [];
