@@ -308,7 +308,7 @@ REGLAS FINALES:
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4o',
+        model: 'gpt-4.5-preview',
         max_tokens: 6000,
         temperature: 0.1,
         messages: [

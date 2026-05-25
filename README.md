@@ -5,7 +5,7 @@
 listing-intel/
 ├── api/
 │   ├── get-asin.js         → Obtiene datos del ASIN via Rainforest API
-│   └── analyze-listing.js  → Analiza listing con IA (gpt-4.1-mini)
+│   └── analyze-listing.js  → Analiza listing con IA (gpt-4.5-preview)
 ├── index.html              → Frontend completo
 └── vercel.json             → Config de Vercel
 ```
