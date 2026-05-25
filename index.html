@@ -208,33 +208,7 @@ body {
 
 
 
-.top-actions { display: flex; align-items: center; gap: 20px; }
 
-.status { 
-  font-family: var(--font-mono); 
-  font-size: 11px; 
-  font-weight: 600; 
-  color: var(--green); 
-  display: flex; 
-  align-items: center; 
-  gap: 10px; 
-  padding: 8px 18px; 
-  background: #ffffff; 
-  border-radius: 30px; 
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--border); 
-}
-
-.status-dot { 
-  width: 8px; 
-  height: 8px; 
-  border-radius: 50%; 
-  background: var(--green); 
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
-  animation: blink 2s ease infinite; 
-}
-
-@keyframes blink { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .4; transform: scale(0.9); } }
 
 /* CARD styling */
 .card { 
@@ -1269,10 +1243,7 @@ select {
       <div style="font-family:var(--font-display); font-size:16px; font-weight:700; color:var(--text); display:flex; align-items:center; gap:8px">
         <span style="font-size:18px">🚀</span> Listing Analyzer
       </div>
-      <div class="top-actions">
-        <div class="status"><div class="status-dot"></div>API Conectada</div>
-        <div class="avatar" style="cursor:pointer;background:var(--bg2)">🔔</div>
-      </div>
+
     </header>
 
     <div class="dashboard-content">
