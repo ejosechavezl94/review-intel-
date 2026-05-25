@@ -1942,14 +1942,8 @@ function clearErr(id) { const e=$(id); if(e) e.classList.remove('on'); }
 
     // Drawing options: thin stroke and low opacity for professional contrast
     ctx.lineWidth = 1.0;
-    
-    // Gradient matching your brand's indigo and purple palette
-    const gradient = ctx.createLinearGradient(0, 0, width, 0);
-    gradient.addColorStop(0, '#6366f1'); // Indigo
-    gradient.addColorStop(1, '#8b5cf6'); // Purple
-    ctx.strokeStyle = gradient;
-    
-    ctx.globalAlpha = 0.12; // High-legibility subtle alpha
+    ctx.strokeStyle = config.lineColor; // Set the exact electric purple #5227FF color requested
+    ctx.globalAlpha = 0.15; // Clean premium visibility and contrast compatibility
 
     for (let r = 0; r < rows; r++) {
       ctx.beginPath();
