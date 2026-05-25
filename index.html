@@ -206,22 +206,7 @@ body {
 .user-name { font-size: 13px; font-weight: 700; color: #ffffff; }
 .user-email { font-size: 11px; color: #64748b; }
 
-/* Top Nav Elements */
-.search-bar { 
-  background: var(--bg3); 
-  border: 1px solid rgba(15, 23, 42, 0.04); 
-  border-radius: 30px; 
-  padding: 12px 24px; 
-  width: 380px; 
-  display: flex; 
-  align-items: center; 
-  font-size: 13px; 
-  color: var(--text3); 
-  transition: var(--transition); 
-  cursor: text;
-}
 
-.search-bar:hover { background: rgba(15, 23, 42, 0.05); }
 
 .top-actions { display: flex; align-items: center; gap: 20px; }
 
@@ -1281,8 +1266,8 @@ select {
   <!-- Main Content -->
   <main class="main-content">
     <header class="top-nav">
-      <div class="search-bar">
-        🔍 Buscar ASINs o reportes anteriores...
+      <div style="font-family:var(--font-display); font-size:16px; font-weight:700; color:var(--text); display:flex; align-items:center; gap:8px">
+        <span style="font-size:18px">🚀</span> Listing Analyzer
       </div>
       <div class="top-actions">
         <div class="status"><div class="status-dot"></div>API Conectada</div>
